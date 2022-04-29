@@ -6,24 +6,25 @@ import org.openqa.selenium.support.FindBy;
 
 public class HomePage extends BasePage {
 
-  @FindBy(id = "searchbox")
+  @FindBy(xpath = "//input[@class='gLFyf gsfi']")
   private WebElement searchField;
-  @FindBy(xpath = "//input[@type='submit']")
+  @FindBy(xpath = "//div[@class='CcAdNb']")
   private WebElement searchButton;
-  @FindBy(className = "logo-city")
+  @FindBy(xpath = "//img[@class='lnXdpd']")
   private WebElement logo;
 
   public HomePage(WebDriver driver) {
     super(driver);
   }
 
-  public boolean isLogoVisible() {
+  public boolean isLogoVisible() throws NullPointerException{
     return logo.isDisplayed();
   }
 
-  public void clickSearchButton(){
+  public void searchButtonClick() {
     searchButton.click();
   }
+
   public void makeSearch(String keyword) {
     searchField.sendKeys(keyword);
   }

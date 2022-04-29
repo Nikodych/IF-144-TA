@@ -1,4 +1,6 @@
-package com.softserveinc.ita.nkupchenko;
+package com.softserveinc.ita.tests;
+
+import static com.softserveinc.ita.utils.Properties.BASE_URL;
 
 import com.softserveinc.ita.pageobjects.HomePage;
 import com.softserveinc.ita.pageobjects.SearchResultsPage;
@@ -6,11 +8,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 
 public class BaseTest {
   private WebDriver driver;
-  private final static String BASE_URL = "https://hotline.ua/";
+//  private final static String BASE_URL = "https://google.com.ua/";
 
   @BeforeMethod
   public void testsSetUp() {
