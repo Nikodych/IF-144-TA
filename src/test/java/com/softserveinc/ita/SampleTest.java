@@ -18,7 +18,7 @@ public class SampleTest {
     @BeforeClass
     public void setUp() {
         //  Installing chrome driver
-        System.setProperty("webdriver.chrome.driver", "src//main//resources//driver//chromedriver");
+        System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().timeouts().pageLoadTimeout(10, SECONDS);
         driver.manage().timeouts().implicitlyWait(10, SECONDS);
