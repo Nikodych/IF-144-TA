@@ -2,7 +2,6 @@ package com.softserveinc.ita.alukavenko;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -10,8 +9,10 @@ import org.testng.annotations.Test;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.openqa.selenium.By.name;
 import static org.openqa.selenium.By.xpath;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
-public class RozetkaTest {
+public class RozetkaSimpleTest {
 
     protected WebDriver driver;
 
@@ -32,7 +33,7 @@ public class RozetkaTest {
         driver.findElement(name("q")).sendKeys("Rozetka");
         driver.findElement(xpath("//input[@name = 'btnK']")).click();
 
-        Assert.assertTrue(driver.findElements(xpath("//cite[text()='https://rozetka.com.ua']")).size() > 0);
+        assertTrue(driver.findElements(xpath("//cite[text()='https://rozetka.com.ua']")).size() > 0);
 
     }
 
@@ -43,7 +44,8 @@ public class RozetkaTest {
 
         driver.findElement(xpath("//a[@class = 'menu-categories__link' and @href='https://bt.rozetka.com.ua/']")).click();
 
-        Assert.assertEquals(driver.findElements(xpath("//div[@class='tile-cats']")).size(), 10);
+        assertEquals(driver.findElements(xpath("//div[@class='tile-cats']")).size(), 10);
+
     }
 
     @AfterClass
