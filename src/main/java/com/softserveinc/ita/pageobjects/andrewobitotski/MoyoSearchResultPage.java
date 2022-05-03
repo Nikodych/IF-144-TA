@@ -26,10 +26,13 @@ public class MoyoSearchResultPage extends AbstractBasePage {
         }
     }
 
+    public MoyoShowMoreModal goToShowMoreButton() {
+        return new MoyoShowMoreModal(driver);
+    }
+
     public List<WebElement> collectElementsByXPath() {
         if (verifySearchResultsArePresent()) {
-            List<WebElement> collectedElements = driver.findElements(searchResultXpath);
-            return collectedElements;
+            return driver.findElements(searchResultXpath);
         }
 
         return null;
