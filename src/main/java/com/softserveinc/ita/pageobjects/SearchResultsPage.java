@@ -8,10 +8,8 @@ import org.openqa.selenium.support.FindBy;
 
 public class SearchResultsPage extends BasePage{
 
-  @FindBy(xpath = "//div[@class='ty-column3']")
+  @FindBy(xpath = "//h3[@class='LC20lb MBeuO DKV0Md']")
   private List<WebElement> searchResultsList;
-  @FindBy(xpath = "//div[@class='ut2-gl__name']")
-  private List<WebElement> productTitleList;
 
   ArrayList<String> titels = new ArrayList<>();
 
@@ -23,16 +21,12 @@ public class SearchResultsPage extends BasePage{
     return searchResultsList;
   }
 
-  public List<WebElement> getProductTitleList(){
-    return productTitleList;
-  }
-
   public int getSearchResultsCount(){
     return getSearchResultsList().size();
   }
 
   public void getTitleText(){
-    for (WebElement list : productTitleList){
+    for (WebElement list : searchResultsList){
       titels.add(list.getText());
     }
   }

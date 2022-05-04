@@ -25,7 +25,8 @@ public class HomePage extends BasePage {
     searchButton.click();
   }
 
-  public void makeSearch(String keyword) {
+  public void makeSearch(String keyword) throws NullPointerException{
+    searchField.clear();
     searchField.sendKeys(keyword);
   }
 }
