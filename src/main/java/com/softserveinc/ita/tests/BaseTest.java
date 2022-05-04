@@ -3,6 +3,8 @@ package com.softserveinc.ita.tests;
 import static com.softserveinc.ita.utils.Properties.BASE_URL;
 
 import com.softserveinc.ita.pageobjects.HomePage;
+import com.softserveinc.ita.pageobjects.RozetkaPage;
+import com.softserveinc.ita.pageobjects.RozetkaSearchResultsPage;
 import com.softserveinc.ita.pageobjects.SearchResultsPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,7 +13,6 @@ import org.testng.annotations.BeforeMethod;
 
 public class BaseTest {
   private WebDriver driver;
-//  private final static String BASE_URL = "https://google.com.ua/";
 
   @BeforeMethod
   public void testsSetUp() {
@@ -36,6 +37,14 @@ public class BaseTest {
 
   public SearchResultsPage getSearchResultPage(){
     return new SearchResultsPage(getDriver());
+  }
+
+  public RozetkaPage getRozetkaPage(){
+    return new RozetkaPage(getDriver());
+  }
+
+  public RozetkaSearchResultsPage getRozetkaSearchResultsPage(){
+    return new RozetkaSearchResultsPage(getDriver());
   }
 
 }

@@ -7,7 +7,7 @@ public class SearchResultsTest extends BaseTest {
 
   private static final String EXPECTED_TITLE = "rozetka";
   private static final String SEARCH_KEYWORD = "rozetka";
-  private static final int EXPECTED_AMOUNT = 24;
+  private static final int EXPECTED_AMOUNT = 11;
 
   @Test
   public void checkElementsAmountOnSearchPage() {
@@ -26,6 +26,18 @@ public class SearchResultsTest extends BaseTest {
   public void checkTitelsName() {
     getHomePage().makeSearch(SEARCH_KEYWORD);
     getHomePage().implicitWait(60);
-    Assert.assertEquals(getSearchResultPage().getProductTitleList().listIterator(), EXPECTED_TITLE);
+    Assert.assertEquals(getSearchResultPage().getSearchResultsList().listIterator(), EXPECTED_TITLE);
+  }
+
+  @Test
+  public void checkAddToCartTest(){
+    getHomePage().implicitWait(60);
+    getHomePage().makeSearch(SEARCH_KEYWORD);
+    getHomePage().searchButtonClick();
+    getSearchResultPage().getSearchResultsList().get(0).click();
+    getRozetkaPage().makeSearch("iphone 12");
+    getRozetkaPage().searchButtonClick();
+
+
   }
 }
