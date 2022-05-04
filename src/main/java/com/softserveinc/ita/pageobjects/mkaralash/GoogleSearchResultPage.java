@@ -8,7 +8,6 @@ import java.util.List;
 import static org.openqa.selenium.By.xpath;
 
 public class GoogleSearchResultPage {
-
     protected WebDriver driver;
 
     public GoogleSearchResultPage(WebDriver driver) {
@@ -17,7 +16,6 @@ public class GoogleSearchResultPage {
 
     public List<WebElement> getResultList() {
         List<WebElement> list = driver.findElements(xpath("//*[@id='rso']/div[not(@class= 'ULSxyf')]//a//h3"));
-
         return list;
     }
 

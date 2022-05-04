@@ -9,5 +9,7 @@ public class RozetkaHomePage {
         this.driver = driver;
     }
 
-
+    public RozetkaHeaderPage getRozetkaHeaderPage() {
+        return new RozetkaHeaderPage(driver);
+    }
 }
