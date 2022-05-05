@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class RozetkaSearchResultsPage extends BasePage {
 
-  @FindBy(className = "catalog-grid__cell catalog-grid__cell_type_slim ng-star-inserted")
+  @FindBy(xpath = "//div[@class='goods-tile ng-star-inserted']")
   private List<WebElement> searchingGoodsList;
 
   public RozetkaSearchResultsPage(WebDriver driver) {

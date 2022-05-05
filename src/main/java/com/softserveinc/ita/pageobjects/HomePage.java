@@ -1,5 +1,6 @@
 package com.softserveinc.ita.pageobjects;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,23 +11,14 @@ public class HomePage extends BasePage {
   private WebElement searchField;
   @FindBy(xpath = "//div[@class='CcAdNb']")
   private WebElement searchButton;
-  @FindBy(xpath = "//img[@class='lnXdpd']")
-  private WebElement logo;
 
   public HomePage(WebDriver driver) {
     super(driver);
   }
 
-  public boolean isLogoVisible() throws NullPointerException{
-    return logo.isDisplayed();
-  }
-
-  public void searchButtonClick() {
-    searchButton.click();
-  }
-
-  public void makeSearch(String keyword) throws NullPointerException{
+  public void makeSearch(String keyword) {
     searchField.clear();
     searchField.sendKeys(keyword);
+    searchField.sendKeys(Keys.ENTER);
   }
 }
