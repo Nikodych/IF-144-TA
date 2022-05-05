@@ -4,25 +4,22 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import static com.softserveinc.ita.petrus.util.ConfigurationPropertiesHelper.getProperty;
-
-public class GoogleHomePage extends BasePage{
-    @FindBy(name = "q")
+public class RozetkaHomePage extends BasePage{
+    @FindBy(xpath = "//input[@name = 'search']")
     private WebElement searchField;
 
-    @FindBy(xpath = "//input[@name = 'btnK']")
+    @FindBy(xpath = "//button[contains(@class, 'search-form__submit')]")
     private WebElement searchButton;
 
-    public GoogleHomePage() {
+    public RozetkaHomePage(){
         PageFactory.initElements(driver, this);
-        driver.get(getProperty("google.url"));
     }
 
-    public GoogleResultsPage search(String query) {
+    public RozetkaResultsPage findGoods(String query){
         searchField.click();
         searchField.sendKeys(query);
         searchButton.click();
 
-        return new GoogleResultsPage();
+        return new RozetkaResultsPage();
     }
 }
