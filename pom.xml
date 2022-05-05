@@ -27,6 +27,11 @@
             <artifactId>selenium-java</artifactId>
             <version>${selenium.java.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>4.2.0</version>
+        </dependency>
     </dependencies>
 
 </project>
