@@ -2,7 +2,8 @@ package com.softserveinc.ita.pageobjects.alukavenko;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+
+import static org.openqa.selenium.support.PageFactory.initElements;
 
 public class GoogleMainPage extends BasePage {
 
@@ -14,7 +15,7 @@ public class GoogleMainPage extends BasePage {
 
     public GoogleMainPage() {
         driver.get("https://www.google.com/");
-        PageFactory.initElements(driver, this);
+        initElements(driver, this);
     }
 
     public GoogleSearchResultsPage search(String searchString) {

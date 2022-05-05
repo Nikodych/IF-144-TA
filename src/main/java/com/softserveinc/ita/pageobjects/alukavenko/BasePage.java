@@ -3,7 +3,7 @@ package com.softserveinc.ita.pageobjects.alukavenko;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
-public class BasePage {
+public abstract class BasePage {
     protected static WebDriver driver;
 
     public BasePage() {

@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class RozetkaBTPage extends BasePage {
+public class RozetkaHomeAppliancesPage extends BasePage {
 
     @FindAll({@FindBy(xpath = "//div[@class='tile-cats']")})
     private List<WebElement> subCategories;
@@ -14,5 +14,4 @@ public class RozetkaBTPage extends BasePage {
     public int getSubCategoriesQuantity() {
         return subCategories.size();
     }
-
 }
