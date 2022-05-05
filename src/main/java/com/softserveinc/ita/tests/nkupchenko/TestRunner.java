@@ -1,4 +1,4 @@
-package com.softserveinc.ita.tests;
+package com.softserveinc.ita.tests.nkupchenko;
 
 import static com.softserveinc.ita.utils.Properties.BASE_URL;
 
@@ -11,7 +11,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-public class BaseTest {
+public class TestRunner {
+
   private WebDriver driver;
 
   @BeforeMethod
@@ -31,20 +32,19 @@ public class BaseTest {
     return driver;
   }
 
-  public HomePage getHomePage(){
+  public HomePage getHomePage() {
     return new HomePage(getDriver());
   }
 
-  public SearchResultsPage getSearchResultPage(){
+  public SearchResultsPage getSearchResultPage() {
     return new SearchResultsPage(getDriver());
   }
 
-  public RozetkaPage getRozetkaPage(){
+  public RozetkaPage getRozetkaPage() {
     return new RozetkaPage(getDriver());
   }
 
-  public RozetkaSearchResultsPage getRozetkaSearchResultsPage(){
+  public RozetkaSearchResultsPage getRozetkaSearchResultsPage() {
     return new RozetkaSearchResultsPage(getDriver());
   }
-
 }
