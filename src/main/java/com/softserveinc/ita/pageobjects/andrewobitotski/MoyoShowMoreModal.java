@@ -6,13 +6,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class MoyoShowMoreModal extends AbstractBasePage {
+import static com.softserveinc.ita.utils.WebElementUtil.clickElementWithJSExecutor;
+
+public class MoyoShowMoreModal extends BasePage {
 
     private final By showMoreButtonXpath = By.xpath("//button[@class='btn btn--yellow js-load-more-products']");
 
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-
-    JavascriptExecutor jse = (JavascriptExecutor) driver;
 
     public MoyoShowMoreModal(WebDriver webDriver) {
         super();
@@ -34,7 +34,7 @@ public class MoyoShowMoreModal extends AbstractBasePage {
 
     public MoyoShowMoreModal showMoreSearchResults() {
         if (isShowMoreButtonPresent()) {
-            jse.executeScript("arguments[0].click()", waitForShowMoreButton());
+            clickElementWithJSExecutor(waitForShowMoreButton());
         }
         return this;
     }

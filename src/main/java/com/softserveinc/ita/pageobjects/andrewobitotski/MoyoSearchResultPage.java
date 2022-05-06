@@ -4,22 +4,23 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class MoyoSearchResultPage extends AbstractBasePage {
+import static org.openqa.selenium.support.PageFactory.initElements;
+
+public class MoyoSearchResultPage extends BasePage {
 
     private final By searchResultXpath = By.xpath("//a[@class='product-item_name gtm-link-product']");
-    private WebElement searchResult;
 
     public MoyoSearchResultPage(WebDriver driver) {
-        PageFactory.initElements(driver, this);
+        initElements(driver, this);
     }
 
     public boolean verifySearchResultsArePresent() {
         try {
-            searchResult = driver.findElement(searchResultXpath);
+            WebElement searchResult = driver.findElement(searchResultXpath);
             return true;
         } catch (NoSuchElementException noSuchElementException) {
             return false;
@@ -30,12 +31,15 @@ public class MoyoSearchResultPage extends AbstractBasePage {
         return new MoyoShowMoreModal(driver);
     }
 
-    public List<WebElement> collectElementsByXPath() {
+    public List<String> collectTitlesFromSearchResults() {
         if (verifySearchResultsArePresent()) {
-            return driver.findElements(searchResultXpath);
+            return driver
+                    .findElements(searchResultXpath)
+                    .stream()
+                    .map(WebElement::getText)
+                    .collect(Collectors.toList());
         }
 
         return null;
     }
-
 }

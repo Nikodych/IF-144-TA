@@ -1,14 +1,15 @@
 package com.softserveinc.ita.pageobjects.andrewobitotski;
 
-import com.softserveinc.ita.utils.ReadConfigFileValues;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
 
-public class MoyoHomePage extends AbstractBasePage {
+import static com.softserveinc.ita.utils.ReadConfigFileValues.URL_MOYO_HOMEPAGE;
+import static org.openqa.selenium.support.PageFactory.initElements;
+
+public class MoyoHomePage extends BasePage {
 
     public MoyoHomePage(WebDriver driver) {
-        driver.get(ReadConfigFileValues.URL_MOYO_HOMEPAGE);
-        PageFactory.initElements(driver, this);
+        driver.get(URL_MOYO_HOMEPAGE);
+        initElements(driver, this);
     }
 
     public MoyoSearchModal searchOnMoyo() {
