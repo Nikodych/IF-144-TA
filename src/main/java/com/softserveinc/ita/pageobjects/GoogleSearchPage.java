@@ -38,7 +38,10 @@ public class GoogleSearchPage extends BasePage {
         return searchResults.getTextOfElements();
     }
 
-    public void clickFollowLink() {
+    public FollowLinkPage clickFollowLink() {
         followLink.clickElement();
+
+        return new FollowLinkPage(driver);
+
     }
 }

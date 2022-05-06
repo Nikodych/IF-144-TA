@@ -2,18 +2,21 @@ package deineka;
 
 import Utils.ConfigurationHelper;
 import Utils.TestRunner;
-import com.softserveinc.ita.pageobjects.FollowLinkPage;
 import com.softserveinc.ita.pageobjects.GoogleSearchPage;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class GoogleSearchTest extends TestRunner {
 
     private final String SEARCH_TEXT = "rozetka";
     private final String SEARCH_LOT = "kugoo s3 pro black";
+    private GoogleSearchPage googleSearchPage;
 
-    private final GoogleSearchPage googleSearchPage = new GoogleSearchPage(driver);
-    private final FollowLinkPage followLinkPage = new FollowLinkPage(driver);
+    @BeforeMethod
+    public void open() {
+        googleSearchPage = new GoogleSearchPage(driver);
+    }
 
     @Test
     public void verifyGoogleSearchResults() {
@@ -24,7 +27,7 @@ public class GoogleSearchTest extends TestRunner {
         googleSearchPage.clickSearchButton();
         Assert.assertTrue(googleSearchPage.getTextOfResults().stream().anyMatch(t -> t.contains(SEARCH_TEXT)), "The Results did not contain Search text");
 
-        googleSearchPage.clickFollowLink();
+        var followLinkPage = googleSearchPage.clickFollowLink();
         Assert.assertTrue(followLinkPage.isPageOpened(), "The Follow Page did not open");
 
         followLinkPage.inputText(SEARCH_LOT);
