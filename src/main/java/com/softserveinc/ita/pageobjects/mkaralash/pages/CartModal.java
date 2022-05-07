@@ -1,14 +1,12 @@
-package com.softserveinc.ita.pageobjects.mkaralash;
+package com.softserveinc.ita.pageobjects.mkaralash.pages;
 
 import org.openqa.selenium.WebDriver;
 
 import static org.openqa.selenium.By.xpath;
 
-public class CartWindow {
-    protected WebDriver driver;
-
-    public CartWindow(WebDriver driver) {
-        this.driver = driver;
+public class CartModal extends BasePage {
+    public CartModal(WebDriver driver) {
+        super(driver);
     }
 
     public boolean isEmpty() {
