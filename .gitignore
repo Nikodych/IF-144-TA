@@ -42,6 +42,7 @@
 target/
 test-output/
 build/
+allure-results/
 
 # JIRA plugin
 atlassian-ide-plugin.xml
