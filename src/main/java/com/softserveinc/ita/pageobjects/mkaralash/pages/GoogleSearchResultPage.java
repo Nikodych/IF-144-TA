@@ -15,7 +15,7 @@ public class GoogleSearchResultPage extends BasePage {
 
     public List<String> getResultList() {
         return driver
-                .findElements(xpath("//*[@id='rso']/div[not(@class= 'ULSxyf')]//a//h3"))
+                .findElements(xpath("//*[@id='rso']//div[contains(@class, 'VwiC3b')]/span"))
                 .stream()
                 .map(element -> element.getText().toLowerCase())
                 .collect(toList());
