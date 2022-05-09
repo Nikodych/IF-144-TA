@@ -9,11 +9,8 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 public class GoogleResultsPage extends BasePage{
-    @FindBy(xpath = "//h3[contains(@href, *)]")
+    @FindBy(xpath = "//div[@id='search']//a/h3")
     private List<WebElement> googleResultsList;
-
-    @FindBy(xpath = "//cite[contains(text(), 'https://rozetka.com.ua')][1]")
-    private WebElement rozetkaHomePage;
 
     public GoogleResultsPage() {
         PageFactory.initElements(driver, this);
@@ -23,12 +20,7 @@ public class GoogleResultsPage extends BasePage{
         return googleResultsList.stream()
                 .filter(WebElement::isDisplayed)
                 .map(WebElement::getText)
+                .map(String::toLowerCase)
                 .collect(toList());
-    }
-
-    public RozetkaHomePage openFirstResult() {
-        rozetkaHomePage.click();
-
-        return new RozetkaHomePage();
     }
 }

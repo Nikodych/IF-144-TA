@@ -8,7 +8,8 @@ import org.testng.annotations.Test;
 
 public class GoogleResultsPageTest extends TestRunner {
     public static final String SEARCH_TITLES = "rozetka";
-    public static final String EXPECTED_CONTENT = "rozetka";
+    public static final String EXPECTED_CONTENT_EN = "rozetka";
+    public static final String EXPECTED_CONTENT_UA = "розетка";
 
     @Test
     @Description("Check if every title contains expected text")
@@ -17,6 +18,7 @@ public class GoogleResultsPageTest extends TestRunner {
         var listOfTitles = googleHomePage.search(SEARCH_TITLES)
                 .getTitles();
 
-        Assert.assertTrue(listOfTitles.stream().allMatch(t -> t.toLowerCase().contains(EXPECTED_CONTENT)));
+        Assert.assertTrue(listOfTitles.stream().allMatch(t -> t.contains(EXPECTED_CONTENT_EN)
+                || t.contains(EXPECTED_CONTENT_UA)));
     }
 }

@@ -6,8 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-
-import static com.softserveinc.ita.petrus.util.ConfigurationPropertiesHelper.getProperty;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class TestRunner {
@@ -18,10 +16,9 @@ public class TestRunner {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().pageLoadTimeout(10, SECONDS);
-        driver.manage().timeouts().implicitlyWait(10, SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(1000, SECONDS);
+        driver.manage().timeouts().implicitlyWait(1000, SECONDS);
         BasePage.setDriver(driver);
-        driver.get(getProperty("google.url"));
     }
 
     @AfterClass

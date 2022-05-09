@@ -1,31 +1,27 @@
 package com.softserveinc.ita.petrus.util;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 import java.util.Properties;
 
+@UtilityClass
 public class ConfigurationPropertiesHelper {
-    private static FileInputStream fileInputStream;
-    private static Properties properties;
+    private static final Properties PROPERTIES = new Properties();
 
     static {
-        try {
-            fileInputStream = new FileInputStream("src/main/resources/config.properties");
-            properties = new Properties();
-            properties.load(fileInputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fileInputStream != null)
-                try {
-                    fileInputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        loadProperties();
+    }
+
+    @SneakyThrows
+    private static void loadProperties() {
+        try (var inputStream = ConfigurationPropertiesHelper.class.getClassLoader()
+                .getResourceAsStream("config.properties")) {
+            PROPERTIES.load(inputStream);
         }
     }
 
     public static String getProperty(String key) {
-        return properties.getProperty(key);
+        return PROPERTIES.getProperty(key);
     }
+
 }
