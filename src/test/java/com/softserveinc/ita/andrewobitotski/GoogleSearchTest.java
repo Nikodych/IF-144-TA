@@ -4,8 +4,8 @@ import com.softserveinc.ita.pageobjects.andrewobitotski.GoogleSearchPage;
 import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 
-import static com.softserveinc.ita.utils.ReadConfigFileValues.MENTION;
-import static com.softserveinc.ita.utils.ReadConfigFileValues.SEARCH_REQUEST;
+import static com.softserveinc.ita.utils.ReadDataFileValues.MENTION;
+import static com.softserveinc.ita.utils.ReadDataFileValues.SEARCH_REQUEST;
 import static org.testng.Assert.assertTrue;
 
 public class GoogleSearchTest extends TestRunner {
@@ -14,7 +14,7 @@ public class GoogleSearchTest extends TestRunner {
     @Description("Verify that search produces search result which contain expected mention of certain link")
     public void verifyGoogleSearch() {
 
-        GoogleSearchPage googleSearchPage = new GoogleSearchPage(driver);
+        GoogleSearchPage googleSearchPage = new GoogleSearchPage();
         googleSearchPage
                 .performSearch(SEARCH_REQUEST)
                 .checkInSearchResult(MENTION);

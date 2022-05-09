@@ -3,7 +3,7 @@ package com.softserveinc.ita.utils;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
-public interface ReadConfigFileValues {
+public interface ReadDataFileValues {
     Config config = readConfig();
 
     static Config readConfig() {

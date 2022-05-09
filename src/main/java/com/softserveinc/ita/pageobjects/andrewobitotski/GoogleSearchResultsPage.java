@@ -7,7 +7,7 @@ import static org.openqa.selenium.support.PageFactory.initElements;
 
 public class GoogleSearchResultsPage extends BasePage {
 
-    public GoogleSearchResultsPage(WebDriver driver) {
+    public GoogleSearchResultsPage() {
         initElements(driver, this);
     }
 
@@ -23,6 +23,6 @@ public class GoogleSearchResultsPage extends BasePage {
                 .orElseThrow(() -> new AssertionError("There is no result with this mention"))
                 .click();
 
-        return new MoyoHomePage(driver);
+        return new MoyoHomePage();
     }
 }

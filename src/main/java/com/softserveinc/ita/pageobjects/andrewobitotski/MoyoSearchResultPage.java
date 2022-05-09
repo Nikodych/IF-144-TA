@@ -14,7 +14,7 @@ public class MoyoSearchResultPage extends BasePage {
 
     private final By searchResultXpath = By.xpath("//a[@class='product-item_name gtm-link-product']");
 
-    public MoyoSearchResultPage(WebDriver driver) {
+    public MoyoSearchResultPage() {
         initElements(driver, this);
     }
 
@@ -28,7 +28,7 @@ public class MoyoSearchResultPage extends BasePage {
     }
 
     public MoyoShowMoreModal goToShowMoreButton() {
-        return new MoyoShowMoreModal(driver);
+        return new MoyoShowMoreModal();
     }
 
     public List<String> collectTitlesFromSearchResults() {

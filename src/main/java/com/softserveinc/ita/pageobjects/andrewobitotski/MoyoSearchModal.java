@@ -12,13 +12,13 @@ public class MoyoSearchModal extends BasePage {
     @FindBy(name = "q")
     private WebElement searchInputField;
 
-    public MoyoSearchModal(WebDriver driver) {
+    public MoyoSearchModal() {
         initElements(driver, this);
     }
 
     public MoyoSearchResultPage search(String searchRequest) {
         searchInputField.sendKeys(searchRequest, Keys.ENTER);
 
-        return new MoyoSearchResultPage(driver);
+        return new MoyoSearchResultPage();
     }
 }

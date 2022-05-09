@@ -14,7 +14,7 @@ public class MoyoShowMoreModal extends BasePage {
 
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
-    public MoyoShowMoreModal(WebDriver webDriver) {
+    public MoyoShowMoreModal() {
         super();
     }
 
@@ -43,6 +43,6 @@ public class MoyoShowMoreModal extends BasePage {
         do {
             showMoreSearchResults();
         } while (isShowMoreButtonPresent());
-        return new MoyoSearchResultPage(driver);
+        return new MoyoSearchResultPage();
     }
 }

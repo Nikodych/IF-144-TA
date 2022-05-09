@@ -4,7 +4,7 @@ import com.softserveinc.ita.pageobjects.andrewobitotski.MoyoHomePage;
 import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 
-import static com.softserveinc.ita.utils.ReadConfigFileValues.*;
+import static com.softserveinc.ita.utils.ReadDataFileValues.*;
 import static org.testng.Assert.*;
 
 public class MoyoSearchTests extends TestRunner {
@@ -12,7 +12,7 @@ public class MoyoSearchTests extends TestRunner {
     @Test
     @Description("Verify that incorrect search request produces no search results")
     public void verifyMoyoSearchWithNoResults() {
-        MoyoHomePage moyo = new MoyoHomePage(driver);
+        MoyoHomePage moyo = new MoyoHomePage();
         var isResultsPresent = moyo
                 .searchOnMoyo()
                 .search("dadawawd")
@@ -24,7 +24,7 @@ public class MoyoSearchTests extends TestRunner {
     @Test
     @Description("Verify that correct search request produces search results")
     public void verifyMoyoSearchWithResults() {
-        MoyoHomePage moyo = new MoyoHomePage(driver);
+        MoyoHomePage moyo = new MoyoHomePage();
         var isResultsPresent = moyo
                 .searchOnMoyo()
                 .search("msi")
@@ -36,7 +36,7 @@ public class MoyoSearchTests extends TestRunner {
     @Test
     @Description("Verify that search results contains expected mention in them")
     public void verifyMoyoSearchResultsContent() {
-        MoyoHomePage moyo = new MoyoHomePage(driver);
+        MoyoHomePage moyo = new MoyoHomePage();
         var actualResults = moyo
                 .searchOnMoyo()
                 .search("msi")
@@ -53,7 +53,7 @@ public class MoyoSearchTests extends TestRunner {
     @Test
     @Description("Verify expected amount of search results")
     public void verifyMoyoSearchResultsCount() {
-        MoyoHomePage moyo = new MoyoHomePage(driver);
+        MoyoHomePage moyo = new MoyoHomePage();
         var actualResults = moyo
                 .searchOnMoyo()
                 .search("msi")
@@ -66,7 +66,7 @@ public class MoyoSearchTests extends TestRunner {
     @Test
     @Description("Verify that search results contains expected mention in them on all pages with search results")
     public void verifyMoyoSearchResultsContentWithShowMoreButton() {
-        MoyoHomePage moyo = new MoyoHomePage(driver);
+        MoyoHomePage moyo = new MoyoHomePage();
         var actualResults = moyo
                 .searchOnMoyo()
                 .search("msi")
@@ -85,7 +85,7 @@ public class MoyoSearchTests extends TestRunner {
     @Test
     @Description("Verify expected amount of search results from all search results pages")
     public void verifyMoyoSearchResultsCountWithShowMoreButton() {
-        MoyoHomePage moyo = new MoyoHomePage(driver);
+        MoyoHomePage moyo = new MoyoHomePage();
         var actualResults = moyo
                 .searchOnMoyo()
                 .search("msi")
