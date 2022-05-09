@@ -1,8 +1,10 @@
-package com.softserveinc.ita.tests.nkupchenko;
+package com.softserveinc.ita.utils;
+
+
 
 import static com.softserveinc.ita.utils.Properties.BASE_URL;
 
-import com.softserveinc.ita.pageobjects.HomePage;
+import com.softserveinc.ita.pageobjects.GooglePage;
 import com.softserveinc.ita.pageobjects.RozetkaPage;
 import com.softserveinc.ita.pageobjects.RozetkaSearchResultsPage;
 import com.softserveinc.ita.pageobjects.SearchResultsPage;
@@ -11,15 +13,18 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 public class TestRunner {
 
   private WebDriver driver;
 
   @BeforeMethod
-  public void testsSetUp() {
+  public void setUp() {
     System.setProperty("webdriver.chrome.driver", "src/main/resources/driver/chromedriver");
     driver = new ChromeDriver();
     driver.manage().window().maximize();
+    driver.manage().timeouts().implicitlyWait(60, SECONDS);
     driver.get(BASE_URL);
   }
 
@@ -28,23 +33,20 @@ public class TestRunner {
     driver.quit();
   }
 
-  public WebDriver getDriver() {
-    return driver;
-  }
-
-  public HomePage getHomePage() {
-    return new HomePage(getDriver());
+  public GooglePage getGooglePage() {
+    return new GooglePage(driver);
   }
 
   public SearchResultsPage getSearchResultPage() {
-    return new SearchResultsPage(getDriver());
+    return new SearchResultsPage(driver);
   }
 
   public RozetkaPage getRozetkaPage() {
-    return new RozetkaPage(getDriver());
+    return new RozetkaPage(driver);
   }
 
   public RozetkaSearchResultsPage getRozetkaSearchResultsPage() {
-    return new RozetkaSearchResultsPage(getDriver());
+    return new RozetkaSearchResultsPage(driver);
   }
+
 }
