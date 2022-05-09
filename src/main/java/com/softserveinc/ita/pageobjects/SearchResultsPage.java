@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class SearchResultsPage extends BasePage {
 
-  @FindBy(xpath = "//h3[@class='LC20lb MBeuO DKV0Md']")
+  @FindBy(xpath = "//div/a/h3")
   private List<WebElement> searchResultsList;
 
   public SearchResultsPage(WebDriver driver) {

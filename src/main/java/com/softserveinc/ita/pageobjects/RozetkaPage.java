@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class RozetkaPage extends BasePage {
 
-  @FindBy(css = "body > app-root > div > div > rz-header > rz-main-header > header > div > div > div > form > div > div > input")
+  @FindBy(xpath = "//div/input")
   private WebElement searchField;
 
   public RozetkaPage(WebDriver driver) {
