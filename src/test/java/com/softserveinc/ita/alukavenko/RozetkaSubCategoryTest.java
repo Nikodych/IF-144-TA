@@ -1,6 +1,6 @@
 package com.softserveinc.ita.alukavenko;
 
-import com.softserveinc.ita.alukavenko.Utils.TestRunner;
+import com.softserveinc.ita.alukavenko.utils.TestRunner;
 import com.softserveinc.ita.pageobjects.alukavenko.RozetkaMainPage;
 import org.testng.annotations.Test;
 

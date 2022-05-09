@@ -1,4 +1,4 @@
-package com.softserveinc.ita.alukavenko.Utils;
+package com.softserveinc.ita.alukavenko.utils;
 
 import com.softserveinc.ita.pageobjects.alukavenko.BasePage;
 import io.github.bonigarcia.wdm.ChromeDriverManager;

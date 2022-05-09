@@ -1,7 +1,7 @@
 package com.softserveinc.ita.alukavenko;
 
 import com.softserveinc.ita.pageobjects.alukavenko.GoogleMainPage;
-import com.softserveinc.ita.alukavenko.Utils.TestRunner;
+import com.softserveinc.ita.alukavenko.utils.TestRunner;
 import org.testng.annotations.Test;
 
 import java.util.List;
