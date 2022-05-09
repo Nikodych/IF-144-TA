@@ -1,7 +1,5 @@
 package com.softserveinc.ita.pageobjects.andrewobitotski;
 
-import org.openqa.selenium.WebDriver;
-
 import static org.openqa.selenium.By.xpath;
 import static org.openqa.selenium.support.PageFactory.initElements;
 
