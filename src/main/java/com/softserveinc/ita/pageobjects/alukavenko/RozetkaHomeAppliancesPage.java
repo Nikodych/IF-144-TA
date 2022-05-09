@@ -1,17 +1,11 @@
 package com.softserveinc.ita.pageobjects.alukavenko;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
+import static com.codeborne.selenide.Selenide.$$;
 
-import java.util.List;
+import org.openqa.selenium.By;
 
-public class RozetkaHomeAppliancesPage extends BasePage {
-
-    @FindAll({@FindBy(xpath = "//div[@class='tile-cats']")})
-    private List<WebElement> subCategories;
-
+public class RozetkaHomeAppliancesPage {
     public int getSubCategoriesQuantity() {
-        return subCategories.size();
+        return $$(By.xpath("//div[@class='tile-cats']")).size();
     }
 }

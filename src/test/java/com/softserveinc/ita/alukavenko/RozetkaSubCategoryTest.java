@@ -1,22 +1,24 @@
 package com.softserveinc.ita.alukavenko;
 
-import com.softserveinc.ita.alukavenko.Utils.TestRunner;
+import static com.codeborne.selenide.Selenide.open;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.softserveinc.ita.pageobjects.alukavenko.RozetkaMainPage;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-
-public class RozetkaSubCategoryTest extends TestRunner {
-
-    private static final int EXPECTED_SUB_CATEGORY_QUANTITY = 10;
+public class RozetkaSubCategoryTest {
 
     @Test
     public void verifyHomeAppliancesSubCategoriesQuantity() {
-        int subcategoriesQuantity = new RozetkaMainPage()
-                .goToHomeAppliancesCategory()
+
+        int expectedSubCategoryQuantity = 10;
+
+        RozetkaMainPage rozetkaMainPage = open("https://rozetka.com.ua/", RozetkaMainPage.class);
+        int subcategoriesQuantity = rozetkaMainPage.goToHomeAppliancesCategory()
                 .getSubCategoriesQuantity();
 
-        assertEquals(subcategoriesQuantity, EXPECTED_SUB_CATEGORY_QUANTITY,
-                "Sub categories quantity should be: " + EXPECTED_SUB_CATEGORY_QUANTITY);
+        assertThat(subcategoriesQuantity).as("Sub categories quantity should be equal: "
+                        + expectedSubCategoryQuantity)
+                .isEqualTo(expectedSubCategoryQuantity);
     }
 }

@@ -1,30 +1,27 @@
 package com.softserveinc.ita.alukavenko;
 
+import static com.codeborne.selenide.Selenide.open;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.softserveinc.ita.pageobjects.alukavenko.GoogleMainPage;
-import com.softserveinc.ita.alukavenko.Utils.TestRunner;
+import com.softserveinc.ita.pageobjects.alukavenko.GoogleSearchResultsPage;
+import java.util.List;
+import org.assertj.core.api.Condition;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
-import static java.lang.String.join;
-import static org.testng.Assert.assertTrue;
-
-public class GoogleSearchTest extends TestRunner {
-    private static final String SEARCH_STRING = "rozetka";
-    private static final String EXPECTED_STRING = "rozetka";
+public class GoogleSearchTest {
 
     @Test
     public void verifySearchResults() {
-        List<String> searchTexts = new GoogleMainPage()
-                .search(SEARCH_STRING)
-                .getSearchResultTitles();
+        String searchString = "rozetka";
 
-        boolean titlesMatch = searchTexts
-                .stream()
-                .allMatch(text -> text.toLowerCase().contains(EXPECTED_STRING));
+        GoogleMainPage searchPage = open("https://www.google.com/", GoogleMainPage.class);
+        GoogleSearchResultsPage resultsPage = searchPage.search(searchString);
+        List<String> titles = resultsPage.getSearchResultTitles();
 
-        assertTrue(titlesMatch,
-                "Search results should contain: " + EXPECTED_STRING
-                        + ". Actual results: \n" + join("\n", searchTexts));
+        Condition<String> containsSearchString = new Condition<>(s -> s.toLowerCase()
+                .contains(searchString), searchString);
+        assertThat(titles).as("Result titles should contain search string")
+                .have(containsSearchString);
     }
 }

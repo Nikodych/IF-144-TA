@@ -1,23 +1,20 @@
 package com.softserveinc.ita.pageobjects.alukavenko;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
+import static com.codeborne.selenide.Selenide.$$;
 
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import java.util.List;
+import org.openqa.selenium.By;
 
-import static java.util.stream.Collectors.toList;
+public class GoogleSearchResultsPage {
 
-public class GoogleSearchResultsPage extends BasePage {
-
-    @FindAll({@FindBy(xpath = "//cite/../../h3")})
-    private List<WebElement> searchResults;
+    public ElementsCollection results() {
+        return $$(By.xpath("//cite/../../h3"))
+                .exclude(Condition.attribute("offsetHeight", "0"));
+    }
 
     public List<String> getSearchResultTitles() {
-        return searchResults
-                .stream()
-                .filter(WebElement::isDisplayed)
-                .map(WebElement::getText)
-                .collect(toList());
+        return results().texts();
     }
 }
