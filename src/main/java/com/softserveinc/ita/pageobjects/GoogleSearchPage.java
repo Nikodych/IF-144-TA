@@ -1,5 +1,7 @@
 package com.softserveinc.ita.pageobjects;
 
-public class SamplePage {
+public class GoogleSearchPage {
+
+
 
 }
