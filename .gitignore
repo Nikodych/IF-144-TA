@@ -57,3 +57,12 @@ fabric.properties
 
 # Test suite
 myTests.xml
+
+# Allure
+.allure
+.gradle
+schema
+build
+/*/allure-results/
+out
+.gradletasknamecache
