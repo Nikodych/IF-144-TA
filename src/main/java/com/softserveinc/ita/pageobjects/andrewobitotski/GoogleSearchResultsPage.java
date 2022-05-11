@@ -1,24 +1,23 @@
 package com.softserveinc.ita.pageobjects.andrewobitotski;
 
-import static org.openqa.selenium.By.xpath;
-import static org.openqa.selenium.support.PageFactory.initElements;
+import com.codeborne.selenide.SelenideElement;
 
-public class GoogleSearchResultsPage extends BasePage {
+import java.util.List;
 
-    public GoogleSearchResultsPage() {
-        initElements(driver, this);
-    }
+import static com.codeborne.selenide.Selenide.$$x;
+
+public class GoogleSearchResultsPage {
 
     public MoyoHomePage checkInSearchResult(String mention) {
 
         String linkTemplate = "//a[contains(@href, '%s')]";
-        String searchedResultLinkXpath = String.format(linkTemplate, mention);
+        String searchResultLinkXpath = String.format(linkTemplate, mention);
+        List<SelenideElement> searchResults = $$x(searchResultLinkXpath);
 
-        driver
-                .findElements(xpath(searchedResultLinkXpath))
+        searchResults
                 .stream()
                 .findFirst()
-                .orElseThrow(() -> new AssertionError("There is no result with this mention"))
+                .orElseThrow(() -> new AssertionError("There is no link that contains " + "'"+ mention + "'"))
                 .click();
 
         return new MoyoHomePage();

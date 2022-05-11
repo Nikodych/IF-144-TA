@@ -1,25 +1,23 @@
 package com.softserveinc.ita.pageobjects.andrewobitotski;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.By;
 
+import static com.codeborne.selenide.Selenide.*;
 import static com.softserveinc.ita.utils.ReadDataFileValues.URL_GOOGLE_HOMEPAGE;
-import static org.openqa.selenium.support.PageFactory.initElements;
 
-public class GoogleSearchPage extends BasePage {
+public class GoogleSearchPage {
 
-    @FindBy(name = "q")
-    private WebElement searchInputField;
-    @FindBy(xpath = "//input[@name = 'btnK']")
-    private WebElement searchButton;
+    private final SelenideElement searchInputField = $(By.name("q"));
+    private final SelenideElement searchButton = $x("//input[@name = 'btnK']");
 
     public GoogleSearchPage() {
-        driver.get(URL_GOOGLE_HOMEPAGE);
-        initElements(driver, this);
+        open(URL_GOOGLE_HOMEPAGE);
     }
 
     public GoogleSearchResultsPage performSearch(String searchRequest) {
-        searchInputField.sendKeys(searchRequest);
+
+        searchInputField.setValue(searchRequest);
         searchButton.click();
 
         return new GoogleSearchResultsPage();

@@ -4,7 +4,10 @@ import com.softserveinc.ita.pageobjects.andrewobitotski.MoyoHomePage;
 import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 import static com.softserveinc.ita.utils.ReadDataFileValues.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.testng.Assert.*;
 
 public class MoyoSearchTests extends TestRunner {
@@ -12,88 +15,99 @@ public class MoyoSearchTests extends TestRunner {
     @Test
     @Description("Verify that incorrect search request produces no search results")
     public void verifyMoyoSearchWithNoResults() {
-        MoyoHomePage moyo = new MoyoHomePage();
-        var isResultsPresent = moyo
-                .searchOnMoyo()
-                .search("dadawawd")
-                .verifySearchResultsArePresent();
+        var isResultPresent = isSearchResultPresent("dadawawd");
 
-        assertFalse(isResultsPresent, "Search results should be absent");
+        assertThat(isResultPresent)
+                .as("Search results should be absent")
+                .isFalse();
     }
 
     @Test
     @Description("Verify that correct search request produces search results")
     public void verifyMoyoSearchWithResults() {
-        MoyoHomePage moyo = new MoyoHomePage();
-        var isResultsPresent = moyo
-                .searchOnMoyo()
-                .search("msi")
-                .verifySearchResultsArePresent();
+        var isResultPresent = isSearchResultPresent("msi");
 
-        assertTrue(isResultsPresent, "Search results should be present");
+        assertThat(isResultPresent)
+                .as("Search results should be present")
+                .isTrue();
+    }
+
+    public boolean isSearchResultPresent(String searchRequest) {
+        MoyoHomePage moyo = new MoyoHomePage();
+
+        return moyo
+                .searchOnMoyo()
+                .performSearch(searchRequest)
+                .verifySearchResultsArePresent();
     }
 
     @Test
     @Description("Verify that search results contains expected mention in them")
     public void verifyMoyoSearchResultsContent() {
-        MoyoHomePage moyo = new MoyoHomePage();
-        var actualResults = moyo
-                .searchOnMoyo()
-                .search("msi")
-                .collectTitlesFromSearchResults();
+        var actualResults = collectSearchResultsTitlesFromFirstPage("msi");
 
-        assertTrue(actualResults
-                        .stream()
-                        .anyMatch(result -> result
-                                .toLowerCase()
-                                .contains(MOYO_EXPECTED_RESULT)),
-                "Each search result from the first page should contain " + MOYO_EXPECTED_RESULT);
+        assertThat(actualResults
+                .stream()
+                .anyMatch(result -> result
+                        .toLowerCase()
+                        .contains(MOYO_EXPECTED_RESULT)))
+                .as("Each search result from the first page should contain " + MOYO_EXPECTED_RESULT)
+                .isTrue();
     }
 
     @Test
     @Description("Verify expected amount of search results")
     public void verifyMoyoSearchResultsCount() {
-        MoyoHomePage moyo = new MoyoHomePage();
-        var actualResults = moyo
-                .searchOnMoyo()
-                .search("msi")
-                .collectTitlesFromSearchResults();
+        var actualResults = collectSearchResultsTitlesFromFirstPage("msi");
 
-        assertEquals(actualResults.size(), (MOYO_EXPECTED_RESULTS_COUNT),
-                "Should be " + MOYO_EXPECTED_RESULTS_COUNT + " of search results from the first page");
+        assertThat(actualResults.size())
+                .as("Should be " + MOYO_EXPECTED_RESULTS_COUNT + " of search results from the first page")
+                .isEqualTo(MOYO_EXPECTED_RESULTS_COUNT);
+    }
+
+    public List<String> collectSearchResultsTitlesFromFirstPage(String searchRequest) {
+        MoyoHomePage moyo = new MoyoHomePage();
+
+        return moyo
+                .searchOnMoyo()
+                .performSearch(searchRequest)
+                .collectTitlesFromSearchResults();
     }
 
     @Test
     @Description("Verify that search results contains expected mention in them on all pages with search results")
     public void verifyMoyoSearchResultsContentWithShowMoreButton() {
-        MoyoHomePage moyo = new MoyoHomePage();
-        var actualResults = moyo
-                .searchOnMoyo()
-                .search("msi")
-                .goToShowMoreButton()
-                .showAllSearchResults()
-                .collectTitlesFromSearchResults();
+        var actualResults = collectSearchResultsTitlesFromAllPages("msi");
 
-        assertTrue(actualResults
-                        .stream()
-                        .anyMatch(result -> result
-                                .toLowerCase()
-                                .contains(MOYO_EXPECTED_RESULT)),
-                "Each search result from all pages should contain " + MOYO_EXPECTED_RESULT);
+        assertThat(actualResults
+                .stream()
+                .anyMatch(result -> result
+                        .toLowerCase()
+                        .contains(MOYO_EXPECTED_RESULT)))
+                .as("Each search result from all pages should contain " + MOYO_EXPECTED_RESULT)
+                .isTrue();
     }
 
     @Test
     @Description("Verify expected amount of search results from all search results pages")
     public void verifyMoyoSearchResultsCountWithShowMoreButton() {
+        var actualResults = collectSearchResultsTitlesFromAllPages("msi");
+
+        assertThat(actualResults.size())
+                .as("Should be " + MOYO_EXPECTED_RESULTS_SHOW_ALL_COUNT + " of search results from the first page")
+                .isEqualTo(MOYO_EXPECTED_RESULTS_SHOW_ALL_COUNT);
+    }
+
+    public List<String> collectSearchResultsTitlesFromAllPages(String searchRequest) {
         MoyoHomePage moyo = new MoyoHomePage();
-        var actualResults = moyo
+
+        return moyo
                 .searchOnMoyo()
-                .search("msi")
+                .performSearch(searchRequest)
                 .goToShowMoreButton()
                 .showAllSearchResults()
                 .collectTitlesFromSearchResults();
-
-        assertEquals(actualResults.size(), (MOYO_EXPECTED_RESULTS_SHOW_ALL_COUNT),
-                "Should be " + MOYO_EXPECTED_RESULTS_SHOW_ALL_COUNT + " of search results from all pages");
     }
 }
+
+

@@ -1,48 +1,45 @@
 package com.softserveinc.ita.pageobjects.andrewobitotski;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.ex.ElementNotFound;
 
-import java.time.Duration;
+import static com.codeborne.selenide.Condition.appear;
+import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Selenide.$x;
+import static java.time.Duration.ofSeconds;
 
-import static com.softserveinc.ita.utils.WebElementUtil.clickElementWithJSExecutor;
+public class MoyoShowMoreModal {
 
-public class MoyoShowMoreModal extends BasePage {
-
-    private final By showMoreButtonXpath = By.xpath("//button[@class='btn btn--yellow js-load-more-products']");
-
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-
-    public MoyoShowMoreModal() {
-        super();
-    }
+    private final String showMoreButtonXpath = "//button[@class='btn btn--yellow js-load-more-products']";
+    private final SelenideElement showMoreButton = $x(showMoreButtonXpath);
 
     public boolean isShowMoreButtonPresent() {
         try {
-            WebElement showMoreButton = driver.findElement(showMoreButtonXpath);
-        } catch (NoSuchElementException noSuchElementException) {
+            showMoreButton
+                    .shouldBe(exist, ofSeconds(5));
+        } catch (ElementNotFound e) {
             return false;
         }
 
         return true;
     }
 
-    private WebElement waitForShowMoreButton() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(showMoreButtonXpath));
-    }
-
     public MoyoShowMoreModal showMoreSearchResults() {
         if (isShowMoreButtonPresent()) {
-            clickElementWithJSExecutor(waitForShowMoreButton());
+            showMoreButton
+                    .should(appear, ofSeconds(5))
+                    .click();
         }
         return this;
     }
 
     public MoyoSearchResultPage showAllSearchResults() {
-        do {
-            showMoreSearchResults();
-        } while (isShowMoreButtonPresent());
+        if (isShowMoreButtonPresent()) {
+            do {
+                showMoreSearchResults();
+            } while (isShowMoreButtonPresent());
+        }
+
         return new MoyoSearchResultPage();
     }
 }

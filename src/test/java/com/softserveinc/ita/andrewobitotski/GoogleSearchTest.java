@@ -4,9 +4,10 @@ import com.softserveinc.ita.pageobjects.andrewobitotski.GoogleSearchPage;
 import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static com.softserveinc.ita.utils.ReadDataFileValues.MENTION;
 import static com.softserveinc.ita.utils.ReadDataFileValues.SEARCH_REQUEST;
-import static org.testng.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GoogleSearchTest extends TestRunner {
 
@@ -19,8 +20,9 @@ public class GoogleSearchTest extends TestRunner {
                 .performSearch(SEARCH_REQUEST)
                 .checkInSearchResult(MENTION);
 
-        assertTrue(driver
-                .getCurrentUrl()
-                .contains(MENTION), "Should be moyo.ua website");
+        assertThat(getWebDriver()
+                .getCurrentUrl())
+                .as("Should be moyo.ua website")
+                .contains((MENTION));
     }
 }

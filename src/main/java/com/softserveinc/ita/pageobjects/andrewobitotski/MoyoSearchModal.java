@@ -1,22 +1,18 @@
 package com.softserveinc.ita.pageobjects.andrewobitotski;
 
+import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
-import static org.openqa.selenium.support.PageFactory.initElements;
+import static com.codeborne.selenide.Selenide.$;
+import static org.openqa.selenium.Keys.*;
 
-public class MoyoSearchModal extends BasePage {
+public class MoyoSearchModal {
 
-    @FindBy(name = "q")
-    private WebElement searchInputField;
+    private final SelenideElement searchInputField = $(By.name("q"));
 
-    public MoyoSearchModal() {
-        initElements(driver, this);
-    }
-
-    public MoyoSearchResultPage search(String searchRequest) {
-        searchInputField.sendKeys(searchRequest, Keys.ENTER);
+    public MoyoSearchResultPage performSearch(String searchRequest) {
+        searchInputField.sendKeys(searchRequest, ENTER);
 
         return new MoyoSearchResultPage();
     }
