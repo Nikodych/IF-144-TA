@@ -20,7 +20,10 @@ public class GoogleSearchTest {
         List<String> titles = resultsPage.getSearchResultTitles();
 
         Condition<String> containsSearchString = new Condition<>(s -> s.toLowerCase()
-                .contains(searchString), searchString);
+                .contains(searchString)
+                || s.toLowerCase()
+                .contains("розетка"),
+                searchString);
         assertThat(titles).as("Result titles should contain search string")
                 .have(containsSearchString);
     }
