@@ -12,21 +12,102 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <testng.version>7.5</testng.version>
-        <selenium.java.version>3.141.59</selenium.java.version>
+        <selenium.java.version>4.1.3</selenium.java.version>
+        <allure-testng.version>2.17.3</allure-testng.version>
+        <aspectj.version>1.8.10</aspectj.version>
+        <typesafe.version>1.4.0</typesafe.version>
+        <suite.folder>suites</suite.folder>
+        <test.suite>testng</test.suite>
+        <allure-maven.version>2.10.0</allure-maven.version>
+        <allure-report.version>2.10.0</allure-report.version>
+        <allure.version>2.16.1</allure.version>
+        <test.properties.directory>src/main/resources/</test.properties.directory>
+        <buildDirectory>${project.basedir}/target</buildDirectory>
+        <webdrivemanager.version>3.8.1</webdrivemanager.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>${selenium.java.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>${allure-testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe</groupId>
+            <artifactId>config</artifactId>
+            <version>${typesafe.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-java-commons</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-descriptions-javadoc</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivemanager.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.e-hoffman.testing</groupId>
+            <artifactId>ResourceUtils</artifactId>
+            <version>1.5.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.20</version>
+                <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>${suite.folder}/${test.suite}.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                    <systemPropertyVariables>
+                        <allure.results.directory>
+                            ${project.basedir}/target/allure-results
+                        </allure.results.directory>
+                        <suite.folder>${suite.folder}</suite.folder>
+                        <test.suite>${test.suite}</test.suite>
+                    </systemPropertyVariables>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>allure-maven</artifactId>
+                <configuration>
+                    <reportVersion>${allure-report.version}</reportVersion>
+                </configuration>
+                <groupId>io.qameta.allure</groupId>
+                <version>${allure-maven.version}</version>
+            </plugin>
+        </plugins>
+        <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/main/java</testSourceDirectory>
+    </build>
 
 </project>
