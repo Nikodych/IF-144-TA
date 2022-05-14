@@ -3,11 +3,7 @@
 <suite name="All Test Suite">
   <test verbose="2" preserve-order="true" name="/home/nazarii/IdeaProjects/IF-144-TA">
     <classes>
-      <class name="com.softserveinc.ita.tests.nkupchenko.RozetkaTest">
-        <methods>
-          <include name="demoTest"/>
-        </methods>
-      </class>
+      <class name="com.softserveinc.ita.tests.nkupchenko.RozetkaTest"/>
     </classes>
   </test>
 </suite>

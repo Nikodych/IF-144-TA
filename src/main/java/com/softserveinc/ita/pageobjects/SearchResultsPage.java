@@ -17,4 +17,8 @@ public class SearchResultsPage extends BasePage {
   public List<WebElement> getSearchResultsList() {
     return searchResultsList;
   }
+
+  public void followFirstLink(){
+    searchResultsList.get(0).click();
+  }
 }
