@@ -1,9 +1,11 @@
 package com.softserveinc.ita;
 
 import static com.codeborne.selenide.Selenide.webdriver;
+import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.softserveinc.ita.pageobjects.LoginPage;
+import com.softserveinc.ita.pageobjects.util.DataProvider;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
 import org.testng.annotations.Test;
 
@@ -11,11 +13,10 @@ public class ProtocolTest extends TestRunner {
 
     @Test
     public void verifyProtocolPageOpening() {
-        // TODO: 13.05.2022 use config files for credentials and expected url
         new LoginPage()
-                .login("admin", "dtapi_admin")
+                .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openProtocolPage();
-        var expectedUrl = "https://dtapi.if.ua/admin/protocol";
+        var expectedUrl = PROTOCOL_PAGE_URL;
         var currentUrl =  webdriver().object().getCurrentUrl();
 
         assertThat(currentUrl)
