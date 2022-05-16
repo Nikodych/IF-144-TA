@@ -1,4 +1,4 @@
-package com.softserveinc.ita.pageobjects;
+package com.softserveinc.ita.pageobjects.admin;
 
 import static com.codeborne.selenide.Selenide.$;
 import static org.openqa.selenium.By.xpath;
