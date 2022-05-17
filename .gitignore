@@ -39,6 +39,7 @@
 ## Directory-based project format:
 .idea/
 .allure/
+allure-results/
 target/
 test-output/
 build/

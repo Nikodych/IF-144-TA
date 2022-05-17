@@ -21,9 +21,7 @@ public class GoogleSearchResultPage extends BasePage {
                 .collect(toList());
     }
 
-    public RozetkaHomePage openLinkBy(int index) {
+    public void openLinkBy(int index) {
         driver.findElement(xpath(format("(//*[@id='rso']/div[not(@class= 'ULSxyf')]//a//h3)[%s]", index))).click();
-
-        return new RozetkaHomePage(driver);
     }
 }
