@@ -16,4 +16,10 @@ public interface DataProvider {
     String ADMIN_PASSWORD = readConfig().getString("users.admin.password");
     String PROTOCOL_PAGE_URL = readConfig().getString("pages.protocol");
     String LOGIN_PAGE_URL = readConfig().getString("pages.login");
+    String START_YEAR = readConfig().getString("dates.startDate.year");
+    String START_MONTH = readConfig().getString("dates.startDate.month");
+    String START_DAY = readConfig().getString("dates.startDate.day");
+    String END_YEAR = readConfig().getString("dates.endDate.year");
+    String END_MONTH = readConfig().getString("dates.endDate.month");
+    String END_DAY = readConfig().getString("dates.endDate.day");
 }
