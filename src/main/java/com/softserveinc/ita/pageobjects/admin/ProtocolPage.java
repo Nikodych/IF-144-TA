@@ -15,22 +15,21 @@ public class ProtocolPage extends MainMenu {
     private static final String OPTION_BUTTON_TEMPLATE = "//div[text()='%s']";
     private static final String DATE_PICKER_TEMPLATE = "(//button[@aria-label='Open calendar'])[%s]";
 
-    private ProtocolPage chooseDate(String date, int index) {
-        LocalDate formattedDate = LocalDate.parse(date);
+    private ProtocolPage chooseDate(LocalDate date, int index) {
         $x(format(DATE_PICKER_TEMPLATE, index)).click();
         chooseMonthAndYearButton.click();
-        $x(format(OPTION_BUTTON_TEMPLATE, formattedDate.getYear())).click();
-        $x(format(OPTION_BUTTON_TEMPLATE, formattedDate.getMonth().toString().substring(0, 3))).click();
-        $x(format(OPTION_BUTTON_TEMPLATE, formattedDate.getDayOfMonth())).click();
+        $x(format(OPTION_BUTTON_TEMPLATE, date.getYear())).click();
+        $x(format(OPTION_BUTTON_TEMPLATE, date.getMonth().toString().substring(0, 3))).click();
+        $x(format(OPTION_BUTTON_TEMPLATE, date.getDayOfMonth())).click();
 
         return this;
     }
 
-    public ProtocolPage chooseStartDate(String date) {
+    public ProtocolPage chooseStartDate(LocalDate date) {
         return chooseDate(date, 1);
     }
 
-    public ProtocolPage chooseEndDate(String date) {
+    public ProtocolPage chooseEndDate(LocalDate date) {
         return chooseDate(date, 2);
     }
 

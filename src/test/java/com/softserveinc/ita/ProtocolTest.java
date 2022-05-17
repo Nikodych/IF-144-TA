@@ -6,8 +6,11 @@ import com.softserveinc.ita.pageobjects.util.TestRunner;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.time.LocalDate;
+
 import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
 import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
+import static java.time.LocalDate.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ProtocolTest extends TestRunner {
@@ -36,8 +39,8 @@ public class ProtocolTest extends TestRunner {
     public void verifyDatePickersOptionsChoosing() {
 
         var actualResult = protocolPage
-                .chooseStartDate(START_DATE)
-                .chooseEndDate(END_DATE)
+                .chooseStartDate(parse(START_DATE))
+                .chooseEndDate(parse(END_DATE))
                 .isSearchButtonEnabled();
 
         assertThat(actualResult)
