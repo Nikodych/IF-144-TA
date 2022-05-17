@@ -17,6 +17,7 @@ public class RozetkaMainPage extends BasePage {
 
     public RozetkaHomeAppliancesPage goToHomeAppliancesCategory() {
         homeAppliancesCategory.click();
+
         return new RozetkaHomeAppliancesPage();
     }
 }
