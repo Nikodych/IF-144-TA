@@ -2,47 +2,39 @@ package com.softserveinc.ita.pageobjects.admin;
 
 import com.codeborne.selenide.SelenideElement;
 
+import java.time.LocalDate;
+
 import static com.codeborne.selenide.Selenide.$x;
 import static java.lang.String.format;
 
 public class ProtocolPage extends MainMenu {
 
-    private final SelenideElement startDatePickerButton = $x("(//button[@aria-label='Open calendar'])[1]");
-    private final SelenideElement endDatePickerButton = $x("(//button[@aria-label='Open calendar'])[2]");
     private final SelenideElement chooseMonthAndYearButton = $x("//button[@aria-label='Choose month and year']");
     private final SelenideElement searchButton = $x("//button[@type='submit']");
 
-    private final String optionButtonTemplate = "//div[text()='%s']";
+    private static final String OPTION_BUTTON_TEMPLATE = "//div[text()='%s']";
+    private static final String DATE_PICKER_TEMPLATE = "(//button[@aria-label='Open calendar'])[%s]";
 
-    public ProtocolPage chooseStartDate(String startYear, String startMonth, String startDay) {
-        SelenideElement startYearButton = $x(format(optionButtonTemplate, startYear));
-        SelenideElement startMonthButton = $x(format(optionButtonTemplate, startMonth));
-        SelenideElement startDayButton = $x(format(optionButtonTemplate, startDay));
-
-        startDatePickerButton.click();
+    private ProtocolPage chooseDate(String date, int index) {
+        LocalDate formattedDate = LocalDate.parse(date);
+        $x(format(DATE_PICKER_TEMPLATE, index)).click();
         chooseMonthAndYearButton.click();
-        startYearButton.click();
-        startMonthButton.click();
-        startDayButton.click();
+        $x(format(OPTION_BUTTON_TEMPLATE, formattedDate.getYear())).click();
+        $x(format(OPTION_BUTTON_TEMPLATE, formattedDate.getMonth().toString().substring(0, 3))).click();
+        $x(format(OPTION_BUTTON_TEMPLATE, formattedDate.getDayOfMonth())).click();
 
-        return new ProtocolPage();
+        return this;
     }
 
-    public ProtocolPage chooseEndDate(String endYear, String endMonth, String endDay) {
-        SelenideElement endYearButton = $x(format(optionButtonTemplate, endYear));
-        SelenideElement endMonthButton = $x(format(optionButtonTemplate, endMonth));
-        SelenideElement endDayButton = $x(format(optionButtonTemplate, endDay));
-
-        endDatePickerButton.click();
-        chooseMonthAndYearButton.click();
-        endYearButton.click();
-        endMonthButton.click();
-        endDayButton.click();
-
-        return new ProtocolPage();
+    public ProtocolPage chooseStartDate(String date) {
+        return chooseDate(date, 1);
     }
 
-    public SelenideElement getSearchButton() {
-        return searchButton;
+    public ProtocolPage chooseEndDate(String date) {
+        return chooseDate(date, 2);
+    }
+
+    public boolean isSearchButtonEnabled() {
+        return searchButton.isEnabled();
     }
 }
