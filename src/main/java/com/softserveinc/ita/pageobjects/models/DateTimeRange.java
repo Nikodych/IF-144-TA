@@ -10,5 +10,4 @@ import java.time.LocalDate;
 public class DateTimeRange {
     private LocalDate start;
     private LocalDate end;
-
 }
