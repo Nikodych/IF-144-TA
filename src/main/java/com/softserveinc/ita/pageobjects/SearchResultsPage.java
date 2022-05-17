@@ -10,6 +10,7 @@ public class SearchResultsPage {
 
   public RozetkaPage followFirstLink() {
     searchResults.get(0).click();
+
     return new RozetkaPage();
   }
 }

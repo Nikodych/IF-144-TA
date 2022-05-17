@@ -14,15 +14,14 @@ public class RozetkaTest extends TestRunner {
   private static final String GOOGLE_SEARCH_KEYWORD = "rozetka";
   private static final String ROZETKA_SEARCH_KEYWORD = "iphone 12";
   private static final String EXPECTED_KEYWORD = "iphone";
-  private static final int EXPECTED_AMOUNT_OF_GOODS = 3;
 
   @Test
-  public void checkAmountsOfGoods() {
+  public void checkTitlesOfGoods() throws InterruptedException {
     new GooglePage().makeSearch(GOOGLE_SEARCH_KEYWORD);
     new SearchResultsPage().followFirstLink();
     new RozetkaPage().search(ROZETKA_SEARCH_KEYWORD);
-    assertThat(new RozetkaSearchResultsPage().goodsCount())
-        .as("should be 3 goods")
-        .isEqualTo(EXPECTED_AMOUNT_OF_GOODS);
+
+    assertThat(new RozetkaSearchResultsPage().getTitles().contains(EXPECTED_KEYWORD));
+
   }
 }
