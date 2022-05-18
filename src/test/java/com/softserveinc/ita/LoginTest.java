@@ -1,6 +1,9 @@
 package com.softserveinc.ita;
 
-import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
+import static com.softserveinc.ita.pageobjects.util.DataProvider.ADMIN_LOGIN;
+import static com.softserveinc.ita.pageobjects.util.DataProvider.ADMIN_PASSWORD;
+import static com.softserveinc.ita.pageobjects.util.DataProvider.STUDENT_LOGIN;
+import static com.softserveinc.ita.pageobjects.util.DataProvider.STUDENT_PASSWORD;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.softserveinc.ita.pageobjects.LoginPage;
