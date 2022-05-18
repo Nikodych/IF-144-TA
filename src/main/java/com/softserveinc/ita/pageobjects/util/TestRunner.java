@@ -2,6 +2,7 @@ package com.softserveinc.ita.pageobjects.util;
 
 import static com.codeborne.selenide.Configuration.browser;
 import static com.codeborne.selenide.Selenide.open;
+import static com.softserveinc.ita.pageobjects.util.DataProvider.LOGIN_PAGE_URL;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -15,7 +16,6 @@ public abstract class TestRunner {
 
     @BeforeMethod
     public void openLoginPage() {
-        // TODO: 16.05.2022 use config files for url
-        open("https://dtapi.if.ua/");
+        open(LOGIN_PAGE_URL);
     }
 }

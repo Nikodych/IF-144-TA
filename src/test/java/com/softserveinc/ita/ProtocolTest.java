@@ -1,25 +1,50 @@
 package com.softserveinc.ita;
 
-import static com.codeborne.selenide.Selenide.webdriver;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.softserveinc.ita.pageobjects.LoginPage;
+import com.softserveinc.ita.pageobjects.admin.ProtocolPage;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.time.LocalDate;
+
+import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
+import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
+import static java.time.LocalDate.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ProtocolTest extends TestRunner {
 
+    private ProtocolPage protocolPage;
+
+    @BeforeMethod
+    public void openProtocolPage() {
+        protocolPage = new LoginPage()
+                .login(ADMIN_LOGIN, ADMIN_PASSWORD)
+                .openProtocolPage();
+    }
+
     @Test
     public void verifyProtocolPageOpening() {
-        // TODO: 13.05.2022 use config files for credentials and expected url
-        new LoginPage()
-                .login("admin", "dtapi_admin")
-                .openProtocolPage();
-        var expectedUrl = "https://dtapi.if.ua/admin/protocol";
-        var currentUrl =  webdriver().object().getCurrentUrl();
+
+        var expectedUrl = PROTOCOL_PAGE_URL;
+        var currentUrl = getCurrentUrl();
 
         assertThat(currentUrl)
                 .as("Page url should be " + expectedUrl)
                 .isEqualTo(expectedUrl);
+    }
+
+    @Test
+    public void verifyDatePickersOptionsChoosing() {
+
+        var actualResult = protocolPage
+                .chooseStartDate(parse(START_DATE))
+                .chooseEndDate(parse(END_DATE))
+                .isSearchButtonEnabled();
+
+        assertThat(actualResult)
+                .as("When both date pickers are filled correctly search button should be enabled")
+                .isTrue();
     }
 }
