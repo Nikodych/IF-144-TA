@@ -52,10 +52,9 @@ public class ProtocolPage extends MainMenu {
         return this;
     }
 
-    private ProtocolPage enterDate(String date, String field){
+    private ProtocolPage enterDate(String date, String field) {
         $x(format(DATE_INPUT_FIELD_TEMPLATE, field)).sendKeys(date);
 
         return this;
     }
-
 }

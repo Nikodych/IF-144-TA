@@ -49,7 +49,7 @@ public class ProtocolTest extends TestRunner {
     }
 
     @Test
-    public void verifyDateInputFieldsWorking(){
+    public void verifyDateInputFieldsWorking() {
 
         var actualResult = protocolPage
                 .enterStartDate(START_DATE)
