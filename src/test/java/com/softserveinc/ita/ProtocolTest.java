@@ -47,4 +47,17 @@ public class ProtocolTest extends TestRunner {
                 .as("When both date pickers are filled correctly search button should be enabled")
                 .isTrue();
     }
+
+    @Test
+    public void verifyDateInputFieldsWorking(){
+
+        var actualResult = protocolPage
+                .enterStartDate(START_DATE)
+                .enterEndDate(END_DATE)
+                .isSearchButtonEnabled();
+
+        assertThat(actualResult)
+                .as("When both date input fields are entered correctly search button should be enabled")
+                .isTrue();
+    }
 }

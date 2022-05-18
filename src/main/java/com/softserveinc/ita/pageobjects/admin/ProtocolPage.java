@@ -14,6 +14,7 @@ public class ProtocolPage extends MainMenu {
 
     private static final String OPTION_BUTTON_TEMPLATE = "//div[text()='%s']";
     private static final String DATE_PICKER_TEMPLATE = "(//button[@aria-label='Open calendar'])[%s]";
+    private static final String DATE_INPUT_FIELD_TEMPLATE = "//input[@formcontrolname='%s']";
 
     public ProtocolPage chooseStartDate(LocalDate date) {
         return chooseDate(date, 1);
@@ -21,6 +22,14 @@ public class ProtocolPage extends MainMenu {
 
     public ProtocolPage chooseEndDate(LocalDate date) {
         return chooseDate(date, 2);
+    }
+
+    public ProtocolPage enterStartDate(String date) {
+        return enterDate(date, "startDate");
+    }
+
+    public ProtocolPage enterEndDate(String date) {
+        return enterDate(date, "endDate");
     }
 
     public boolean isSearchButtonEnabled() {
@@ -42,4 +51,11 @@ public class ProtocolPage extends MainMenu {
 
         return this;
     }
+
+    private ProtocolPage enterDate(String date, String field){
+        $x(format(DATE_INPUT_FIELD_TEMPLATE, field)).sendKeys(date);
+
+        return this;
+    }
+
 }
