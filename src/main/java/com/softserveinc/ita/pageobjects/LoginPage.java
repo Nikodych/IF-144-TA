@@ -4,6 +4,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static org.openqa.selenium.By.name;
 import static org.openqa.selenium.By.xpath;
 
+import com.codeborne.selenide.SelenideElement;
 import com.softserveinc.ita.pageobjects.admin.DashboardPage;
 
 public class LoginPage {
