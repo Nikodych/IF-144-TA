@@ -1,4 +1,4 @@
-package com.softserveinc.ita.pageobjects.alukavenko;
+package com.softserveinc.ita.alukavenko.pageobjects;
 
 import static org.openqa.selenium.support.PageFactory.initElements;
 

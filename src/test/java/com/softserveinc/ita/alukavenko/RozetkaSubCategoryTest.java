@@ -1,7 +1,7 @@
 package com.softserveinc.ita.alukavenko;
 
+import com.softserveinc.ita.alukavenko.pageobjects.RozetkaMainPage;
 import com.softserveinc.ita.alukavenko.utils.TestRunner;
-import com.softserveinc.ita.pageobjects.alukavenko.RozetkaMainPage;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;

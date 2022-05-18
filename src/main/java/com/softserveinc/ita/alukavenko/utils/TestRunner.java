@@ -1,6 +1,6 @@
 package com.softserveinc.ita.alukavenko.utils;
 
-import com.softserveinc.ita.pageobjects.alukavenko.BasePage;
+import com.softserveinc.ita.alukavenko.pageobjects.BasePage;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
