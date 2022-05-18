@@ -6,11 +6,9 @@ import com.softserveinc.ita.pageobjects.util.TestRunner;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.LocalDate;
-
 import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
 import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
-import static java.time.LocalDate.*;
+import static java.time.LocalDate.parse;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ProtocolTest extends TestRunner {
@@ -45,6 +43,20 @@ public class ProtocolTest extends TestRunner {
 
         assertThat(actualResult)
                 .as("When both date pickers are filled correctly search button should be enabled")
+                .isTrue();
+    }
+
+    @Test
+    public void verifySearchResultIsPresent() {
+
+        var actualResult = protocolPage
+                .chooseStartDate(parse(START_DATE))
+                .chooseEndDate(parse(END_DATE))
+                .performSearch()
+                .isSearchResultPresent();
+
+        assertThat(actualResult)
+                .as("Search result should be present when there is valid date range")
                 .isTrue();
     }
 }

@@ -4,8 +4,10 @@ import com.codeborne.selenide.SelenideElement;
 
 import java.time.LocalDate;
 
+import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Selenide.$x;
 import static java.lang.String.format;
+import static java.time.Duration.ofSeconds;
 
 public class ProtocolPage extends MainMenu {
 
@@ -14,6 +16,12 @@ public class ProtocolPage extends MainMenu {
 
     private static final String OPTION_BUTTON_TEMPLATE = "//div[text()='%s']";
     private static final String DATE_PICKER_TEMPLATE = "(//button[@aria-label='Open calendar'])[%s]";
+
+    public ProtocolPage performSearch() {
+        searchButton.click();
+
+        return this;
+    }
 
     public ProtocolPage chooseStartDate(LocalDate date) {
         return chooseDate(date, 1);
@@ -25,6 +33,13 @@ public class ProtocolPage extends MainMenu {
 
     public boolean isSearchButtonEnabled() {
         return searchButton.isEnabled();
+    }
+
+    public boolean isSearchResultPresent() {
+
+        return $x("//tr[@class='mat-row ng-star-inserted']")
+                .should(appear, ofSeconds(5))
+                .exists();
     }
 
     private ProtocolPage chooseDate(LocalDate date, int index) {
