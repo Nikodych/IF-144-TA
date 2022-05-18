@@ -36,13 +36,4 @@ public class MoyoSearchResultPage {
 
         return null;
     }
-
-//    public boolean verifySearchResultsArePresent() {
-//        try {
-//            WebElement searchResult = driver.findElement(searchResultXpath);
-//            return true;
-//        } catch (NoSuchElementException noSuchElementException) {
-//            return false;
-//        }
-//    }
 }

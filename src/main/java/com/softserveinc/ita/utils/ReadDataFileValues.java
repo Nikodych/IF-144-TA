@@ -19,5 +19,4 @@ public interface ReadDataFileValues {
     String MOYO_EXPECTED_RESULT = readConfig().getString("expected.result");
     Integer MOYO_EXPECTED_RESULTS_COUNT = readConfig().getInt("expected.results.count");
     Integer MOYO_EXPECTED_RESULTS_SHOW_ALL_COUNT = readConfig().getInt("expected.show.all.results.count");
-
 }
