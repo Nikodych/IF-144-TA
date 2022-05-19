@@ -10,4 +10,10 @@ public class MainMenu {
 
         return new ProtocolPage();
     }
+
+    public FacultiesPage openFacultiesPage() {
+        $(xpath("//a[@href = '/admin/faculties']")).click();
+
+        return new FacultiesPage();
+    }
 }

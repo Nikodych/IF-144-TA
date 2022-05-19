@@ -15,6 +15,8 @@ public interface DataProvider {
     String ADMIN_LOGIN = readConfig().getString("users.admin.login");
     String ADMIN_PASSWORD = readConfig().getString("users.admin.password");
     String PROTOCOL_PAGE_URL = readConfig().getString("pages.protocol");
+    String FACULTIES_PAGE_URL = readConfig().getString("pages.faculties");
+    String DASHBOARD_PAGE_URL = readConfig().getString("pages.dashboard");
     String LOGIN_PAGE_URL = readConfig().getString("pages.login");
     String START_DATE = readConfig().getString("dates.startDate");
     String END_DATE = readConfig().getString("dates.endDate");
