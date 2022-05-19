@@ -12,6 +12,12 @@ public class MainMenu {
         return new ProtocolPage();
     }
 
+    public SubjectsPage openSubjectsPage() {
+        $(xpath("//a[@href = '/admin/subjects']")).click();
+
+        return new SubjectsPage();
+    }
+
     public String getLoggedUserName() {
         return $x("//mat-toolbar/button[1]").getText();
     }
