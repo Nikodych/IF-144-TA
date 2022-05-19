@@ -2,6 +2,7 @@ package com.softserveinc.ita.petrus.util;
 
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+
 import java.util.Properties;
 
 @UtilityClass
@@ -23,5 +24,4 @@ public class ConfigurationPropertiesHelper {
     public static String getProperty(String key) {
         return PROPERTIES.getProperty(key);
     }
-
 }

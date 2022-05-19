@@ -11,10 +11,10 @@ public class RozetkaResultsPageTest extends TestRunner {
     public static final String ROZETKA_FIND_GOODS = "mavic";
 
     @Test
-    @Description("Check if amount of goods equals expected amount")
-    void checkAmountOfGoods() {
-        var rozetkaHomePage = new RozetkaHomePage();
-        var amountOfGoods = rozetkaHomePage
+    @Description("Verify if amount of goods equals expected amount")
+   public void checkAmountOfGoods() {
+
+        var amountOfGoods = new RozetkaHomePage()
                 .findGoods(ROZETKA_FIND_GOODS)
                 .findAmountOfGoods();
 

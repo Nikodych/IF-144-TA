@@ -5,6 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import static com.softserveinc.ita.petrus.util.ConfigurationPropertiesHelper.*;
+
 public class RozetkaHomePage extends BasePage{
     @FindBy(xpath = "//input[@name = 'search']")
     private WebElement searchField;
@@ -14,7 +16,7 @@ public class RozetkaHomePage extends BasePage{
 
     public RozetkaHomePage(){
         PageFactory.initElements(driver, this);
-        driver.get(ConfigurationPropertiesHelper.getProperty("rozetka.url"));
+        driver.get(getProperty("rozetka.url"));
     }
 
     public RozetkaResultsPage findGoods(String query){
