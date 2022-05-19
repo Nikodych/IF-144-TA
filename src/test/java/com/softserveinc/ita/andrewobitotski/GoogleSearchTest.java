@@ -13,14 +13,13 @@ public class GoogleSearchTest extends TestRunner {
     @Test
     @Description("Verify that search produces search result which contain expected mention of certain link")
     public void verifyGoogleSearch() {
-
-        GoogleSearchPage googleSearchPage = new GoogleSearchPage();
-        googleSearchPage
+        new GoogleSearchPage()
                 .performSearch(SEARCH_REQUEST)
                 .checkInSearchResult(MENTION);
 
-        assertTrue(driver
-                .getCurrentUrl()
+        var currentUrl = driver.getCurrentUrl();
+
+        assertTrue(currentUrl
                 .contains(MENTION), "Should be moyo.ua website");
     }
 }

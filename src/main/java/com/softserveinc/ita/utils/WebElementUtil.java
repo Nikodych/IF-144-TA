@@ -1,13 +1,16 @@
 package com.softserveinc.ita.utils;
 
-import com.softserveinc.ita.pageobjects.andrewobitotski.BasePage;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class WebElementUtil extends BasePage {
+import static com.softserveinc.ita.pageobjects.andrewobitotski.BasePage.*;
 
-    public static void clickElementWithJSExecutor(WebElement webElement) {
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("arguments[0].click()", webElement);
+public class WebElementUtil {
+
+    public static void jsClick(WebElement webElement) {
+        WebDriver driver = getDriver();
+        var jsExecutor = (JavascriptExecutor) driver;
+        jsExecutor.executeScript("arguments[0].click()", webElement);
     }
 }

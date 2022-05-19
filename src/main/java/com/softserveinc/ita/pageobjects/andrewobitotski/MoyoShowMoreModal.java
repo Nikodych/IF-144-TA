@@ -1,48 +1,52 @@
 package com.softserveinc.ita.pageobjects.andrewobitotski;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
-
-import static com.softserveinc.ita.utils.WebElementUtil.clickElementWithJSExecutor;
+import static com.softserveinc.ita.utils.WebElementUtil.jsClick;
+import static java.time.Duration.*;
+import static org.openqa.selenium.By.xpath;
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 public class MoyoShowMoreModal extends BasePage {
 
-    private final By showMoreButtonXpath = By.xpath("//button[@class='btn btn--yellow js-load-more-products']");
+    private final By showMoreButtonLocator = xpath("//button[@class='btn btn--yellow js-load-more-products']");
 
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+    WebDriverWait wait = new WebDriverWait(driver, ofSeconds(5));
 
     public MoyoShowMoreModal() {
         super();
     }
 
-    public boolean isShowMoreButtonPresent() {
-        try {
-            WebElement showMoreButton = driver.findElement(showMoreButtonXpath);
-        } catch (NoSuchElementException noSuchElementException) {
-            return false;
-        }
-
-        return true;
-    }
-
-    private WebElement waitForShowMoreButton() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(showMoreButtonXpath));
-    }
-
     public MoyoShowMoreModal showMoreSearchResults() {
         if (isShowMoreButtonPresent()) {
-            clickElementWithJSExecutor(waitForShowMoreButton());
+            jsClick(waitForShowMoreButton());
         }
+
         return this;
     }
 
     public MoyoSearchResultPage showAllSearchResults() {
+        var attempts = 0;
+
         do {
             showMoreSearchResults();
-        } while (isShowMoreButtonPresent());
+        } while (isShowMoreButtonPresent() && attempts++<20);
+
         return new MoyoSearchResultPage();
+    }
+
+    private boolean isShowMoreButtonPresent() {
+        try {
+            return driver
+                    .findElement(showMoreButtonLocator)
+                    .isDisplayed();
+        } catch (NoSuchElementException noSuchElementException) {
+            return false;
+        }
+    }
+
+    private WebElement waitForShowMoreButton() {
+        return wait.until(visibilityOfElementLocated(showMoreButtonLocator));
     }
 }

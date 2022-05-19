@@ -5,22 +5,24 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.*;
+import static org.openqa.selenium.By.xpath;
 import static org.openqa.selenium.support.PageFactory.initElements;
 
 public class MoyoSearchResultPage extends BasePage {
 
-    private final By searchResultXpath = By.xpath("//a[@class='product-item_name gtm-link-product']");
+    private final By searchResultLocator = xpath("//a[@class='product-item_name gtm-link-product']");
 
     public MoyoSearchResultPage() {
         initElements(driver, this);
     }
 
-    public boolean verifySearchResultsArePresent() {
+    public boolean areSearchResultsPresent() {
         try {
-            WebElement searchResult = driver.findElement(searchResultXpath);
-            return true;
+            return driver
+                    .findElement(searchResultLocator)
+                    .isDisplayed();
         } catch (NoSuchElementException noSuchElementException) {
             return false;
         }
@@ -30,15 +32,16 @@ public class MoyoSearchResultPage extends BasePage {
         return new MoyoShowMoreModal();
     }
 
-    public List<String> collectTitlesFromSearchResults() {
-        if (verifySearchResultsArePresent()) {
+    public List<String> getSearchResultsTitles() {
+        if (areSearchResultsPresent()) {
             return driver
-                    .findElements(searchResultXpath)
+                    .findElements(searchResultLocator)
                     .stream()
                     .map(WebElement::getText)
-                    .collect(Collectors.toList());
+                    .collect(toList());
         }
-
-        return null;
+        else {
+            throw new AssertionError("No search results");
+        }
     }
 }

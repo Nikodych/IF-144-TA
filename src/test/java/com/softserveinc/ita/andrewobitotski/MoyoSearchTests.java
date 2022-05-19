@@ -12,11 +12,10 @@ public class MoyoSearchTests extends TestRunner {
     @Test
     @Description("Verify that incorrect search request produces no search results")
     public void verifyMoyoSearchWithNoResults() {
-        MoyoHomePage moyo = new MoyoHomePage();
-        var isResultsPresent = moyo
+        var isResultsPresent = new MoyoHomePage()
                 .searchOnMoyo()
                 .search("dadawawd")
-                .verifySearchResultsArePresent();
+                .areSearchResultsPresent();
 
         assertFalse(isResultsPresent, "Search results should be absent");
     }
@@ -24,11 +23,10 @@ public class MoyoSearchTests extends TestRunner {
     @Test
     @Description("Verify that correct search request produces search results")
     public void verifyMoyoSearchWithResults() {
-        MoyoHomePage moyo = new MoyoHomePage();
-        var isResultsPresent = moyo
+        var isResultsPresent = new MoyoHomePage()
                 .searchOnMoyo()
                 .search("msi")
-                .verifySearchResultsArePresent();
+                .areSearchResultsPresent();
 
         assertTrue(isResultsPresent, "Search results should be present");
     }
@@ -36,11 +34,10 @@ public class MoyoSearchTests extends TestRunner {
     @Test
     @Description("Verify that search results contains expected mention in them")
     public void verifyMoyoSearchResultsContent() {
-        MoyoHomePage moyo = new MoyoHomePage();
-        var actualResults = moyo
+        var actualResults = new MoyoHomePage()
                 .searchOnMoyo()
                 .search("msi")
-                .collectTitlesFromSearchResults();
+                .getSearchResultsTitles();
 
         assertTrue(actualResults
                         .stream()
@@ -53,11 +50,10 @@ public class MoyoSearchTests extends TestRunner {
     @Test
     @Description("Verify expected amount of search results")
     public void verifyMoyoSearchResultsCount() {
-        MoyoHomePage moyo = new MoyoHomePage();
-        var actualResults = moyo
+        var actualResults = new MoyoHomePage()
                 .searchOnMoyo()
                 .search("msi")
-                .collectTitlesFromSearchResults();
+                .getSearchResultsTitles();
 
         assertEquals(actualResults.size(), (MOYO_EXPECTED_RESULTS_COUNT),
                 "Should be " + MOYO_EXPECTED_RESULTS_COUNT + " of search results from the first page");
@@ -66,13 +62,12 @@ public class MoyoSearchTests extends TestRunner {
     @Test
     @Description("Verify that search results contains expected mention in them on all pages with search results")
     public void verifyMoyoSearchResultsContentWithShowMoreButton() {
-        MoyoHomePage moyo = new MoyoHomePage();
-        var actualResults = moyo
+        var actualResults = new MoyoHomePage()
                 .searchOnMoyo()
                 .search("msi")
                 .goToShowMoreButton()
                 .showAllSearchResults()
-                .collectTitlesFromSearchResults();
+                .getSearchResultsTitles();
 
         assertTrue(actualResults
                         .stream()
@@ -85,13 +80,12 @@ public class MoyoSearchTests extends TestRunner {
     @Test
     @Description("Verify expected amount of search results from all search results pages")
     public void verifyMoyoSearchResultsCountWithShowMoreButton() {
-        MoyoHomePage moyo = new MoyoHomePage();
-        var actualResults = moyo
+        var actualResults = new MoyoHomePage()
                 .searchOnMoyo()
                 .search("msi")
                 .goToShowMoreButton()
                 .showAllSearchResults()
-                .collectTitlesFromSearchResults();
+                .getSearchResultsTitles();
 
         assertEquals(actualResults.size(), (MOYO_EXPECTED_RESULTS_SHOW_ALL_COUNT),
                 "Should be " + MOYO_EXPECTED_RESULTS_SHOW_ALL_COUNT + " of search results from all pages");

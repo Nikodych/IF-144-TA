@@ -1,5 +1,6 @@
 package com.softserveinc.ita.pageobjects.andrewobitotski;
 
+import static java.lang.String.*;
 import static org.openqa.selenium.By.xpath;
 import static org.openqa.selenium.support.PageFactory.initElements;
 
@@ -10,9 +11,8 @@ public class GoogleSearchResultsPage extends BasePage {
     }
 
     public MoyoHomePage checkInSearchResult(String mention) {
-
-        String linkTemplate = "//a[contains(@href, '%s')]";
-        String searchedResultLinkXpath = String.format(linkTemplate, mention);
+        var linkTemplate = "//a[contains(@href, '%s')]";
+        String searchedResultLinkXpath = format(linkTemplate, mention);
 
         driver
                 .findElements(xpath(searchedResultLinkXpath))

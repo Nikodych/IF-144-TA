@@ -9,4 +9,8 @@ public abstract class BasePage {
     public static void setDriver(WebDriver webDriver) {
         driver = webDriver;
     }
+
+    public static WebDriver getDriver() {
+        return driver;
+    }
 }

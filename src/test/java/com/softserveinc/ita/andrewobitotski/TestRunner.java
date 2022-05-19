@@ -1,13 +1,13 @@
 package com.softserveinc.ita.andrewobitotski;
 
-import com.softserveinc.ita.pageobjects.andrewobitotski.BasePage;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-import java.time.Duration;
+import static com.softserveinc.ita.pageobjects.andrewobitotski.BasePage.setDriver;
+import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
+import static java.time.Duration.ofSeconds;
 
 public abstract class TestRunner {
 
@@ -15,12 +15,12 @@ public abstract class TestRunner {
 
     @BeforeMethod
     public void setUp() {
-        WebDriverManager.chromedriver().setup();
+        chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
-        BasePage.setDriver(driver);
+        driver.manage().timeouts().pageLoadTimeout(ofSeconds(10));
+        driver.manage().timeouts().implicitlyWait(ofSeconds(15));
+        setDriver(driver);
     }
 
     @AfterMethod
