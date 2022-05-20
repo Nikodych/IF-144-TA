@@ -4,11 +4,12 @@ import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.FacultiesPage;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
-import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.testng.AssertJUnit.assertTrue;
 
 public class FacultiesTest extends TestRunner {
     FacultiesPage facultiesPage;
@@ -20,40 +21,30 @@ public class FacultiesTest extends TestRunner {
                 .openFacultiesPage();
     }
 
-    @Test
-    public void verifyFacultiesPageOpening() {
-        var expectedUrl = FACULTIES_PAGE_URL;
-        var currentUrl = getCurrentUrl();
-
-        assertThat(currentUrl)
-                .as("Page url should be " + expectedUrl)
-                .isEqualTo(expectedUrl);
-    }
-
-    @Test
-    public void verifySearchFieldFindsByTheFacultyName() {
+    @Test(dataProvider = "searchValues")
+    public void searchFieldWorksWithValidInput(String value, String expectedValue) {
         var listOfFaculties = facultiesPage
-                .fillSearchField("Інститут інформаційних технологій")
+                .setValueInTheSearchField(value)
                 .getFaculties();
 
-        assertThat(listOfFaculties
+        assertTrue(listOfFaculties
                 .stream()
-                .allMatch(it -> it.contains("Інститут інформаційних технологій")));
+                .allMatch(it -> it.contains(expectedValue)));
     }
 
     @Test
-    public void searchFieldFindsByDescription() {
-        var listOfFaculties = facultiesPage
-                .fillSearchField("факультет справжніх")
-                .getFaculties();
+    public void verifySearchFieldDoesntWorkWithInvalidInput() {
+        var numberOfFaculties = facultiesPage
+                .setValueInTheSearchField(INVALID)
+                .getFaculties()
+                .size();
 
-        assertThat(listOfFaculties
-                .stream()
-                .allMatch(it -> it.contains("факультет справжніх")));
+        assertThat(numberOfFaculties).isEqualTo(0);
     }
 
-    @Test
-    public void searchFieldFindsNothingWithNonValidValue(){
-
+    @DataProvider(name = "searchValues")
+    public static Object[][] inputData() {
+        return new Object[][]{{DESCRIPTION, "Інститут інформаційних технологій"},
+                {FACULTY, "Інститут інформаційних технологій"}};
     }
 }
