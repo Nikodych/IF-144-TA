@@ -52,32 +52,33 @@ public class ProtocolTest extends TestRunner {
     @Test
     public void verifyDatePickersArrowsWork() {
 
-        LocalDate startDate = parse(START_DATE);
+        LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yyyy", Locale.US);
-
-        var currentMonth = protocolPage.chooseStartDate(startDate)
-                .moveDatePickerBackward(1)
-                .getCurrentMonth();
-
-
-        var expectedMonth = startDate
+        String previousMonth = currentDate
                 .minusMonths(1)
                 .format(formatter);
-
-        assertThat(currentMonth)
-                .as("Date after moving one month backward should be chosen from previous month")
-                .isEqualToIgnoringCase(expectedMonth);
-
-        currentMonth = protocolPage
-                .moveDatePickerForward(1)
-                .getCurrentMonth();
-
-        expectedMonth = startDate
+        String nextMonth = currentDate
                 .plusMonths(1)
                 .format(formatter);
 
-        assertThat(currentMonth)
-                .as("Date after moving one month forward should be chosen from next month")
-                .isEqualToIgnoringCase(expectedMonth);
+        String currentMonth;
+
+        for (int i = 1; i <= 2; i++) { // index 1 stands for start date, 2 - for end date
+            currentMonth = protocolPage
+                    .moveDatePickerBackward(i)
+                    .getCurrentMonth();
+
+            assertThat(currentMonth)
+                    .as(((i == 1) ? "Start" : "End") + " date after moving one month backward should be chosen from previous month")
+                    .isEqualToIgnoringCase(previousMonth);
+
+            currentMonth = protocolPage
+                    .moveDatePickerForward(i)
+                    .getCurrentMonth();
+
+            assertThat(currentMonth)
+                    .as(((i == 1) ? "Start" : "End") + " date after moving one month forward should be chosen from next month")
+                    .isEqualToIgnoringCase(nextMonth);
+        }
     }
 }
