@@ -1,11 +1,10 @@
 package com.softserveinc.ita.pageobjects.admin;
 
-import com.codeborne.selenide.SelenideElement;
-
-import java.time.LocalDate;
-
 import static com.codeborne.selenide.Selenide.$x;
 import static java.lang.String.format;
+
+import com.codeborne.selenide.SelenideElement;
+import java.time.LocalDate;
 
 public class ProtocolPage extends MainMenu {
 
@@ -25,6 +24,27 @@ public class ProtocolPage extends MainMenu {
 
     public boolean isSearchButtonEnabled() {
         return searchButton.isEnabled();
+    }
+
+    public ProtocolPage moveDatePickerBackward(int index) {
+        $x(format(DATE_PICKER_TEMPLATE, index)).click();
+        $x("//button[contains(@class,'mat-calendar-previous-button')]").click();
+
+        return this;
+    }
+
+    public ProtocolPage moveDatePickerForward(int index) {
+        $x(format(DATE_PICKER_TEMPLATE, index)).click();
+        $x("//button[contains(@class,'mat-calendar-next-button')]").click();
+
+        return this;
+    }
+
+    public String getCurrentMonth() {
+        var currentMonth = chooseMonthAndYearButton.getText();
+        $x("//body").click(); //in order to close date picker window for next test steps
+
+        return currentMonth;
     }
 
     private ProtocolPage chooseDate(LocalDate date, int index) {
