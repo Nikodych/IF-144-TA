@@ -1,6 +1,7 @@
 package com.softserveinc.ita.pageobjects.admin;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import java.time.LocalDate;
 
@@ -14,6 +15,11 @@ public class ProtocolPage extends MainMenu {
 
     private static final String OPTION_BUTTON_TEMPLATE = "//div[text()='%s']";
     private static final String DATE_PICKER_TEMPLATE = "(//button[@aria-label='Open calendar'])[%s]";
+
+    @Step("Check for an error message when there is wrong date order and get its text")
+    public String getErrorMessageWhenWrongDateOrder() {
+        return $x("//mat-error[@id='mat-error-0']").getText();
+    }
 
     public ProtocolPage chooseStartDate(LocalDate date) {
         return chooseDate(date, 1);
