@@ -57,3 +57,6 @@ fabric.properties
 
 # Test suite
 myTests.xml
+
+# Allure
+/*/allure-results

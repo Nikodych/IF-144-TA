@@ -16,7 +16,7 @@ public class ProtocolPage extends MainMenu {
     private static final String OPTION_BUTTON_TEMPLATE = "//div[text()='%s']";
     private static final String DATE_PICKER_TEMPLATE = "(//button[@aria-label='Open calendar'])[%s]";
 
-    @Step("Check for an error message when there is wrong date order and get its text")
+    @Step("Check for an error message and get its text to check if it is correct")
     public String getErrorMessageWhenWrongDateOrder() {
         return $x("//mat-error[@id='mat-error-0']").getText();
     }

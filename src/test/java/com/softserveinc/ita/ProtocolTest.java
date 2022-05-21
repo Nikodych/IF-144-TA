@@ -48,7 +48,7 @@ public class ProtocolTest extends TestRunner {
     }
 
     @Test
-    @Description("Test to verify specific error message which should be present when there is wrong date order in date pickers")
+    @Description("Test to verify the correctness of error message which should be present when there is wrong date order in date pickers")
     public void verifyErrorMessageWhenWrongDateOrder() {
 
         var actualResult = protocolPage
