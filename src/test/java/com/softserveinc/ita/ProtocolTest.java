@@ -3,6 +3,7 @@ package com.softserveinc.ita;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.ProtocolPage;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
+import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -47,6 +48,7 @@ public class ProtocolTest extends TestRunner {
     }
 
     @Test
+    @Description("Test to verify search results are present when there is valid date range")
     public void verifySearchResultIsPresent() {
 
         var actualResult = protocolPage
