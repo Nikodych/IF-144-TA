@@ -54,7 +54,7 @@ public class ProtocolTest extends TestRunner {
         var actualResult = protocolPage
                 .chooseStartDate(parse(END_DATE))
                 .chooseEndDate(parse(START_DATE))
-                .getErrorMessageWhenWrongDateOrder();
+                .getErrorMessage();
 
         assertThat(actualResult)
                 .as("When there is wrong date order should be the next error message: " + ERROR_MESSAGE_WRONG_DATE_ORDER)
