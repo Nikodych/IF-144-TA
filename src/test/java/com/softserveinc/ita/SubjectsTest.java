@@ -25,8 +25,8 @@ public class SubjectsTest extends TestRunner {
     public void verifyAddSubjectButtonIsEnabledWithValidData() {
         var isEnabled = subjectsPage
                 .openAddingSubjectForm()
-                .writeSubjectTitle()
-                .writeSubjectDescription()
+                .setSubjectTitle("Предмет")
+                .setSubjectDescription("Опис предемета")
                 .isAddButtonEnabled();
 
         assertThat(isEnabled)

@@ -1,18 +1,22 @@
 package com.softserveinc.ita.pageobjects.admin;
 
+import io.qameta.allure.Step;
+
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class AddingSubjectModal {
 
-    public AddingSubjectModal writeSubjectTitle() {
-        $x("//input[@formcontrolname='subject_name']").sendKeys("Предмет");
+    @Step("Adding subject modal: Set subject title")
+    public AddingSubjectModal setSubjectTitle(String title) {
+        $x("//input[@formcontrolname='subject_name']").sendKeys(title);
 
         return this;
     }
 
-    public AddingSubjectModal writeSubjectDescription() {
-        $x("//textarea[@formcontrolname='subject_description']").sendKeys("Опис предмету");
+    @Step("Adding subject modal: Set subject description")
+    public AddingSubjectModal setSubjectDescription(String description) {
+        $x("//textarea[@formcontrolname='subject_description']").sendKeys(description);
 
         return this;
     }
