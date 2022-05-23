@@ -3,10 +3,9 @@ package com.softserveinc.ita;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.ProtocolPage;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
+import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.time.LocalDate;
 
 import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
 import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
@@ -49,11 +48,12 @@ public class ProtocolTest extends TestRunner {
     }
 
     @Test
-    public void verifyDateInputFieldsWorking() {
+    @Description("Test to verify the date input fields work with valid input")
+    public void verifyDateInputFields() {
 
         var actualResult = protocolPage
-                .enterStartDate(START_DATE)
-                .enterEndDate(END_DATE)
+                .setStartDate(START_DATE)
+                .setEndDate(END_DATE)
                 .isSearchButtonEnabled();
 
         assertThat(actualResult)

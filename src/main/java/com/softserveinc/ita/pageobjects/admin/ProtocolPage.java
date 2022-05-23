@@ -1,6 +1,7 @@
 package com.softserveinc.ita.pageobjects.admin;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import java.time.LocalDate;
 
@@ -14,7 +15,6 @@ public class ProtocolPage extends MainMenu {
 
     private static final String OPTION_BUTTON_TEMPLATE = "//div[text()='%s']";
     private static final String DATE_PICKER_TEMPLATE = "(//button[@aria-label='Open calendar'])[%s]";
-    private static final String DATE_INPUT_FIELD_TEMPLATE = "//input[@formcontrolname='%s']";
 
     public ProtocolPage chooseStartDate(LocalDate date) {
         return chooseDate(date, 1);
@@ -24,12 +24,14 @@ public class ProtocolPage extends MainMenu {
         return chooseDate(date, 2);
     }
 
-    public ProtocolPage enterStartDate(String date) {
-        return enterDate(date, "startDate");
+    @Step ("Protocol page: Set start date")
+    public ProtocolPage setStartDate(String date) {
+        return setDate(date, "startDate");
     }
 
-    public ProtocolPage enterEndDate(String date) {
-        return enterDate(date, "endDate");
+    @Step ("Protocol page: Set end date")
+    public ProtocolPage setEndDate(String date) {
+        return setDate(date, "endDate");
     }
 
     public boolean isSearchButtonEnabled() {
@@ -52,8 +54,9 @@ public class ProtocolPage extends MainMenu {
         return this;
     }
 
-    private ProtocolPage enterDate(String date, String field) {
-        $x(format(DATE_INPUT_FIELD_TEMPLATE, field)).sendKeys(date);
+    private ProtocolPage setDate(String date, String fieldName) {
+        String DATE_INPUT_FIELD_TEMPLATE = "//input[@formcontrolname='%s']";
+        $x(format(DATE_INPUT_FIELD_TEMPLATE, fieldName)).sendKeys(date);
 
         return this;
     }
