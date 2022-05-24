@@ -10,16 +10,14 @@ public class MainMenu {
     private final String MENU_ITEM_PATH_TEMPLATE = "//a[@href='/admin/%s']";
 
     public ProtocolPage openProtocolPage() {
-        var menuItemName = "protocol";
-        $x(format(MENU_ITEM_PATH_TEMPLATE, menuItemName)).click();
+        $x(format(MENU_ITEM_PATH_TEMPLATE, "protocol")).click();
 
         return new ProtocolPage();
     }
 
     @Step("Main menu: Opened subjects page")
     public SubjectsPage openSubjectsPage() {
-        var menuItemName = "subjects";
-        $x(format(MENU_ITEM_PATH_TEMPLATE, menuItemName)).click();
+        $x(format(MENU_ITEM_PATH_TEMPLATE, "subjects")).click();
 
         return new SubjectsPage();
     }
