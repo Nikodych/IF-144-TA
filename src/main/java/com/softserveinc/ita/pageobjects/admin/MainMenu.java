@@ -1,18 +1,23 @@
 package com.softserveinc.ita.pageobjects.admin;
 
-import static com.codeborne.selenide.Selenide.$;
-import static org.openqa.selenium.By.xpath;
+import io.qameta.allure.Step;
+
+import static com.codeborne.selenide.Selenide.$x;
+import static java.lang.String.format;
 
 public class MainMenu {
+    private final String MENU_ITEM_PATH_TEMPLATE = "//a[@href='/admin/%s']";
 
+    @Step("Main menu: Opened protocol page")
     public ProtocolPage openProtocolPage() {
-        $(xpath("//a[@href = '/admin/protocol']")).click();
+        $x(format(MENU_ITEM_PATH_TEMPLATE, "protocol")).click();
 
         return new ProtocolPage();
     }
 
+    @Step("Main menu: Opened faculties page")
     public FacultiesPage openFacultiesPage() {
-        $(xpath("//a[@href = '/admin/faculties']")).click();
+        $x(format(MENU_ITEM_PATH_TEMPLATE, "faculties")).click();
 
         return new FacultiesPage();
     }

@@ -9,10 +9,10 @@ import static org.openqa.selenium.By.xpath;
 public class LoginPage {
 
     public DashboardPage login(String username, String password) {
-            $(name("username")).sendKeys(username);
-            $(name("password")).sendKeys(password);
-            $(xpath("//button[contains(@class,'mat-primary')]")).click();
+        $(name("username")).sendKeys(username);
+        $(name("password")).sendKeys(password);
+        $(xpath("//button[contains(@class,'mat-primary')]")).click();
 
-            return new DashboardPage();
+        return new DashboardPage();
     }
 }

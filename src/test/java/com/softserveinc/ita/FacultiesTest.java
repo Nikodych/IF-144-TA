@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 
 import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.testng.AssertJUnit.assertTrue;
 
 public class FacultiesTest extends TestRunner {
     FacultiesPage facultiesPage;
@@ -22,24 +21,26 @@ public class FacultiesTest extends TestRunner {
     }
 
     @Test(dataProvider = "searchValues")
-    public void searchFieldWorksWithValidInput(String value, String expectedValue) {
+    public void verifySearchFieldWorksWithValidInput(String value, String expectedValue) {
         var listOfFaculties = facultiesPage
-                .setValueInTheSearchField(value)
+                .performSearch(value)
                 .getFaculties();
 
-        assertTrue(listOfFaculties
-                .stream()
-                .allMatch(it -> it.contains(expectedValue)));
+        assertThat(listOfFaculties)
+                .as("Search of the faculty performs if valid faculty name or description is entered")
+                .allMatch(it -> it.contains(expectedValue));
     }
 
     @Test
     public void verifySearchFieldDoesntWorkWithInvalidInput() {
         var numberOfFaculties = facultiesPage
-                .setValueInTheSearchField(INVALID)
+                .performSearch(INVALID)
                 .getFaculties()
                 .size();
 
-        assertThat(numberOfFaculties).isEqualTo(0);
+        assertThat(numberOfFaculties)
+                .as("Search of the faculty doesn't perform if invalid data is entered")
+                .isEqualTo(0);
     }
 
     @DataProvider(name = "searchValues")
