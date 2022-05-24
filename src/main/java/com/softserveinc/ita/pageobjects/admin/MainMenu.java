@@ -21,4 +21,8 @@ public class MainMenu {
 
         return new FacultiesPage();
     }
+
+    public String getLoggedUserName() {
+        return $x("//mat-toolbar/button[1]").getText();
+    }
 }
