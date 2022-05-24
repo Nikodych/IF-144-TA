@@ -61,4 +61,28 @@ public class ProtocolTest extends TestRunner {
                 .as("Search result should be present when there is valid date range")
                 .isTrue();
     }
+
+    @Test
+    public void verifySearchButtonIsDisabledWhenOnlyStartDateIsFilled() {
+
+        var actualResult = protocolPage
+                .chooseStartDate(parse(START_DATE))
+                .isSearchButtonEnabled();
+
+        assertThat(actualResult)
+                .as("When only start date picker is filled correctly search button should be disabled")
+                .isFalse();
+    }
+
+    @Test
+    public void verifySearchButtonIsDisabledWhenOnlyEndDateIsFilled() {
+
+        var actualResult = protocolPage
+                .chooseEndDate(parse(END_DATE))
+                .isSearchButtonEnabled();
+
+        assertThat(actualResult)
+                .as("When only end date picker is filled correctly search button should be disabled")
+                .isFalse();
+    }
 }
