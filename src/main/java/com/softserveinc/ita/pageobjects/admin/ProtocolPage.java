@@ -1,11 +1,15 @@
 package com.softserveinc.ita.pageobjects.admin;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 
+import java.time.Duration;
 import java.time.LocalDate;
 
+import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Selenide.$x;
 import static java.lang.String.format;
+import static java.time.Duration.ofSeconds;
 
 public class ProtocolPage extends MainMenu {
 
@@ -14,6 +18,12 @@ public class ProtocolPage extends MainMenu {
 
     private static final String OPTION_BUTTON_TEMPLATE = "//div[text()='%s']";
     private static final String DATE_PICKER_TEMPLATE = "(//button[@aria-label='Open calendar'])[%s]";
+
+    public String getErrorMessage() {
+        return $x("//mat-error[@id='mat-error-0']")
+                .should(appear, ofSeconds(5))
+                .getText();
+    }
 
     public ProtocolPage chooseStartDate(LocalDate date) {
         return chooseDate(date, 1);
