@@ -23,14 +23,39 @@ public class SubjectsTest extends TestRunner {
 
     @Test
     public void verifyAddSubjectButtonIsEnabledWithValidData() {
-        var isEnabled = subjectsPage
-                .openAddingSubjectForm()
-                .setSubjectTitle("Предмет")
-                .setSubjectDescription("Опис предемета")
-                .isAddButtonEnabled();
+        var isAddButtonEnabled = canCreateSubjectWhenFormIsFilledWith("Предмет",
+                "Опис предмета");
 
-        assertThat(isEnabled)
+        assertThat(isAddButtonEnabled)
                 .as("When both fields have valid data add button should be enabled")
                 .isTrue();
+    }
+
+    @Test
+    public void verifyNewSubjectCanNotBeCreatedWithInvalidTitle() {
+        var isAddButtonEnabled = canCreateSubjectWhenFormIsFilledWith("5предметний предмет",
+                "Валідний опис предмета");
+
+        assertThat(isAddButtonEnabled)
+                .as("When title field has invalid data new subject can't be created")
+                .isFalse();
+    }
+
+    @Test
+    public void verifyNewSubjectCanNotBeCreatedWithInvalidDescription() {
+        var isAddButtonEnabled = canCreateSubjectWhenFormIsFilledWith("Предметний предмет",
+                "невалідний опис предмета");
+
+        assertThat(isAddButtonEnabled)
+                .as("When description field has invalid data new subject can't be created")
+                .isFalse();
+    }
+
+    private boolean canCreateSubjectWhenFormIsFilledWith(String title, String description) {
+        return subjectsPage
+                .openAddingSubjectForm()
+                .setSubjectTitle(title)
+                .setSubjectDescription(description)
+                .isAddButtonEnabled();
     }
 }
