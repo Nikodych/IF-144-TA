@@ -2,18 +2,18 @@ package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.ProtocolPage;
+import com.softserveinc.ita.pageobjects.util.DateTimeUtil;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
 import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
 import static java.time.LocalDate.parse;
+import static java.time.format.DateTimeFormatter.ofPattern;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ProtocolTest extends TestRunner {
@@ -52,14 +52,15 @@ public class ProtocolTest extends TestRunner {
     }
 
     @Test
+    @Description("Test to verify the correct work of moving date pickers backward and forward by arrows")
     public void verifyDatePickersArrowsWork() {
 
-        LocalDate currentDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yyyy", Locale.US);
-        String previousMonth = currentDate
+        var currentDate = DateTimeUtil.getCurrentDate();
+        var formatter = ofPattern("MMM yyyy", Locale.US);
+        var previousMonth = currentDate
                 .minusMonths(1)
                 .format(formatter);
-        String nextMonth = currentDate
+        var nextMonth = currentDate
                 .plusMonths(1)
                 .format(formatter);
 
@@ -74,6 +75,8 @@ public class ProtocolTest extends TestRunner {
                     .as(((i == 1) ? "Start" : "End") + " date after moving one month backward should be chosen from previous month")
                     .isEqualToIgnoringCase(previousMonth);
 
+            protocolPage.closeDatePickerWindow(); // in order to perform next steps
+
             currentMonth = protocolPage
                     .moveDatePickerForward(i)
                     .getCurrentMonth();
@@ -81,6 +84,8 @@ public class ProtocolTest extends TestRunner {
             assertThat(currentMonth)
                     .as(((i == 1) ? "Start" : "End") + " date after moving one month forward should be chosen from next month")
                     .isEqualToIgnoringCase(nextMonth);
+
+            protocolPage.closeDatePickerWindow(); // in order to perform next steps
         }
     }
 

@@ -1,6 +1,7 @@
 package com.softserveinc.ita.pageobjects.admin;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import java.time.LocalDate;
 
@@ -35,6 +36,7 @@ public class ProtocolPage extends MainMenu {
         return searchButton.isEnabled();
     }
 
+    @Step("Protocol page: moving date picker backward")
     public ProtocolPage moveDatePickerBackward(int index) {
         $x(format(DATE_PICKER_TEMPLATE, index)).click();
         $x("//button[contains(@class,'mat-calendar-previous-button')]").click();
@@ -42,6 +44,7 @@ public class ProtocolPage extends MainMenu {
         return this;
     }
 
+    @Step("Protocol page: moving date picker forward")
     public ProtocolPage moveDatePickerForward(int index) {
         $x(format(DATE_PICKER_TEMPLATE, index)).click();
         $x("//button[contains(@class,'mat-calendar-next-button')]").click();
@@ -49,11 +52,20 @@ public class ProtocolPage extends MainMenu {
         return this;
     }
 
+    @Step("Protocol page: getting current month from date picker")
     public String getCurrentMonth() {
-        var currentMonth = chooseMonthAndYearButton.getText();
-        $x("//body").click(); //in order to close date picker window for next test steps
+        return chooseMonthAndYearButton
+                .getText();
+    }
 
-        return currentMonth;
+    @Step("Protocol page: closing date picker pop-up window")
+    public ProtocolPage closeDatePickerWindow() {
+        if ($x("//div[contains(@class,'mat-datepicker-popup')]").exists()) {
+            //just clicking on the other part of the page
+            $x("//body").click();
+        }
+
+        return this;
     }
 
     private ProtocolPage chooseDate(LocalDate date, int index) {
