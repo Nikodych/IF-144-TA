@@ -20,4 +20,5 @@ public interface DataProvider {
     String LOGIN_PAGE_URL = readConfig().getString("pages.login");
     String START_DATE = readConfig().getString("dates.startDate");
     String END_DATE = readConfig().getString("dates.endDate");
+    String ERROR_MESSAGE_WRONG_DATE_ORDER = readConfig().getString("messages.error.wrongDateOrder");
 }
