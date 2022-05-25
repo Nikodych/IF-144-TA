@@ -24,12 +24,12 @@ public class ProtocolPage extends MainMenu {
         return chooseDate(date, 2);
     }
 
-    @Step ("Protocol page: Set start date")
+    @Step("Protocol page: Set start date")
     public ProtocolPage setStartDate(String date) {
         return setDate(date, "startDate");
     }
 
-    @Step ("Protocol page: Set end date")
+    @Step("Protocol page: Set end date")
     public ProtocolPage setEndDate(String date) {
         return setDate(date, "endDate");
     }
@@ -55,8 +55,7 @@ public class ProtocolPage extends MainMenu {
     }
 
     private ProtocolPage setDate(String date, String fieldName) {
-        String DATE_INPUT_FIELD_TEMPLATE = "//input[@formcontrolname='%s']";
-        $x(format(DATE_INPUT_FIELD_TEMPLATE, fieldName)).sendKeys(date);
+        $x(format("//input[@formcontrolname='%s']", fieldName)).sendKeys(date);
 
         return this;
     }
