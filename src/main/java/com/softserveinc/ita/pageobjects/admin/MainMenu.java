@@ -22,6 +22,13 @@ public class MainMenu {
         return new SubjectsPage();
     }
 
+    @Step("Main menu: Opened faculties page")
+    public FacultiesPage openFacultiesPage() {
+        $x(format(MENU_ITEM_PATH_TEMPLATE, "faculties")).click();
+
+        return new FacultiesPage();
+    }
+
     public String getLoggedUserName() {
         return $x("//mat-toolbar/button[1]").getText();
     }

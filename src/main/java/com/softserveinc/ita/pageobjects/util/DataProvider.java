@@ -21,4 +21,7 @@ public interface DataProvider {
     String START_DATE = readConfig().getString("dates.startDate");
     String END_DATE = readConfig().getString("dates.endDate");
     String ERROR_MESSAGE_WRONG_DATE_ORDER = readConfig().getString("messages.error.wrongDateOrder");
+    String FACULTY= readConfig().getString("search_input.faculty");
+    String DESCRIPTION= readConfig().getString("search_input.description");
+    String INVALID= readConfig().getString("search_input.invalid");
 }
