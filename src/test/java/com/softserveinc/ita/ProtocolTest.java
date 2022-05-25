@@ -1,18 +1,20 @@
 package com.softserveinc.ita;
 
+import com.softserveinc.ita.pageobjects.LoginPage;
+import com.softserveinc.ita.pageobjects.admin.ProtocolPage;
+import com.softserveinc.ita.pageobjects.util.TestRunner;
+import io.qameta.allure.Description;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
 import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
 import static java.time.LocalDate.parse;
 import static org.assertj.core.api.Assertions.assertThat;
-
-import com.softserveinc.ita.pageobjects.LoginPage;
-import com.softserveinc.ita.pageobjects.admin.ProtocolPage;
-import com.softserveinc.ita.pageobjects.util.TestRunner;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 public class ProtocolTest extends TestRunner {
 
@@ -80,5 +82,43 @@ public class ProtocolTest extends TestRunner {
                     .as(((i == 1) ? "Start" : "End") + " date after moving one month forward should be chosen from next month")
                     .isEqualToIgnoringCase(nextMonth);
         }
+    }
+
+    @Test
+    public void verifySearchButtonIsDisabledWhenOnlyStartDateIsFilled() {
+
+        var actualResult = protocolPage
+                .chooseStartDate(parse(START_DATE))
+                .isSearchButtonEnabled();
+
+        assertThat(actualResult)
+                .as("When only start date picker is filled correctly search button should be disabled")
+                .isFalse();
+    }
+
+    @Test
+    public void verifySearchButtonIsDisabledWhenOnlyEndDateIsFilled() {
+
+        var actualResult = protocolPage
+                .chooseEndDate(parse(END_DATE))
+                .isSearchButtonEnabled();
+
+        assertThat(actualResult)
+                .as("When only end date picker is filled correctly search button should be disabled")
+                .isFalse();
+    }
+
+    @Test
+    @Description("Test to verify the correctness of error message which should be present when there is wrong date order in date pickers")
+    public void verifyErrorMessageWhenWrongDateOrder() {
+
+        var actualResult = protocolPage
+                .chooseStartDate(parse(END_DATE))
+                .chooseEndDate(parse(START_DATE))
+                .getErrorMessage();
+
+        assertThat(actualResult)
+                .as("When there is wrong date order should be the next error message: " + ERROR_MESSAGE_WRONG_DATE_ORDER)
+                .isEqualTo(ERROR_MESSAGE_WRONG_DATE_ORDER);
     }
 }
