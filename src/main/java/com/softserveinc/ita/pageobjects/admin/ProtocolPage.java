@@ -18,6 +18,13 @@ public class ProtocolPage extends MainMenu {
     private static final String OPTION_BUTTON_TEMPLATE = "//div[text()='%s']";
     private static final String DATE_PICKER_TEMPLATE = "(//button[@aria-label='Open calendar'])[%s]";
 
+    @Step ("Protocol page: Performed search")
+    public ProtocolPage performSearch() {
+        searchButton.click();
+
+        return this;
+    }
+
     public String getErrorMessage() {
         return $x("//mat-error[@id='mat-error-0']")
                 .should(appear, ofSeconds(5))
@@ -44,6 +51,12 @@ public class ProtocolPage extends MainMenu {
 
     public boolean isSearchButtonEnabled() {
         return searchButton.isEnabled();
+    }
+
+    public boolean isSearchResultPresent() {
+        return $x("//tr[@class='mat-row ng-star-inserted']")
+                .should(appear, ofSeconds(5))
+                .exists();
     }
 
     @Step("Protocol page: Moved date picker backward")
