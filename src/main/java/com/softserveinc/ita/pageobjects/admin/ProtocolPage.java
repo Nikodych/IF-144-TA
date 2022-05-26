@@ -18,7 +18,7 @@ public class ProtocolPage extends MainMenu {
     private static final String OPTION_BUTTON_TEMPLATE = "//div[text()='%s']";
     private static final String DATE_PICKER_TEMPLATE = "(//button[@aria-label='Open calendar'])[%s]";
 
-    @Step ("Protocol page: Perform search")
+    @Step ("Protocol page: Performed search")
     public ProtocolPage performSearch() {
         searchButton.click();
 
