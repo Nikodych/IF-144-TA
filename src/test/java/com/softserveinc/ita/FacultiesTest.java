@@ -43,6 +43,18 @@ public class FacultiesTest extends TestRunner {
                 .isEqualTo(0);
     }
 
+    @Test
+    public void verifyAddingFacultyFormIsDisplayed() {
+        var actualResult
+                = facultiesPage
+                .clickOnAddFacultyButton()
+                .isAddFacultyFormIsDisplayed();
+
+        assertThat(actualResult)
+                .as("Clicking on the button 'Додати факльтет' make add faculty form appear")
+                .isTrue();
+    }
+
     @DataProvider(name = "searchValues")
     public static Object[][] inputData() {
         return new Object[][]{{DESCRIPTION, "Інститут інформаційних технологій"},

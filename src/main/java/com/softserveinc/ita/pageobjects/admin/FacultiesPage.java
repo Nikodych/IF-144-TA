@@ -22,7 +22,10 @@ public class FacultiesPage extends MainMenu {
         return $$x("//td[contains(@class, 'faculty_name')]").texts();
     }
 
-    public List<String> getDescriptions() {
-        return $$x("//td[contains(@class, 'description')]").texts();
+    @Step("Faculties page: open adding faculties form")
+    public AddingFacultyModal clickOnAddFacultyButton() {
+        $x("//button[@class ='btn mat-stroked-button mat-button-base']").click();
+
+        return new AddingFacultyModal();
     }
 }
