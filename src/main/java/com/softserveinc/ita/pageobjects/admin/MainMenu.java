@@ -26,12 +26,16 @@ public class MainMenu {
 
     @Step("Main menu: Opened faculties page")
     public FacultiesPage openFacultiesPage() {
-        $x(format(MENU_ITEM_PATH_TEMPLATE, "faculties")).should(appear, ofSeconds(5)).click();
+        $x(format(MENU_ITEM_PATH_TEMPLATE, "faculties"))
+                .should(appear, ofSeconds(5))
+                .click();
 
         return new FacultiesPage();
     }
 
     public String getLoggedUserName() {
-        return $x("//mat-toolbar/button[1]").should(appear, ofSeconds(5)).getText();
+        return $x("//mat-toolbar/button[1]")
+                .should(appear, ofSeconds(5))
+                .getText();
     }
 }
