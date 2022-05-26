@@ -48,6 +48,21 @@ public class ProtocolTest extends TestRunner {
     }
 
     @Test
+    @Description("Test to verify search results are present when there is valid date range")
+    public void verifySearchResultIsPresent() {
+
+        var actualResult = protocolPage
+                .chooseStartDate(parse(START_DATE))
+                .chooseEndDate(parse(END_DATE))
+                .performSearch()
+                .isSearchResultPresent();
+
+        assertThat(actualResult)
+                .as("Search result should be present when there is valid date range")
+                .isTrue();
+    }
+
+    @Test
     @Description("Test to verify the date input fields work with valid input")
     public void verifyDateInputFields() {
 
