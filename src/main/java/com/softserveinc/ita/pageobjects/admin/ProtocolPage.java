@@ -1,10 +1,8 @@
 package com.softserveinc.ita.pageobjects.admin;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 
-import java.time.Duration;
 import java.time.LocalDate;
 
 import static com.codeborne.selenide.Condition.appear;
