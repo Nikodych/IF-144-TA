@@ -48,6 +48,20 @@ public class ProtocolTest extends TestRunner {
     }
 
     @Test
+    @Description("Test to verify the date input fields work with valid input")
+    public void verifyDateInputFields() {
+
+        var actualResult = protocolPage
+                .setStartDate(START_DATE)
+                .setEndDate(END_DATE)
+                .isSearchButtonEnabled();
+
+        assertThat(actualResult)
+                .as("When both date input fields are entered correctly search button should be enabled")
+                .isTrue();
+    }
+
+    @Test
     public void verifySearchButtonIsDisabledWhenOnlyStartDateIsFilled() {
 
         var actualResult = protocolPage

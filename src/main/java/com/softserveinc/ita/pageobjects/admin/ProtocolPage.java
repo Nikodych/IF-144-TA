@@ -2,6 +2,7 @@ package com.softserveinc.ita.pageobjects.admin;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -33,6 +34,16 @@ public class ProtocolPage extends MainMenu {
         return chooseDate(date, 2);
     }
 
+    @Step("Protocol page: Set start date")
+    public ProtocolPage setStartDate(String date) {
+        return setDate(date, "startDate");
+    }
+
+    @Step("Protocol page: Set end date")
+    public ProtocolPage setEndDate(String date) {
+        return setDate(date, "endDate");
+    }
+
     public boolean isSearchButtonEnabled() {
         return searchButton.isEnabled();
     }
@@ -49,6 +60,12 @@ public class ProtocolPage extends MainMenu {
         $x(format(OPTION_BUTTON_TEMPLATE, date.getYear())).click();
         $x(format(OPTION_BUTTON_TEMPLATE, month)).click();
         $x(format(OPTION_BUTTON_TEMPLATE, date.getDayOfMonth())).click();
+
+        return this;
+    }
+
+    private ProtocolPage setDate(String date, String fieldName) {
+        $x(format("//input[@formcontrolname='%s']", fieldName)).sendKeys(date);
 
         return this;
     }

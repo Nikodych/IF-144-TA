@@ -20,6 +20,8 @@
         <allure.version>2.17.3</allure.version>
         <typesafe.version>1.4.2</typesafe.version>
         <lombok.version>1.18.24</lombok.version>
+        <java.version>11</java.version>
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
     </properties>
 
     <build>
@@ -45,6 +47,18 @@
                         <version>${aspectj.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <showWarnings>false</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>
