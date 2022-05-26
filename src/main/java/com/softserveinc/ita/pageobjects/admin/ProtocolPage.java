@@ -46,13 +46,6 @@ public class ProtocolPage extends MainMenu {
         return searchButton.isEnabled();
     }
 
-    private ProtocolPage moveDatePicker(int index, String direction) {
-        $x(format(DATE_PICKER_TEMPLATE, index)).click();
-        $x(format("//button[contains(@class,'mat-calendar-%s-button')]", direction)).click();
-
-        return this;
-    }
-
     @Step("Protocol page: Moved date picker backward")
     public ProtocolPage moveDatePickerBackward(int index) {
         return moveDatePicker(index, "previous");
@@ -97,6 +90,13 @@ public class ProtocolPage extends MainMenu {
 
     private ProtocolPage setDate(String date, String fieldName) {
         $x(format("//input[@formcontrolname='%s']", fieldName)).sendKeys(date);
+
+        return this;
+    }
+
+    private ProtocolPage moveDatePicker(int index, String direction) {
+        $x(format(DATE_PICKER_TEMPLATE, index)).click();
+        $x(format("//button[contains(@class,'mat-calendar-%s-button')]", direction)).click();
 
         return this;
     }
