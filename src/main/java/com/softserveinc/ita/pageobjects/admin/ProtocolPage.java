@@ -1,10 +1,8 @@
 package com.softserveinc.ita.pageobjects.admin;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 
-import java.time.Duration;
 import java.time.LocalDate;
 
 import static com.codeborne.selenide.Condition.appear;
@@ -19,6 +17,13 @@ public class ProtocolPage extends MainMenu {
 
     private static final String OPTION_BUTTON_TEMPLATE = "//div[text()='%s']";
     private static final String DATE_PICKER_TEMPLATE = "(//button[@aria-label='Open calendar'])[%s]";
+
+    @Step ("Protocol page: Performed search")
+    public ProtocolPage performSearch() {
+        searchButton.click();
+
+        return this;
+    }
 
     public String getErrorMessage() {
         return $x("//mat-error[@id='mat-error-0']")
@@ -46,6 +51,12 @@ public class ProtocolPage extends MainMenu {
 
     public boolean isSearchButtonEnabled() {
         return searchButton.isEnabled();
+    }
+
+    public boolean isSearchResultPresent() {
+        return $x("//tr[@class='mat-row ng-star-inserted']")
+                .should(appear, ofSeconds(5))
+                .exists();
     }
 
     private ProtocolPage chooseDate(LocalDate date, int index) {
