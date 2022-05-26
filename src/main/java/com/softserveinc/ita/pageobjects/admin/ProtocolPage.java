@@ -59,6 +59,31 @@ public class ProtocolPage extends MainMenu {
                 .exists();
     }
 
+    @Step("Protocol page: Moved date picker backward")
+    public ProtocolPage moveDatePickerBackward(int index) {
+        return moveDatePicker(index, "previous");
+    }
+
+    @Step("Protocol page: Moved date picker forward")
+    public ProtocolPage moveDatePickerForward(int index) {
+        return moveDatePicker(index, "next");
+    }
+
+    @Step("Protocol page: Got current month from date picker")
+    public String getCurrentMonth() {
+        return chooseMonthAndYearButton.getText();
+    }
+
+    @Step("Protocol page: Closed date picker pop-up window")
+    public ProtocolPage closeDatePickerWindow() {
+        if ($x("//div[contains(@class,'mat-datepicker-popup')]").exists()) {
+            //just clicking on the other part of the page
+            $x("//body").click();
+        }
+
+        return this;
+    }
+
     private ProtocolPage chooseDate(LocalDate date, int index) {
 
         var month = date
@@ -77,6 +102,13 @@ public class ProtocolPage extends MainMenu {
 
     private ProtocolPage setDate(String date, String fieldName) {
         $x(format("//input[@formcontrolname='%s']", fieldName)).sendKeys(date);
+
+        return this;
+    }
+
+    private ProtocolPage moveDatePicker(int index, String direction) {
+        $x(format(DATE_PICKER_TEMPLATE, index)).click();
+        $x(format("//button[contains(@class,'mat-calendar-%s-button')]", direction)).click();
 
         return this;
     }

@@ -8,8 +8,11 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
+import static com.softserveinc.ita.pageobjects.util.DateTimeUtil.getCurrentDate;
 import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
 import static java.time.LocalDate.parse;
+import static java.time.format.DateTimeFormatter.ofPattern;
+import static java.util.Locale.US;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ProtocolTest extends TestRunner {
@@ -74,6 +77,44 @@ public class ProtocolTest extends TestRunner {
         assertThat(actualResult)
                 .as("When both date input fields are entered correctly search button should be enabled")
                 .isTrue();
+    }
+
+    @Test
+    @Description("Test to verify the correct work of moving date pickers backward and forward by arrows")
+    public void verifyDatePickersArrowsWork() {
+
+        var currentDate = getCurrentDate();
+        var formatter = ofPattern("MMM yyyy", US);
+        var previousMonth = currentDate
+                .minusMonths(1)
+                .format(formatter);
+        var nextMonth = currentDate
+                .plusMonths(1)
+                .format(formatter);
+
+        String currentMonth;
+
+        for (int i = 1; i <= 2; i++) { // index 1 stands for start date, 2 - for end date
+            currentMonth = protocolPage
+                    .moveDatePickerBackward(i)
+                    .getCurrentMonth();
+
+            assertThat(currentMonth)
+                    .as(((i == 1) ? "Start" : "End") + " date after moving one month backward should be chosen from previous month")
+                    .isEqualToIgnoringCase(previousMonth);
+
+            protocolPage.closeDatePickerWindow(); // in order to perform next steps
+
+            currentMonth = protocolPage
+                    .moveDatePickerForward(i)
+                    .getCurrentMonth();
+
+            assertThat(currentMonth)
+                    .as(((i == 1) ? "Start" : "End") + " date after moving one month forward should be chosen from next month")
+                    .isEqualToIgnoringCase(nextMonth);
+
+            protocolPage.closeDatePickerWindow(); // in order to perform next steps
+        }
     }
 
     @Test
