@@ -8,16 +8,29 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
+import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FacultiesTest extends TestRunner {
-    FacultiesPage facultiesPage;
+
+    private FacultiesPage facultiesPage;
 
     @BeforeMethod
     public void openFacultiesPage() {
         facultiesPage = new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openFacultiesPage();
+    }
+
+    @Test
+    public void verifyFacultiesPageOpening() {
+
+        var expectedUrl = FACULTIES_PAGE_URL;
+        var currentUrl = getCurrentUrl();
+
+        assertThat(currentUrl)
+                .as("Page url should be " + expectedUrl)
+                .isEqualTo(expectedUrl);
     }
 
     @Test(dataProvider = "searchValues")
