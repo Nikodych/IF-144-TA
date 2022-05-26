@@ -2,18 +2,17 @@ package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.ProtocolPage;
-import com.softserveinc.ita.pageobjects.util.DateTimeUtil;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.Locale;
-
 import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
+import static com.softserveinc.ita.pageobjects.util.DateTimeUtil.getCurrentDate;
 import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
 import static java.time.LocalDate.parse;
 import static java.time.format.DateTimeFormatter.ofPattern;
+import static java.util.Locale.US;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ProtocolTest extends TestRunner {
@@ -69,8 +68,8 @@ public class ProtocolTest extends TestRunner {
     @Description("Test to verify the correct work of moving date pickers backward and forward by arrows")
     public void verifyDatePickersArrowsWork() {
 
-        var currentDate = DateTimeUtil.getCurrentDate();
-        var formatter = ofPattern("MMM yyyy", Locale.US);
+        var currentDate = getCurrentDate();
+        var formatter = ofPattern("MMM yyyy", US);
         var previousMonth = currentDate
                 .minusMonths(1)
                 .format(formatter);

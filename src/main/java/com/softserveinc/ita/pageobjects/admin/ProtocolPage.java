@@ -46,29 +46,30 @@ public class ProtocolPage extends MainMenu {
         return searchButton.isEnabled();
     }
 
-    @Step("Protocol page: moving date picker backward")
+    private ProtocolPage moveDatePicker(int index, String direction) {
+        $x(format(DATE_PICKER_TEMPLATE, index)).click();
+        $x(format("//button[contains(@class,'mat-calendar-%s-button')]", direction)).click();
+
+        return this;
+    }
+
+    @Step("Protocol page: Moved date picker backward")
     public ProtocolPage moveDatePickerBackward(int index) {
-        $x(format(DATE_PICKER_TEMPLATE, index)).click();
-        $x("//button[contains(@class,'mat-calendar-previous-button')]").click();
-
-        return this;
+        return moveDatePicker(index, "previous");
     }
 
-    @Step("Protocol page: moving date picker forward")
+    @Step("Protocol page: Moved date picker forward")
     public ProtocolPage moveDatePickerForward(int index) {
-        $x(format(DATE_PICKER_TEMPLATE, index)).click();
-        $x("//button[contains(@class,'mat-calendar-next-button')]").click();
-
-        return this;
+        return moveDatePicker(index, "next");
     }
 
-    @Step("Protocol page: getting current month from date picker")
+    @Step("Protocol page: Got current month from date picker")
     public String getCurrentMonth() {
         return chooseMonthAndYearButton
                 .getText();
     }
 
-    @Step("Protocol page: closing date picker pop-up window")
+    @Step("Protocol page: Closed date picker pop-up window")
     public ProtocolPage closeDatePickerWindow() {
         if ($x("//div[contains(@class,'mat-datepicker-popup')]").exists()) {
             //just clicking on the other part of the page
