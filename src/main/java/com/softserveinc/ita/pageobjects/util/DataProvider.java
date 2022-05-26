@@ -18,6 +18,7 @@ public interface DataProvider {
     String STUDENT_PASSWORD = readConfig().getString("users.student.password");
     String PROTOCOL_PAGE_URL = readConfig().getString("pages.protocol");
     String LOGIN_PAGE_URL = readConfig().getString("pages.login");
+    String SPECIALITIES_PAGE_URL = readConfig().getString("pages.specialities");
     String START_DATE = readConfig().getString("dates.startDate");
     String END_DATE = readConfig().getString("dates.endDate");
     String ERROR_MESSAGE_WRONG_DATE_ORDER = readConfig().getString("messages.error.wrongDateOrder");
