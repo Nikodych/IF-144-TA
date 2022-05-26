@@ -39,6 +39,7 @@
 ## Directory-based project format:
 .idea/
 .allure/
+allure-results/
 target/
 test-output/
 build/
@@ -57,3 +58,7 @@ fabric.properties
 
 # Test suite
 myTests.xml
+
+# Allure
+allure-results/
+allure-report/

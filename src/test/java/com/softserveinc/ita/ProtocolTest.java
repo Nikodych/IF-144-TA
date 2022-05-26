@@ -63,6 +63,20 @@ public class ProtocolTest extends TestRunner {
     }
 
     @Test
+    @Description("Test to verify the date input fields work with valid input")
+    public void verifyDateInputFields() {
+
+        var actualResult = protocolPage
+                .setStartDate(START_DATE)
+                .setEndDate(END_DATE)
+                .isSearchButtonEnabled();
+
+        assertThat(actualResult)
+                .as("When both date input fields are entered correctly search button should be enabled")
+                .isTrue();
+    }
+
+    @Test
     public void verifySearchButtonIsDisabledWhenOnlyStartDateIsFilled() {
 
         var actualResult = protocolPage
@@ -84,5 +98,19 @@ public class ProtocolTest extends TestRunner {
         assertThat(actualResult)
                 .as("When only end date picker is filled correctly search button should be disabled")
                 .isFalse();
+    }
+
+    @Test
+    @Description("Test to verify the correctness of error message which should be present when there is wrong date order in date pickers")
+    public void verifyErrorMessageWhenWrongDateOrder() {
+
+        var actualResult = protocolPage
+                .chooseStartDate(parse(END_DATE))
+                .chooseEndDate(parse(START_DATE))
+                .getErrorMessage();
+
+        assertThat(actualResult)
+                .as("When there is wrong date order should be the next error message: " + ERROR_MESSAGE_WRONG_DATE_ORDER)
+                .isEqualTo(ERROR_MESSAGE_WRONG_DATE_ORDER);
     }
 }
