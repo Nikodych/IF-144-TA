@@ -58,8 +58,7 @@ public class ProtocolPage extends MainMenu {
 
     @Step("Protocol page: Got current month from date picker")
     public String getCurrentMonth() {
-        return chooseMonthAndYearButton
-                .getText();
+        return chooseMonthAndYearButton.getText();
     }
 
     @Step("Protocol page: Closed date picker pop-up window")
