@@ -49,6 +49,34 @@ public class SubjectsTest extends TestRunner {
                 .isFalse();
     }
 
+    @Test
+    public void verifyNewSubjectShouldBeDisplayedInTableOfSubjects() {
+        var subjectName = "Новий предмет";
+        var subjectDescription = "Його опис";
+
+        openAndFillSubjectFields(subjectName, subjectDescription);
+        new AddingSubjectModal().addNewSubject();
+
+        var isAddedAtTheEnd = subjectsPage
+                .showLastPageOfTable()
+                .getNamesOfSubjects()
+                .contains(subjectName);
+
+        assertThat(isAddedAtTheEnd)
+                .as("New subject should be displayed at the end of table")
+                .isTrue();
+
+        var isFound = subjectsPage
+                .showFirstPageOfTable()
+                .setSearchValue(subjectName)
+                .getNamesOfSubjects()
+                .contains(subjectName);
+
+        assertThat(isFound)
+                .as("New subject should be displayed after search is performed")
+                .isTrue();
+    }
+
     private void openAndFillSubjectFields(String title, String description) {
         subjectsPage
                 .openAddingSubjectForm()

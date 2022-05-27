@@ -27,6 +27,10 @@ public class AddingSubjectModal {
         return this;
     }
 
+    public void addNewSubject() {
+        $x("//button[@type='submit']").click();
+    }
+
     public boolean isAddButtonEnabled() {
         return $x("//button[@type='submit']")
                 .shouldBe(visible)
