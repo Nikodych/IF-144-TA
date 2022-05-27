@@ -42,6 +42,7 @@
 target/
 test-output/
 build/
+driver/
 
 # JIRA plugin
 atlassian-ide-plugin.xml
