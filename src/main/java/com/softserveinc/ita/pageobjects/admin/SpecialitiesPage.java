@@ -33,7 +33,7 @@ public class SpecialitiesPage extends MainMenu {
                 .getText();
     }
 
-    @Step("Speciality page: Waited for pop-up message to appear")
+    @Step("Speciality page: Waited for progress bar to disappear")
     public SpecialitiesPage waitForProgressBarToDisappear() {
         $x("//mat-progress-bar").should(disappear);
 
