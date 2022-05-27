@@ -1,9 +1,9 @@
 package com.softserveinc.ita;
 
-import com.codeborne.selenide.Selenide;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.SpecialitiesPage;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
+import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SpecialitiesTest extends TestRunner {
 
-    SpecialitiesPage specialitiesPage;
+    private SpecialitiesPage specialitiesPage;
 
     @BeforeMethod
     public void openSpecialitiesPage() {
@@ -26,6 +26,7 @@ public class SpecialitiesTest extends TestRunner {
     }
 
     @Test
+    @Description("Test to verify Specialities page opening")
     public void verifySpecialitiesPageOpening() {
 
         var expectedUrl = SPECIALITIES_PAGE_URL;

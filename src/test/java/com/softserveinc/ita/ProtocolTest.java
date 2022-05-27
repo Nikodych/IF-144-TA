@@ -27,6 +27,7 @@ public class ProtocolTest extends TestRunner {
     }
 
     @Test
+    @Description("Test to verify Protocol page opening")
     public void verifyProtocolPageOpening() {
 
         var expectedUrl = PROTOCOL_PAGE_URL;

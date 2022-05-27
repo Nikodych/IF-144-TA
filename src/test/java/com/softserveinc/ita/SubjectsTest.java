@@ -4,11 +4,12 @@ import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.AddingSubjectModal;
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
+import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.softserveinc.ita.pageobjects.util.DataProvider.ADMIN_LOGIN;
-import static com.softserveinc.ita.pageobjects.util.DataProvider.ADMIN_PASSWORD;
+import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
+import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SubjectsTest extends TestRunner {
@@ -20,6 +21,18 @@ public class SubjectsTest extends TestRunner {
         subjectsPage = new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openSubjectsPage();
+    }
+
+    @Test
+    @Description("Test to verify Subjects page opening")
+    public void verifySubjectsPageOpening() {
+
+        var expectedUrl = SUBJECTS_PAGE_URL;
+        var currentUrl = getCurrentUrl();
+
+        assertThat(currentUrl)
+                .as("Page url should be " + expectedUrl)
+                .isEqualTo(expectedUrl);
     }
 
     @Test
