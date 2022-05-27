@@ -25,7 +25,7 @@ public class SubjectsTest extends TestRunner {
 
     @Test
     public void verifyAddSubjectButtonIsEnabledWithValidData() {
-        openAndFill("Предметний", "Опис предмета");
+        openAndFillSubjectFields("Предметний", "Опис предмета");
 
         assertThat(addingSubjectModal.isAddButtonEnabled())
                 .as("When both fields have valid data add button should be enabled")
@@ -34,7 +34,7 @@ public class SubjectsTest extends TestRunner {
 
     @Test
     public void verifyNewSubjectCanNotBeCreatedWithInvalidTitle() {
-        openAndFill("5предметний предмет", "Валідний опис предмета");
+        openAndFillSubjectFields("5предметний предмет", "Валідний опис предмета");
 
         assertThat(addingSubjectModal.isAddButtonEnabled())
                 .as("When title field has invalid data new subject can't be created")
@@ -43,14 +43,14 @@ public class SubjectsTest extends TestRunner {
 
     @Test
     public void verifyNewSubjectCanNotBeCreatedWithInvalidDescription() {
-        openAndFill("Предметний предмет", "невалідний опис предмета");
+        openAndFillSubjectFields("Предметний предмет", "невалідний опис предмета");
 
         assertThat(addingSubjectModal.isAddButtonEnabled())
                 .as("When description field has invalid data new subject can't be created")
                 .isFalse();
     }
 
-    private void openAndFill(String title, String description) {
+    private void openAndFillSubjectFields(String title, String description) {
         subjectsPage
                 .openAddingSubjectForm()
                 .setSubjectTitle(title)
