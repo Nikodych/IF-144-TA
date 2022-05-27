@@ -9,8 +9,7 @@ import static com.softserveinc.ita.andrewobitotski.pageobjects.BasePage.*;
 public class WebElementUtil {
 
     public static void jsClick(WebElement webElement) {
-        WebDriver driver = getDriver();
-        var jsExecutor = (JavascriptExecutor) driver;
+        var jsExecutor = (JavascriptExecutor) getDriver();
         jsExecutor.executeScript("arguments[0].click()", webElement);
     }
 }

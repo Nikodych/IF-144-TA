@@ -11,11 +11,10 @@ public class GoogleSearchResultsPage extends BasePage {
     }
 
     public MoyoHomePage checkInSearchResult(String mention) {
-        var linkTemplate = "//a[contains(@href, '%s')]";
-        String searchedResultLinkXpath = format(linkTemplate, mention);
+        var searchedResultLinkLocator = format("//a[contains(@href, '%s')]", mention);
 
         driver
-                .findElements(xpath(searchedResultLinkXpath))
+                .findElements(xpath(searchedResultLinkLocator))
                 .stream()
                 .findFirst()
                 .orElseThrow(() -> new AssertionError("There is no result with this mention"))

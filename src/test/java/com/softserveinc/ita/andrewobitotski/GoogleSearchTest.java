@@ -20,7 +20,6 @@ public class GoogleSearchTest extends TestRunner {
 
         var currentUrl = driver.getCurrentUrl();
 
-        assertTrue(currentUrl
-                .contains(MENTION), "Should be moyo.ua website");
+        assertTrue(currentUrl.contains(MENTION), "Should be moyo.ua website");
     }
 }
