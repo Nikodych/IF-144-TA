@@ -3,6 +3,7 @@ package com.softserveinc.ita;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.AdminsPage;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
+import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -22,6 +23,7 @@ public class AdminsTest extends TestRunner {
     }
 
     @Test
+    @Description("Test to verify Admins page opening")
     public void verifyAdminsPageOpening() {
 
         var expectedUrl = ADMINS_PAGE_URL;

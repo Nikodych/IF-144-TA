@@ -3,6 +3,7 @@ package com.softserveinc.ita;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.SpecialitiesPage;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
+import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -22,6 +23,7 @@ public class SpecialitiesTest extends TestRunner {
     }
 
     @Test
+    @Description("Test to verify Specialities page opening")
     public void verifySpecialitiesPageOpening() {
 
         var expectedUrl = SPECIALITIES_PAGE_URL;

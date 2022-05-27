@@ -3,6 +3,7 @@ package com.softserveinc.ita;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.ResultsPage;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
+import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -22,6 +23,7 @@ public class ResultsTest extends TestRunner {
     }
 
     @Test
+    @Description("Test to verify Results page opening")
     public void verifyResultsPageOpening() {
 
         var expectedUrl = RESULTS_PAGE_URL;

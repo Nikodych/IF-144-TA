@@ -3,6 +3,7 @@ package com.softserveinc.ita;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.GroupsPage;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
+import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -22,6 +23,7 @@ public class GroupsTest extends TestRunner {
     }
 
     @Test
+    @Description("Test to verify Groups page opening")
     public void verifyGroupsPageOpening() {
 
         var expectedUrl = GROUPS_PAGE_URL;

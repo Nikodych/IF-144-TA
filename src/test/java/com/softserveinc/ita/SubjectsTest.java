@@ -4,6 +4,7 @@ import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.AddingSubjectModal;
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
+import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -23,6 +24,7 @@ public class SubjectsTest extends TestRunner {
     }
 
     @Test
+    @Description("Test to verify Subjects page opening")
     public void verifySubjectsPageOpening() {
 
         var expectedUrl = SUBJECTS_PAGE_URL;
