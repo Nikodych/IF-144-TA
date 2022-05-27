@@ -1,10 +1,10 @@
 package com.softserveinc.ita.pageobjects.admin;
 
-import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Condition.disappear;
+import static com.codeborne.selenide.Selenide.$x;
 
 public class SpecialitiesPage extends MainMenu {
 
@@ -13,14 +13,13 @@ public class SpecialitiesPage extends MainMenu {
         $x("//button[contains(@class,'addButton')]").click();
         $x("//input[@formcontrolname='speciality_code']").setValue(code);
         $x("//input[@formcontrolname='speciality_name']").setValue(name);
-        $$x("//button/span")
-                .findBy(Condition.text(" Підтвердити "))
-                .click();
+        $x("//button/span[contains(text(),'Підтвердити')]").click();
+
         return this;
     }
 
+    @Step("Speciality page: Got last speciality code")
     public String getLastSpecialityCode() {
-
         var buttonNavigationLast = $x("//button[contains(@class,'paginator-navigation-last')]");
 
         if (buttonNavigationLast.isEnabled()) {
@@ -34,6 +33,14 @@ public class SpecialitiesPage extends MainMenu {
                 .getText();
     }
 
+    @Step("Speciality page: Waited for pop-up message to appear")
+    public SpecialitiesPage waitForProgressBarToDisappear() {
+        $x("//mat-progress-bar").should(disappear);
+
+        return this;
+    }
+
+    @Step("Speciality page: Got pop-up message text")
     public String getMessageText() {
         return $x("//simple-snack-bar/span")
                 .should(appear)

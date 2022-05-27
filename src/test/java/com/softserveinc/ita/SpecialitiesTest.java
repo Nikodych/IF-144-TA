@@ -2,14 +2,12 @@ package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.SpecialitiesPage;
+import com.softserveinc.ita.pageobjects.util.RandomUtil;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.Random;
-
-import static com.codeborne.selenide.Selenide.sleep;
 import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
 import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,9 +36,10 @@ public class SpecialitiesTest extends TestRunner {
     }
 
     @Test
-    public void verifyNewSpecialityIsAdded() {
+    @Description("Test to verify new speciality is added")
+    public void verifyAddingNewSpeciality() {
 
-        var randCode = new Random().nextInt(99999);
+        var randCode = RandomUtil.getRandomNumber(5);
         var specialityCode = Integer.toString(randCode); // only numbers, no more than 5 symbols
         var specialityName = "test" + randCode;
 
@@ -52,9 +51,9 @@ public class SpecialitiesTest extends TestRunner {
                 .as("Message after adding should contain added speciality name")
                 .contains(specialityName);
 
-        sleep(3000); // time for page to reload
-
-        var lastSpecialityCode = specialitiesPage.getLastSpecialityCode();
+        var lastSpecialityCode = specialitiesPage
+                .waitForProgressBarToDisappear()
+                .getLastSpecialityCode();
 
         assertThat(lastSpecialityCode)
                 .as("After adding new speciality speciality with added code " +
