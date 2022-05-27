@@ -1,6 +1,7 @@
 package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.LoginPage;
+import com.softserveinc.ita.pageobjects.admin.AddingSubjectModal;
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
 import org.testng.annotations.BeforeMethod;
@@ -34,14 +35,35 @@ public class SubjectsTest extends TestRunner {
 
     @Test
     public void verifyAddSubjectButtonIsEnabledWithValidData() {
-        var isEnabled = subjectsPage
-                .openAddingSubjectForm()
-                .setSubjectTitle("Предмет")
-                .setSubjectDescription("Опис предемета")
-                .isAddButtonEnabled();
+        openAndFillSubjectFields("Предметний", "Опис предмета");
 
-        assertThat(isEnabled)
+        assertThat(new AddingSubjectModal().isAddButtonEnabled())
                 .as("When both fields have valid data add button should be enabled")
                 .isTrue();
+    }
+
+    @Test
+    public void verifyNewSubjectCanNotBeCreatedWithInvalidTitle() {
+        openAndFillSubjectFields("5предметний предмет", "Валідний опис предмета");
+
+        assertThat(new AddingSubjectModal().isAddButtonEnabled())
+                .as("When title field has invalid data new subject can't be created")
+                .isFalse();
+    }
+
+    @Test
+    public void verifyNewSubjectCanNotBeCreatedWithInvalidDescription() {
+        openAndFillSubjectFields("Предметний предмет", "невалідний опис предмета");
+
+        assertThat(new AddingSubjectModal().isAddButtonEnabled())
+                .as("When description field has invalid data new subject can't be created")
+                .isFalse();
+    }
+
+    private void openAndFillSubjectFields(String title, String description) {
+        subjectsPage
+                .openAddingSubjectForm()
+                .setSubjectTitle(title)
+                .setSubjectDescription(description);
     }
 }
