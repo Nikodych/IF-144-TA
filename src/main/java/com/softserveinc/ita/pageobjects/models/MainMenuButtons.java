@@ -18,4 +18,3 @@ public enum MainMenuButtons {
 
     private final String pageName;
 }
-
