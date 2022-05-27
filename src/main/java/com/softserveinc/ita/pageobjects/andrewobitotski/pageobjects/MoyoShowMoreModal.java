@@ -1,9 +1,9 @@
-package com.softserveinc.ita.pageobjects.andrewobitotski;
+package com.softserveinc.ita.pageobjects.andrewobitotski.pageobjects;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static com.softserveinc.ita.utils.WebElementUtil.jsClick;
+import static com.softserveinc.ita.pageobjects.andrewobitotski.utils.WebElementUtil.jsClick;
 import static java.time.Duration.*;
 import static org.openqa.selenium.By.xpath;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;

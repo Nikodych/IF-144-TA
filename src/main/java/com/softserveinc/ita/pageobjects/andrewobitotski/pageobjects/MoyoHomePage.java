@@ -1,6 +1,6 @@
-package com.softserveinc.ita.pageobjects.andrewobitotski;
+package com.softserveinc.ita.pageobjects.andrewobitotski.pageobjects;
 
-import static com.softserveinc.ita.utils.ReadDataFileValues.URL_MOYO_HOMEPAGE;
+import static com.softserveinc.ita.pageobjects.andrewobitotski.utils.ReadDataFileValues.URL_MOYO_HOMEPAGE;
 import static org.openqa.selenium.support.PageFactory.initElements;
 
 public class MoyoHomePage extends BasePage {

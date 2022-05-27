@@ -1,6 +1,5 @@
-package com.softserveinc.ita.pageobjects.andrewobitotski;
+package com.softserveinc.ita.pageobjects.andrewobitotski.pageobjects;
 
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 

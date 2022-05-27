@@ -1,10 +1,10 @@
-package com.softserveinc.ita.utils;
+package com.softserveinc.ita.pageobjects.andrewobitotski.utils;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static com.softserveinc.ita.pageobjects.andrewobitotski.BasePage.*;
+import static com.softserveinc.ita.pageobjects.andrewobitotski.pageobjects.BasePage.*;
 
 public class WebElementUtil {
 

@@ -1,11 +1,11 @@
 package com.softserveinc.ita.andrewobitotski;
 
-import com.softserveinc.ita.pageobjects.andrewobitotski.GoogleSearchPage;
+import com.softserveinc.ita.pageobjects.andrewobitotski.pageobjects.GoogleSearchPage;
 import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 
-import static com.softserveinc.ita.utils.ReadDataFileValues.MENTION;
-import static com.softserveinc.ita.utils.ReadDataFileValues.SEARCH_REQUEST;
+import static com.softserveinc.ita.pageobjects.andrewobitotski.utils.ReadDataFileValues.MENTION;
+import static com.softserveinc.ita.pageobjects.andrewobitotski.utils.ReadDataFileValues.SEARCH_REQUEST;
 import static org.testng.Assert.assertTrue;
 
 public class GoogleSearchTest extends TestRunner {
