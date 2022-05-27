@@ -74,13 +74,6 @@ public class MainMenu {
         return new AboutUsPage();
     }
 
-    @Step("Main menu: Opened specialities page")
-    public SpecialitiesPage openSpecialitiesPage() {
-        $x(format(MENU_ITEM_PATH_TEMPLATE, "speciality")).click();
-
-        return new SpecialitiesPage();
-    }
-
     public String getLoggedUserName() {
         return $x("//mat-toolbar/button[1]")
                 .should(appear, ofSeconds(5))
