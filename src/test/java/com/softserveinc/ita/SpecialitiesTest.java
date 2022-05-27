@@ -41,9 +41,15 @@ public class SpecialitiesTest extends TestRunner {
 
         var randCode = new Random().nextInt(99999);
         var specialityCode = Integer.toString(randCode); // only numbers, no more than 5 symbols
-        var specialityName = "test"+randCode;
+        var specialityName = "test" + randCode;
 
-        specialitiesPage.addNewSpeciality(specialityCode, specialityName);
+        var messageText = specialitiesPage
+                .addNewSpeciality(specialityCode, specialityName)
+                .getMessageText();
+
+        assertThat(messageText)
+                .as("Message after adding should contain added speciality name")
+                .contains(specialityName);
 
         sleep(3000); // time for page to reload
 

@@ -3,6 +3,7 @@ package com.softserveinc.ita.pageobjects.admin;
 import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 
+import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Selenide.*;
 
 public class SpecialitiesPage extends MainMenu {
@@ -30,6 +31,12 @@ public class SpecialitiesPage extends MainMenu {
                 .$$x(".//tr")
                 .last()
                 .$x(".//td[contains(@class,'code')]")
+                .getText();
+    }
+
+    public String getMessageText() {
+        return $x("//simple-snack-bar/span")
+                .should(appear)
                 .getText();
     }
 }
