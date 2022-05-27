@@ -1,5 +1,6 @@
 package com.softserveinc.ita.pageobjects.admin;
 
+import com.softserveinc.ita.pageobjects.models.MainMenuButtons;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.appear;
@@ -12,63 +13,63 @@ public class MainMenu {
 
     @Step("Main menu: Opened dashboard page")
     public DashboardPage openDashboardPage() {
-        openPage(DASHBOARD_PAGE.getPageName());
+        openPage(DASHBOARD_PAGE);
 
         return new DashboardPage();
     }
 
     @Step("Main menu: Opened faculties page")
     public FacultiesPage openFacultiesPage() {
-        openPage(FACULTIES_PAGE.getPageName());
+        openPage(FACULTIES_PAGE);
 
         return new FacultiesPage();
     }
 
     @Step("Main menu: Opened groups page")
     public GroupsPage openGroupsPage() {
-        openPage(GROUPS_PAGE.getPageName());
+        openPage(GROUPS_PAGE);
 
         return new GroupsPage();
     }
 
     @Step("Main menu: Opened specialities page")
     public SpecialitiesPage openSpecialitiesPage() {
-        openPage(SPECIALITIES_PAGE.getPageName());
+        openPage(SPECIALITIES_PAGE);
 
         return new SpecialitiesPage();
     }
 
     @Step("Main menu: Opened subjects page")
     public SubjectsPage openSubjectsPage() {
-        openPage(SUBJECTS_PAGE.getPageName());
+        openPage(SUBJECTS_PAGE);
 
         return new SubjectsPage();
     }
 
     @Step("Main menu: Opened results page")
     public ResultsPage openResultsPage() {
-        openPage(RESULTS_PAGE.getPageName());
+        openPage(RESULTS_PAGE);
 
         return new ResultsPage();
     }
 
     @Step("Main menu: Opened protocol page")
     public ProtocolPage openProtocolPage() {
-        openPage(PROTOCOL_PAGE.getPageName());
+        openPage(PROTOCOL_PAGE);
 
         return new ProtocolPage();
     }
 
     @Step("Main menu: Opened admins page")
     public AdminsPage openAdminsPage() {
-        openPage(ADMINS_PAGE.getPageName());
+        openPage(ADMINS_PAGE);
 
         return new AdminsPage();
     }
 
     @Step("Main menu: Opened about us page")
     public AboutUsPage openAboutUsPage() {
-        openPage(ABOUT_US_PAGE.getPageName());
+        openPage(ABOUT_US_PAGE);
 
         return new AboutUsPage();
     }
@@ -79,8 +80,8 @@ public class MainMenu {
                 .getText();
     }
 
-    private void openPage(String pageName) {
-        $x(format("//a[@href='/admin/%s']", pageName))
+    private void openPage(MainMenuButtons pageName) {
+        $x(format("//a[@href='/admin/%s']", pageName.getPageName()))
                 .should(appear, ofSeconds(5))
                 .click();
     }

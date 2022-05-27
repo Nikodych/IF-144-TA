@@ -3,7 +3,6 @@ package com.softserveinc.ita.pageobjects.models;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@Getter
 @RequiredArgsConstructor
 public enum MainMenuButtons {
     DASHBOARD_PAGE("dashboard"),
@@ -16,5 +15,6 @@ public enum MainMenuButtons {
     ADMINS_PAGE("admin-user"),
     ABOUT_US_PAGE("aboutUs");
 
+    @Getter
     private final String pageName;
 }
