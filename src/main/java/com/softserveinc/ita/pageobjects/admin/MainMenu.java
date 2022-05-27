@@ -4,7 +4,7 @@ import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Selenide.$x;
-import static com.softserveinc.ita.pageobjects.models.DateTimeRange.MainMenuButtons.*;
+import static com.softserveinc.ita.pageobjects.models.MainMenuButtons.*;
 import static java.lang.String.format;
 import static java.time.Duration.ofSeconds;
 
