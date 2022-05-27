@@ -14,7 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SubjectsTest extends TestRunner {
 
     private SubjectsPage subjectsPage;
-    private final AddingSubjectModal addingSubjectModal = new AddingSubjectModal();
 
     @BeforeMethod
     public void openSubjectsPage() {
@@ -27,7 +26,7 @@ public class SubjectsTest extends TestRunner {
     public void verifyAddSubjectButtonIsEnabledWithValidData() {
         openAndFillSubjectFields("Предметний", "Опис предмета");
 
-        assertThat(addingSubjectModal.isAddButtonEnabled())
+        assertThat(new AddingSubjectModal().isAddButtonEnabled())
                 .as("When both fields have valid data add button should be enabled")
                 .isTrue();
     }
@@ -36,7 +35,7 @@ public class SubjectsTest extends TestRunner {
     public void verifyNewSubjectCanNotBeCreatedWithInvalidTitle() {
         openAndFillSubjectFields("5предметний предмет", "Валідний опис предмета");
 
-        assertThat(addingSubjectModal.isAddButtonEnabled())
+        assertThat(new AddingSubjectModal().isAddButtonEnabled())
                 .as("When title field has invalid data new subject can't be created")
                 .isFalse();
     }
@@ -45,7 +44,7 @@ public class SubjectsTest extends TestRunner {
     public void verifyNewSubjectCanNotBeCreatedWithInvalidDescription() {
         openAndFillSubjectFields("Предметний предмет", "невалідний опис предмета");
 
-        assertThat(addingSubjectModal.isAddButtonEnabled())
+        assertThat(new AddingSubjectModal().isAddButtonEnabled())
                 .as("When description field has invalid data new subject can't be created")
                 .isFalse();
     }
