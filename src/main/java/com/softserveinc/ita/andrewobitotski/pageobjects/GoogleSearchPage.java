@@ -1,9 +1,9 @@
-package com.softserveinc.ita.pageobjects.andrewobitotski.pageobjects;
+package com.softserveinc.ita.andrewobitotski.pageobjects;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import static com.softserveinc.ita.pageobjects.andrewobitotski.utils.ReadDataFileValues.URL_GOOGLE_HOMEPAGE;
+import static com.softserveinc.ita.andrewobitotski.utils.ReadDataFileValues.URL_GOOGLE_HOMEPAGE;
 import static org.openqa.selenium.support.PageFactory.initElements;
 
 public class GoogleSearchPage extends BasePage {

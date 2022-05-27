@@ -1,4 +1,4 @@
-package com.softserveinc.ita.pageobjects.andrewobitotski.pageobjects;
+package com.softserveinc.ita.andrewobitotski.pageobjects;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

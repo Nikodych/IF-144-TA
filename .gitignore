@@ -67,4 +67,3 @@ build
 /*/allure-results/
 out
 .gradletasknamecache
-driver/

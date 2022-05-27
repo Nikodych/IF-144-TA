@@ -1,4 +1,4 @@
-package com.softserveinc.ita.pageobjects.andrewobitotski.pageobjects;
+package com.softserveinc.ita.andrewobitotski.pageobjects;
 
 import static java.lang.String.*;
 import static org.openqa.selenium.By.xpath;

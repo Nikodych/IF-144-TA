@@ -1,7 +1,7 @@
 package com.softserveinc.ita.alukavenko.utils;
 
 import com.softserveinc.ita.alukavenko.pageobjects.BasePage;
-import io.github.bonigarcia.wdm.ChromeDriverManager;
+import io.github.bonigarcia.wdm.managers.ChromeDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeClass;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-public class TestRunner {
+public abstract class TestRunner {
 
     protected WebDriver driver;
 

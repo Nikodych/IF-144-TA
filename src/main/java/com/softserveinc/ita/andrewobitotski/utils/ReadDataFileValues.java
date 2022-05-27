@@ -1,4 +1,4 @@
-package com.softserveinc.ita.pageobjects.andrewobitotski.utils;
+package com.softserveinc.ita.andrewobitotski.utils;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;

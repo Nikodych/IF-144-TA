@@ -1,10 +1,11 @@
 package com.softserveinc.ita.andrewobitotski;
 
-import com.softserveinc.ita.pageobjects.andrewobitotski.pageobjects.MoyoHomePage;
+import com.softserveinc.ita.andrewobitotski.utils.TestRunner;
+import com.softserveinc.ita.andrewobitotski.pageobjects.MoyoHomePage;
 import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 
-import static com.softserveinc.ita.pageobjects.andrewobitotski.utils.ReadDataFileValues.*;
+import static com.softserveinc.ita.andrewobitotski.utils.ReadDataFileValues.*;
 import static org.testng.Assert.*;
 
 public class MoyoSearchTests extends TestRunner {

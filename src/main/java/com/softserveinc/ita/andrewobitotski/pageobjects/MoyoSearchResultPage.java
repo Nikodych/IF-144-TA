@@ -1,4 +1,4 @@
-package com.softserveinc.ita.pageobjects.andrewobitotski.pageobjects;
+package com.softserveinc.ita.andrewobitotski.pageobjects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
