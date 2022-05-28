@@ -3,11 +3,10 @@ package com.softserveinc.ita.pageobjects.admin;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 import static java.time.Duration.ofSeconds;
 
-public class AddingSubjectModal {
+public class AddingSubjectModal extends AddingFormModal {
 
     @Step("Adding subject modal: Set subject title")
     public AddingSubjectModal setSubjectTitle(String title) {
@@ -25,11 +24,5 @@ public class AddingSubjectModal {
                 .sendKeys(description);
 
         return this;
-    }
-
-    public boolean isAddButtonEnabled() {
-        return $x("//button[@type='submit']")
-                .shouldBe(visible)
-                .isEnabled();
     }
 }

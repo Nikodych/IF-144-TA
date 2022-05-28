@@ -22,8 +22,8 @@ public class FacultiesPage extends MainMenu {
         return $$x("//td[contains(@class, 'faculty_name')]").texts();
     }
 
-    @Step("Faculties page: open adding faculties form")
-    public AddingFacultyModal clickOnAddFacultyButton() {
+    @Step("Faculties page: opened adding faculties form")
+    public AddingFacultyModal openAddingFacultyForm() {
         $x("//button[@class ='btn mat-stroked-button mat-button-base']").click();
 
         return new AddingFacultyModal();

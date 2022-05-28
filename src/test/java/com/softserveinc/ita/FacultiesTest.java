@@ -49,30 +49,66 @@ public class FacultiesTest extends TestRunner {
     @Test
     public void verifySearchFieldDoesntWorkWithInvalidInput() {
         var numberOfFaculties = facultiesPage
-                .performSearch(INVALID)
+                .performSearch("#@&$%^")
                 .getFaculties()
                 .size();
 
         assertThat(numberOfFaculties)
-                .as("Search of the faculty doesn't perform if invalid data is entered")
+                .as( "Search of the faculty doesn't perform if invalid data is entered")
                 .isEqualTo(0);
     }
 
     @Test
     public void verifyAddingFacultyFormIsDisplayed() {
-        var actualResult
-                = facultiesPage
-                .clickOnAddFacultyButton()
-                .isAddFacultyFormIsDisplayed();
+        var actualResult = facultiesPage
+                .openAddingFacultyForm()
+                .isAddingFormDisplayed();
 
         assertThat(actualResult)
-                .as("Clicking on the button 'Додати факльтет' make add faculty form appear")
+                .as("Adding faculty form should appear after clicking on 'Add faculty' button")
                 .isTrue();
+    }
+
+    @Test
+    public void verifySubmitButtonIsEnabledWithValidData() {
+        var actualResult = openAndFillSubjectFields("факультет", "опис факультету");
+
+        assertThat(actualResult)
+                .as("When both fields filled with valid data 'Add faculty' button should be enabled")
+                .isTrue();
+    }
+
+    @Test
+    public void verifyAddFacultyButtonIsNotEnabledWithInvalidTitle() {
+        var actualResult = openAndFillSubjectFields("?невалідний факультет", "опис факультету");
+
+        assertThat(actualResult)
+                .as("When name of faculty is invalid 'Add faculty' button shouldn't be enabled.")
+                .isFalse();
+
+    }
+
+    @Test
+    public void verifyAddFacultyButtonIsNotEnabledWithInvalidDescription() {
+        var actualResult = openAndFillSubjectFields("факультет", "опиs факультету");
+
+        assertThat(actualResult)
+                .as("When description is invalid 'Add faculty' button shouldn't be enabled.")
+                .isFalse();
+
+    }
+
+    private boolean openAndFillSubjectFields(String title, String description) {
+        return facultiesPage
+                .openAddingFacultyForm()
+                .setFacultyTitle(title)
+                .setFacultyDescription(description)
+                .isAddButtonEnabled();
     }
 
     @DataProvider(name = "searchValues")
     public static Object[][] inputData() {
-        return new Object[][]{{DESCRIPTION, "Інститут інформаційних технологій"},
-                {FACULTY, "Інститут інформаційних технологій"}};
+        return new Object[][]{{"факультет справжніх", "Інститут інформаційних технологій"},
+                {"Інститут інформаційних технологій", "Інститут інформаційних технологій"}};
     }
 }
