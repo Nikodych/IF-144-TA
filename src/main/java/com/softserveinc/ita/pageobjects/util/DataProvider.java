@@ -1,20 +1,17 @@
 package com.softserveinc.ita.pageobjects.util;
 
 import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
+
+import static com.typesafe.config.ConfigFactory.load;
 
 public interface DataProvider {
 
     static Config readConfig() {
-        return ConfigFactory.systemProperties().hasPath("testProfile")
-                ? ConfigFactory.load(ConfigFactory.systemProperties().getString("testProfile"))
-                : ConfigFactory.load("data.conf");
+        return load("data.conf");
     }
 
     static Config readCredentials() {
-        return ConfigFactory.systemProperties().hasPath("testProfile")
-                ? ConfigFactory.load(ConfigFactory.systemProperties().getString("testProfile"))
-                : ConfigFactory.load("credentials.conf");
+        return load("credentials.conf");
     }
 
     String ADMIN_LOGIN = readCredentials().getString("users.admin.login");
