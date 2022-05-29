@@ -4,7 +4,7 @@ test automation with Java.
 During this project website dtapi.if.ua (d-tester) will be
 covered with auto-tests(both UI and API tests)
 
-###Technologies and tools to be used
+##Technologies and tools to be used
 
 - IntelliJ IDEA
 - Java
@@ -20,6 +20,7 @@ covered with auto-tests(both UI and API tests)
 - REST Assured
 
 ##About dtapi.if.ua (d-tester)
+
 This is the system for checking knowledge level of students which was written by Yuriy Bezgachnyuk
 
 Back-end is deployed on:
@@ -45,7 +46,7 @@ The system consist of two subsystems:
 - Result
 
 **dtapi** is REST API written on Kohana® PHP Framework.
-That means it supports **CRUD** operations with next ***HTTP*** methods:
+That means it supports **CRUD** operations with next **HTTP** methods:
 - `POST` (CREATE and UPDATE)
 - `GET` (READ)
 - `DELETE` (DELETE)
