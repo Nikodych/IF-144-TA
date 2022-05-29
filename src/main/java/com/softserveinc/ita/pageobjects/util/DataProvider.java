@@ -4,7 +4,6 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
 public interface DataProvider {
-    Config config = readConfig();
 
     static Config readConfig() {
         return ConfigFactory.systemProperties().hasPath("testProfile")
@@ -12,10 +11,17 @@ public interface DataProvider {
                 : ConfigFactory.load("data.conf");
     }
 
-    String ADMIN_LOGIN = readConfig().getString("users.admin.login");
-    String ADMIN_PASSWORD = readConfig().getString("users.admin.password");
-    String STUDENT_LOGIN = readConfig().getString("users.student.login");
-    String STUDENT_PASSWORD = readConfig().getString("users.student.password");
+    static Config readCredentials() {
+        return ConfigFactory.systemProperties().hasPath("testProfile")
+                ? ConfigFactory.load(ConfigFactory.systemProperties().getString("testProfile"))
+                : ConfigFactory.load("credentials.conf");
+    }
+
+    String ADMIN_LOGIN = readCredentials().getString("users.admin.login");
+    String ADMIN_PASSWORD = readCredentials().getString("users.admin.password");
+    String STUDENT_LOGIN = readCredentials().getString("users.student.login");
+    String STUDENT_PASSWORD = readCredentials().getString("users.student.password");
+
     String LOGIN_PAGE_URL = readConfig().getString("pages.login");
     String DASHBOARD_PAGE_URL = readConfig().getString("pages.dashboard");
     String FACULTIES_PAGE_URL = readConfig().getString("pages.faculties");
