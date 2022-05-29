@@ -4,7 +4,7 @@ test automation with Java.
 During this project website dtapi.if.ua (d-tester) will be
 covered with auto-tests(both UI and API tests)
 
-##Technologies and tools to be used
+## Technologies and tools to be used
 
 - IntelliJ IDEA
 - Java
@@ -19,7 +19,7 @@ covered with auto-tests(both UI and API tests)
 - Postman
 - REST Assured
 
-##About dtapi.if.ua (d-tester)
+## About dtapi.if.ua (d-tester)
 
 This is the system for checking knowledge level of students which was written by Yuriy Bezgachnyuk
 
@@ -30,7 +30,7 @@ The system consist of two subsystems:
 - Admin subsystem
 - Student subsystem
 
-###It includes different entities such as:
+### It includes different entities such as:
 - Faculty
 - Speciality
 - Group
