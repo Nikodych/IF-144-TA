@@ -50,15 +50,15 @@ public class SubjectsTest extends TestRunner {
     }
 
     @Test
-    public void verifyNewSubjectShouldBeDisplayedInTableOfSubjects() {
+    public void verifyAddingNewSubject() {
         var subjectName = "Новий предмет";
         var subjectDescription = "Його опис";
 
         openAndFillSubjectFields(subjectName, subjectDescription);
-        new AddingSubjectModal().addNewSubject();
 
-        var isAddedAtTheEnd = subjectsPage
-                .showLastPageOfTable()
+        var isAddedAtTheEnd = new AddingSubjectModal()
+                .addNewSubject()
+                .switchToLastPageOfTable()
                 .getNamesOfSubjects()
                 .contains(subjectName);
 
@@ -67,7 +67,7 @@ public class SubjectsTest extends TestRunner {
                 .isTrue();
 
         var isFound = subjectsPage
-                .showFirstPageOfTable()
+                .switchToFirstPageOfTable()
                 .setSearchValue(subjectName)
                 .getNamesOfSubjects()
                 .contains(subjectName);

@@ -21,14 +21,14 @@ public class SubjectsPage extends MainMenu {
     }
 
     @Step("Subjects Page: Showed last page of table")
-    public SubjectsPage showLastPageOfTable() {
+    public SubjectsPage switchToLastPageOfTable() {
         $x("//mat-paginator//button[contains(@class, 'mat-paginator-navigation-last')]").click();
 
         return this;
     }
 
     @Step("Subjects page: Showed first page of table")
-    public SubjectsPage showFirstPageOfTable() {
+    public SubjectsPage switchToFirstPageOfTable() {
         $x("//mat-paginator//button[contains(@class, 'mat-paginator-navigation-first')]").click();
 
         return this;
