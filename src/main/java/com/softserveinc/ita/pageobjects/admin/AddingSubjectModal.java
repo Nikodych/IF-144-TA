@@ -27,6 +27,13 @@ public class AddingSubjectModal {
         return this;
     }
 
+    @Step("Adding subject modal: Added new subject")
+    public SubjectsPage addNewSubject() {
+        $x("//button[@type='submit']").click();
+
+        return new SubjectsPage();
+    }
+
     public boolean isAddButtonEnabled() {
         return $x("//button[@type='submit']")
                 .shouldBe(visible)
