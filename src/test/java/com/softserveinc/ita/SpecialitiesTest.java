@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
+import static com.softserveinc.ita.pageobjects.util.RandomUtil.getRandomNumber;
 import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -39,7 +40,7 @@ public class SpecialitiesTest extends TestRunner {
     @Description("Test to verify new speciality is added")
     public void verifyAddingNewSpeciality() {
 
-        var randCode = RandomUtil.getRandomNumber(5);
+        var randCode = getRandomNumber(5);
         var specialityCode = Integer.toString(randCode); // only numbers, no more than 5 symbols
         var specialityName = "test" + randCode;
 
