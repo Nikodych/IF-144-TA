@@ -29,4 +29,11 @@ public interface DataProvider {
     String START_DATE = readConfig().getString("dates.startDate");
     String END_DATE = readConfig().getString("dates.endDate");
     String ERROR_MESSAGE_WRONG_DATE_ORDER = readConfig().getString("messages.error.wrongDateOrder");
+    String FACULTY_NAME = readConfig().getString("fieldsInAddingForms.faculties.facultyName");
+    String SUBJECT_NAME = readConfig().getString("fieldsInAddingForms.subjects.subjectName");
+    String FACULTY_DESCRIPTION = readConfig().getString("fieldsInAddingForms.faculties.facultyDescription");
+    String SUBJECT_DESCRIPTION = readConfig().getString("fieldsInAddingForms.subjects.subjectDescription");
+    String INPUT_TEMPLATE = readConfig().getString("addingFormsTemplates.input");
+    String TEXTAREA_TEMPLATE = readConfig().getString("addingFormsTemplates.textArea");
+    String MAT_SELECT_TEMPLATE = readConfig().getString("addingFormsTemplates.matSelect");
 }
