@@ -15,14 +15,14 @@ public class AboutUsTest extends TestRunner {
 
     private AboutUsPage aboutUsPage;
 
-    @BeforeMethod
+    @BeforeMethod (groups = {"positive", "negative"})
     public void openAboutUsPage() {
         aboutUsPage = new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openAboutUsPage();
     }
 
-    @Test
+    @Test (groups = "positive")
     @Description("Test to verify About Us page opening")
     public void verifyAboutUsPageOpening() {
 

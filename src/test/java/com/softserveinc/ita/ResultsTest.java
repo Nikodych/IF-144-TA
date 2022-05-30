@@ -15,14 +15,14 @@ public class ResultsTest extends TestRunner {
 
     private ResultsPage resultsPage;
 
-    @BeforeMethod
+    @BeforeMethod (groups = {"positive", "negative"})
     public void openResultsPage() {
         resultsPage = new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openResultsPage();
     }
 
-    @Test
+    @Test (groups = "positive")
     @Description("Test to verify Results page opening")
     public void verifyResultsPageOpening() {
 

@@ -15,14 +15,14 @@ public class AdminsTest extends TestRunner {
 
     private AdminsPage adminsPage;
 
-    @BeforeMethod
+    @BeforeMethod (groups = {"positive", "negative"})
     public void openAdminsPage() {
         adminsPage = new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openAdminsPage();
     }
 
-    @Test
+    @Test (groups = "positive")
     @Description("Test to verify Admins page opening")
     public void verifyAdminsPageOpening() {
 

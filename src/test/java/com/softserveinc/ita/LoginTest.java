@@ -8,11 +8,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
+import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 
 public class LoginTest extends TestRunner {
 
-    @Test
+    @Test (groups = "positive")
+    @Description("Test to verify that admin user can login")
     public void verifyAdminCanLogin() {
         var loggedUserName = new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
@@ -23,7 +25,8 @@ public class LoginTest extends TestRunner {
                 .isEqualTo(ADMIN_LOGIN);
     }
 
-    @Test
+    @Test (groups = "positive")
+    @Description("Test to verify that student user can login")
     public void verifyStudentCanLogin() {
         var loggedUserName = new LoginPage()
                 .login(STUDENT_LOGIN, STUDENT_PASSWORD)
