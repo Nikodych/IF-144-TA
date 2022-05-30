@@ -17,14 +17,14 @@ public class SpecialitiesTest extends TestRunner {
 
     private SpecialitiesPage specialitiesPage;
 
-    @BeforeMethod
+    @BeforeMethod (groups = {"positive", "negative"})
     public void openSpecialitiesPage() {
         specialitiesPage = new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openSpecialitiesPage();
     }
 
-    @Test
+    @Test (groups = "positive")
     @Description("Test to verify Specialities page opening")
     public void verifySpecialitiesPageOpening() {
 
@@ -36,7 +36,7 @@ public class SpecialitiesTest extends TestRunner {
                 .isEqualTo(expectedUrl);
     }
 
-    @Test
+    @Test (groups = "positive")
     @Description("Test to verify new speciality is added")
     public void verifyAddingNewSpeciality() {
 

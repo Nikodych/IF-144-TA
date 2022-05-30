@@ -19,14 +19,14 @@ public class ProtocolTest extends TestRunner {
 
     private ProtocolPage protocolPage;
 
-    @BeforeMethod
+    @BeforeMethod (groups = {"positive", "negative"})
     public void openProtocolPage() {
         protocolPage = new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openProtocolPage();
     }
 
-    @Test
+    @Test (groups = "positive")
     @Description("Test to verify Protocol page opening")
     public void verifyProtocolPageOpening() {
 
@@ -38,7 +38,8 @@ public class ProtocolTest extends TestRunner {
                 .isEqualTo(expectedUrl);
     }
 
-    @Test
+    @Test (groups = "positive")
+    @Description("Test to verify that date pickers should work with valid chosen options")
     public void verifyDatePickersOptionsChoosing() {
 
         var actualResult = protocolPage
@@ -51,7 +52,7 @@ public class ProtocolTest extends TestRunner {
                 .isTrue();
     }
 
-    @Test
+    @Test (groups = "positive")
     @Description("Test to verify search results are present when there is valid date range")
     public void verifySearchResultIsPresent() {
 
@@ -66,7 +67,7 @@ public class ProtocolTest extends TestRunner {
                 .isTrue();
     }
 
-    @Test
+    @Test (groups = "positive")
     @Description("Test to verify the date input fields work with valid input")
     public void verifyDateInputFields() {
 
@@ -80,7 +81,7 @@ public class ProtocolTest extends TestRunner {
                 .isTrue();
     }
 
-    @Test
+    @Test (groups = "positive")
     @Description("Test to verify the correct work of moving date pickers backward and forward by arrows")
     public void verifyDatePickersArrowsWork() {
 
@@ -118,7 +119,8 @@ public class ProtocolTest extends TestRunner {
         }
     }
 
-    @Test
+    @Test (groups = "negative")
+    @Description("Test to verify that search should not work when only start date is chosen")
     public void verifySearchButtonIsDisabledWhenOnlyStartDateIsFilled() {
 
         var actualResult = protocolPage
@@ -130,7 +132,8 @@ public class ProtocolTest extends TestRunner {
                 .isFalse();
     }
 
-    @Test
+    @Test (groups = "negative")
+    @Description("Test to verify that search should not work when only end date is chosen")
     public void verifySearchButtonIsDisabledWhenOnlyEndDateIsFilled() {
 
         var actualResult = protocolPage
@@ -142,7 +145,7 @@ public class ProtocolTest extends TestRunner {
                 .isFalse();
     }
 
-    @Test
+    @Test (groups = "negative")
     @Description("Test to verify the correctness of error message which should be present when there is wrong date order in date pickers")
     public void verifyErrorMessageWhenWrongDateOrder() {
 

@@ -16,14 +16,14 @@ public class FacultiesTest extends TestRunner {
 
     private FacultiesPage facultiesPage;
 
-    @BeforeMethod
+    @BeforeMethod (groups = {"positive", "negative"})
     public void openFacultiesPage() {
         facultiesPage = new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openFacultiesPage();
     }
 
-    @Test
+    @Test (groups = "positive")
     @Description("Test to verify Faculties page opening")
     public void verifyFacultiesPageOpening() {
 
@@ -35,7 +35,8 @@ public class FacultiesTest extends TestRunner {
                 .isEqualTo(expectedUrl);
     }
 
-    @Test(dataProvider = "searchValues")
+    @Test(groups = "positive", dataProvider = "searchValues")
+    @Description("Test to verify search field on the faculties page should work with valid input")
     public void verifySearchFieldWorksWithValidInput(String value, String expectedValue) {
         var listOfFaculties = facultiesPage
                 .performSearch(value)
@@ -46,7 +47,8 @@ public class FacultiesTest extends TestRunner {
                 .allMatch(it -> it.contains(expectedValue));
     }
 
-    @Test
+    @Test (groups = "negative")
+    @Description("Test to verify search field on the faculties page should not work with invalid input")
     public void verifySearchFieldDoesntWorkWithInvalidInput() {
         var numberOfFaculties = facultiesPage
                 .performSearch(INVALID)
