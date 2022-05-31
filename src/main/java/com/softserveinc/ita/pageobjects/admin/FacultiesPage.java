@@ -1,5 +1,6 @@
 package com.softserveinc.ita.pageobjects.admin;
 
+import com.softserveinc.ita.pageobjects.modals.AddingFacultyModal;
 import io.qameta.allure.Step;
 
 import java.util.List;

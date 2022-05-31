@@ -31,10 +31,12 @@ public class ProtocolPage extends MainMenu {
                 .getText();
     }
 
+    @Step("Protocol page: Chosen start date")
     public ProtocolPage chooseStartDate(LocalDate date) {
         return chooseDate(date, 1);
     }
 
+    @Step("Protocol page: Chosen end date")
     public ProtocolPage chooseEndDate(LocalDate date) {
         return chooseDate(date, 2);
     }

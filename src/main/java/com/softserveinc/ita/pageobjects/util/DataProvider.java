@@ -1,21 +1,24 @@
 package com.softserveinc.ita.pageobjects.util;
 
 import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
+
+import static com.typesafe.config.ConfigFactory.load;
 
 public interface DataProvider {
-    Config config = readConfig();
 
     static Config readConfig() {
-        return ConfigFactory.systemProperties().hasPath("testProfile")
-                ? ConfigFactory.load(ConfigFactory.systemProperties().getString("testProfile"))
-                : ConfigFactory.load("data.conf");
+        return load("data.conf");
     }
 
-    String ADMIN_LOGIN = readConfig().getString("users.admin.login");
-    String ADMIN_PASSWORD = readConfig().getString("users.admin.password");
-    String STUDENT_LOGIN = readConfig().getString("users.student.login");
-    String STUDENT_PASSWORD = readConfig().getString("users.student.password");
+    static Config readCredentials() {
+        return load("credentials.conf");
+    }
+
+    String ADMIN_LOGIN = readCredentials().getString("users.admin.login");
+    String ADMIN_PASSWORD = readCredentials().getString("users.admin.password");
+    String STUDENT_LOGIN = readCredentials().getString("users.student.login");
+    String STUDENT_PASSWORD = readCredentials().getString("users.student.password");
+
     String LOGIN_PAGE_URL = readConfig().getString("pages.login");
     String DASHBOARD_PAGE_URL = readConfig().getString("pages.dashboard");
     String FACULTIES_PAGE_URL = readConfig().getString("pages.faculties");
@@ -33,6 +36,8 @@ public interface DataProvider {
     String SUBJECT_NAME = readConfig().getString("fieldsInAddingForms.subjects.subjectName");
     String FACULTY_DESCRIPTION = readConfig().getString("fieldsInAddingForms.faculties.facultyDescription");
     String SUBJECT_DESCRIPTION = readConfig().getString("fieldsInAddingForms.subjects.subjectDescription");
+    String SPECIALTY_CODE = readConfig().getString("fieldsInAddingForms.specialties.specialityCode");
+    String SPECIALTY_NAME = readConfig().getString("fieldsInAddingForms.specialties.speciality_name");
     String INPUT_TEMPLATE = readConfig().getString("addingFormsTemplates.input");
     String TEXTAREA_TEMPLATE = readConfig().getString("addingFormsTemplates.textArea");
     String MAT_SELECT_TEMPLATE = readConfig().getString("addingFormsTemplates.matSelect");

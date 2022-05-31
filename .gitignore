@@ -62,3 +62,6 @@ myTests.xml
 # Allure
 allure-results/
 allure-report/
+
+#Credentials
+/src/main/resources/credentials.conf

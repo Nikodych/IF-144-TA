@@ -2,6 +2,7 @@ package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.FacultiesPage;
+import com.softserveinc.ita.pageobjects.modals.AddingFacultyModal;
 import com.softserveinc.ita.pageobjects.util.TestRunner;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
@@ -16,14 +17,14 @@ public class FacultiesTest extends TestRunner {
 
     private FacultiesPage facultiesPage;
 
-    @BeforeMethod
+    @BeforeMethod(groups = {"positive", "negative"})
     public void openFacultiesPage() {
         facultiesPage = new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openFacultiesPage();
     }
 
-    @Test
+    @Test(groups = "positive")
     @Description("Test to verify Faculties page opening")
     public void verifyFacultiesPageOpening() {
 
@@ -35,7 +36,8 @@ public class FacultiesTest extends TestRunner {
                 .isEqualTo(expectedUrl);
     }
 
-    @Test(dataProvider = "searchValues")
+    @Test(groups = "positive", dataProvider = "searchValuesValid")
+    @Description("Test to verify search field on the faculties page should work with valid input")
     public void verifySearchFieldWorksWithValidInput(String value, String expectedValue) {
         var listOfFaculties = facultiesPage
                 .performSearch(value)
@@ -46,19 +48,21 @@ public class FacultiesTest extends TestRunner {
                 .allMatch(it -> it.contains(expectedValue));
     }
 
-    @Test
-    public void verifySearchFieldDoesntWorkWithInvalidInput() {
+    @Test(groups = "negative", dataProvider = "searchValuesInvalid")
+    @Description("Test to verify search field on the faculties page should not work with invalid input")
+    public void verifySearchFieldDoesntWorkWithInvalidInput(String value, int expectedValue) {
         var numberOfFaculties = facultiesPage
-                .performSearch("#@&$%^")
+                .performSearch(value)
                 .getFaculties()
                 .size();
 
         assertThat(numberOfFaculties)
-                .as( "Search of the faculty doesn't perform if invalid data is entered")
-                .isEqualTo(0);
+                .as("Search of the faculty doesn't perform if invalid data is entered")
+                .isEqualTo(expectedValue);
     }
 
-    @Test
+    @Test(groups = "positive")
+    @Description("Test to verify adding faculty form appears after pressing on add faculty button")
     public void verifyAddingFacultyFormIsDisplayed() {
         var actualResult = facultiesPage
                 .openAddingFacultyForm()
@@ -69,18 +73,22 @@ public class FacultiesTest extends TestRunner {
                 .isTrue();
     }
 
-    @Test
+    @Test(groups = "positive")
+    @Description("Test to verify submit button is enabled when both fields filled with valid data")
     public void verifySubmitButtonIsEnabledWithValidData() {
-        var actualResult = openAndFillSubjectFields("факультет", "опис факультету");
+        var actualResult = openAndFillSubjectFields("факультет", "опис факультету")
+                .isAddButtonEnabled();
 
         assertThat(actualResult)
                 .as("When both fields filled with valid data 'Add faculty' button should be enabled")
                 .isTrue();
     }
 
-    @Test
-    public void verifyAddFacultyButtonIsNotEnabledWithInvalidTitle() {
-        var actualResult = openAndFillSubjectFields("?невалідний факультет", "опис факультету");
+    @Test(groups = "negative")
+    @Description("Test to verify submit button is not enabled when name of faculty is invalid")
+    public void verifySubmitButtonIsNotEnabledWithInvalidTitle() {
+        var actualResult = openAndFillSubjectFields("?невалідний факультет", "опис факультету")
+                .isAddButtonEnabled();
 
         assertThat(actualResult)
                 .as("When name of faculty is invalid 'Add faculty' button shouldn't be enabled.")
@@ -89,8 +97,10 @@ public class FacultiesTest extends TestRunner {
     }
 
     @Test
+    @Description("Test to verify submit button is not enabled when description of faculty is invalid")
     public void verifyAddFacultyButtonIsNotEnabledWithInvalidDescription() {
-        var actualResult = openAndFillSubjectFields("факультет", "опиs факультету");
+        var actualResult = openAndFillSubjectFields("факультет", "опиs факультету")
+                .isAddButtonEnabled();
 
         assertThat(actualResult)
                 .as("When description is invalid 'Add faculty' button shouldn't be enabled.")
@@ -98,17 +108,24 @@ public class FacultiesTest extends TestRunner {
 
     }
 
-    private boolean openAndFillSubjectFields(String title, String description) {
+    private AddingFacultyModal openAndFillSubjectFields(String title, String description) {
         return facultiesPage
                 .openAddingFacultyForm()
-                .setFacultyTitle(title)
-                .setFacultyDescription(description)
-                .isAddButtonEnabled();
+                .setValueFor(FACULTY_NAME, title)
+                .setDescriptionFor(FACULTY_DESCRIPTION, description);
     }
 
-    @DataProvider(name = "searchValues")
+    @DataProvider(name = "searchValuesValid")
     public static Object[][] inputData() {
         return new Object[][]{{"факультет справжніх", "Інститут інформаційних технологій"},
                 {"Інститут інформаційних технологій", "Інститут інформаційних технологій"}};
+    }
+
+    @DataProvider(name = "searchValuesInvalid")
+    public Object[][] inputDataInvalid() {
+        return new Object[][]{{"#@&$%^", 0},
+                {"123", 0},
+                {"asdf",0},
+                {"неіснуючий факультет",0}};
     }
 }

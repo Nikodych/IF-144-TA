@@ -15,14 +15,14 @@ public class DashboardTest extends TestRunner {
 
     private DashboardPage dashboardPage;
 
-    @BeforeMethod
+    @BeforeMethod (groups = {"positive", "negative"})
     public void openDashboardPage() {
         dashboardPage = new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openDashboardPage();
     }
 
-    @Test
+    @Test (groups = "positive")
     @Description("Test to verify Dashboard Us page opening")
     public void verifyDashboardPageOpening() {
 
