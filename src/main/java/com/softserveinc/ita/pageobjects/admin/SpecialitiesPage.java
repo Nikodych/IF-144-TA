@@ -1,6 +1,7 @@
 package com.softserveinc.ita.pageobjects.admin;
 
 import com.codeborne.selenide.SelenideElement;
+import com.softserveinc.ita.pageobjects.models.SpecialityEntity;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.appear;
@@ -15,11 +16,13 @@ public class SpecialitiesPage extends MainMenu {
     private SelenideElement buttonNavigationFirst = $x("//button[contains(@class,'paginator-navigation-first')]");
     private SelenideElement buttonNavigationNext = $x("//button[contains(@class,'paginator-navigation-next')]");
 
+    private SelenideElement progressBar = $x("//mat-progress-bar");
+
     @Step("Speciality page: Added new speciality")
-    public SpecialitiesPage addNewSpeciality(String code, String name) {
+    public SpecialitiesPage addNewSpeciality(SpecialityEntity speciality) {
         $x("//button[contains(@class,'addButton')]").click();
-        $x("//input[@formcontrolname='speciality_code']").setValue(code);
-        $x("//input[@formcontrolname='speciality_name']").setValue(name);
+        $x("//input[@formcontrolname='speciality_code']").setValue(speciality.getCode());
+        $x("//input[@formcontrolname='speciality_name']").setValue(speciality.getName());
         $x("//button/span[contains(text(),'Підтвердити')]").click();
 
         return this;
@@ -40,14 +43,14 @@ public class SpecialitiesPage extends MainMenu {
 
     @Step("Speciality page: Waited for progress bar to disappear")
     public SpecialitiesPage waitForProgressBarToDisappear() {
-        $x("//mat-progress-bar").should(disappear);
+        progressBar.should(disappear);
 
         return this;
     }
 
     @Step("Speciality page: Waited for progress bar to appear")
     public SpecialitiesPage waitForProgressBarToAppear() {
-        $x("//mat-progress-bar").should(appear);
+        progressBar.should(appear);
 
         return this;
     }
@@ -60,8 +63,8 @@ public class SpecialitiesPage extends MainMenu {
     }
 
     @Step("Speciality page: Deleted speciality by code")
-    public SpecialitiesPage deleteSpecialityByCode(String code) {
-        SelenideElement currentRow = findRowByColumnValue(code);
+    public SpecialitiesPage deleteSpeciality(SpecialityEntity speciality) {
+        SelenideElement currentRow = findRowByColumnValue(speciality.getCode()); //consider code as unique field
         currentRow.$x(".//i[contains(@class,'delete')]").click();
         $x("//button/span[contains(text(),'Підтвердити')]").click();
 
