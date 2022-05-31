@@ -65,6 +65,6 @@ public class SpecialitiesTest extends TestRunner {
        return specialitiesPage
                 .openAddingSpecialtyForm()
                 .setValueFor(SPECIALTY_CODE, code)
-                .setDescriptionFor(SPECIALTY_NAME, name);
+                .setValueFor(SPECIALTY_NAME, name);
     }
 }

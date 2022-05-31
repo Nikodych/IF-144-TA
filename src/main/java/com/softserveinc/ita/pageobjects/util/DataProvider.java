@@ -37,7 +37,7 @@ public interface DataProvider {
     String FACULTY_DESCRIPTION = readConfig().getString("fieldsInAddingForms.faculties.facultyDescription");
     String SUBJECT_DESCRIPTION = readConfig().getString("fieldsInAddingForms.subjects.subjectDescription");
     String SPECIALTY_CODE = readConfig().getString("fieldsInAddingForms.specialties.specialityCode");
-    String SPECIALTY_NAME = readConfig().getString("fieldsInAddingForms.specialties.speciality_name");
+    String SPECIALTY_NAME = readConfig().getString("fieldsInAddingForms.specialties.specialityName");
     String INPUT_TEMPLATE = readConfig().getString("addingFormsTemplates.input");
     String TEXTAREA_TEMPLATE = readConfig().getString("addingFormsTemplates.textArea");
     String MAT_SELECT_TEMPLATE = readConfig().getString("addingFormsTemplates.matSelect");

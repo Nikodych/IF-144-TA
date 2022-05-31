@@ -6,12 +6,15 @@ import io.qameta.allure.Step;
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Selenide.$x;
+import static java.time.Duration.ofSeconds;
 
 public class SpecialitiesPage extends MainMenu {
 
     @Step("Subjects page: Opened adding subject form")
     public AddingSpecialtyModal openAddingSpecialtyForm() {
-        $x("//button[contains(@class,'addButton')]").click();
+        $x("//button[contains(@class,'addButton')]")
+                .should(appear, ofSeconds(5))
+                .click();
 
         return new AddingSpecialtyModal();
     }
@@ -41,7 +44,7 @@ public class SpecialitiesPage extends MainMenu {
     @Step("Speciality page: Got pop-up message text")
     public String getMessageText() {
         return $x("//simple-snack-bar/span")
-                .should(appear)
+                .should(appear, ofSeconds(5))
                 .getText();
     }
 }

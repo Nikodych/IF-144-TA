@@ -9,8 +9,9 @@ public class AddingSpecialtyModal extends BaseModal<AddingSpecialtyModal>{
 
     @Step("Adding specialty modal: Added new specialty")
     public SpecialitiesPage addNewSpecialty() {
-        $x("//button[@type='submit']").click();
+        $x("//button/span[contains(text(),'Підтвердити')]").click();
 
         return new SpecialitiesPage();
     }
+
 }
