@@ -55,7 +55,7 @@ public class ApiAuthTest {
     }
 
     @Test
-    @Description("Test to verify admin user should be able to logout")
+    @Description("Test to verify student user should be able to logout")
     public void verifyStudentUserCanLogout() {
         verifyUserCanLogout(authAsStudent());
     }
