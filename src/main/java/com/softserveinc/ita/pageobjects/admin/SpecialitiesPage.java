@@ -4,32 +4,49 @@ import com.codeborne.selenide.SelenideElement;
 import com.softserveinc.ita.pageobjects.models.SpecialityEntity;
 import io.qameta.allure.Step;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
+import static java.lang.String.format;
 
 public class SpecialitiesPage extends MainMenu {
 
-    private SelenideElement buttonNavigationLast = $x("//button[contains(@class,'paginator-navigation-last')]");
-    private SelenideElement buttonNavigationFirst = $x("//button[contains(@class,'paginator-navigation-first')]");
-    private SelenideElement buttonNavigationNext = $x("//button[contains(@class,'paginator-navigation-next')]");
+    private final String NAVIGATION_BUTTON_PATH_TEMPLATE = "//button[contains(@Class,'paginator-navigation-%s')]";
 
     private SelenideElement progressBar = $x("//mat-progress-bar");
 
-    @Step("Speciality page: Added new speciality")
-    public SpecialitiesPage addNewSpeciality(SpecialityEntity speciality) {
-        $x("//button[contains(@class,'addButton')]").click();
-        $x("//input[@formcontrolname='speciality_code']").setValue(speciality.getCode());
-        $x("//input[@formcontrolname='speciality_name']").setValue(speciality.getName());
+    public SpecialitiesPage confirmModal() {
         $x("//button/span[contains(text(),'Підтвердити')]").click();
+
+        return this;
+    }
+
+    public SpecialitiesPage setName(String value) {
+        $x("//input[@formcontrolname='speciality_name']").setValue(value);
+
+        return this;
+    }
+
+    public SpecialitiesPage setCode(String value) {
+        $x("//input[@formcontrolname='speciality_code']").setValue(value);
+
+        return this;
+    }
+
+    public SpecialitiesPage openAddingNewForm() {
+        $x("//button[contains(@class,'addButton')]").click();
 
         return this;
     }
 
     @Step("Speciality page: Got last speciality code")
     public String getLastSpecialityCode() {
+        var buttonNavigationLast = $x(format(NAVIGATION_BUTTON_PATH_TEMPLATE, "last"));
+
         if (buttonNavigationLast.isEnabled()) {
             buttonNavigationLast.click();
         }
@@ -50,7 +67,7 @@ public class SpecialitiesPage extends MainMenu {
 
     @Step("Speciality page: Waited for progress bar to appear")
     public SpecialitiesPage waitForProgressBarToAppear() {
-        progressBar.should(appear);
+        progressBar.should(appear, Duration.ofSeconds(3));
 
         return this;
     }
@@ -64,21 +81,22 @@ public class SpecialitiesPage extends MainMenu {
 
     @Step("Speciality page: Deleted speciality by code")
     public SpecialitiesPage deleteSpeciality(SpecialityEntity speciality) {
-        SelenideElement currentRow = findRowByColumnValue(speciality.getCode()); //consider code as unique field
+        var currentRow = findRowByColumnValue(speciality.getCode()); //consider code as unique field
         currentRow.$x(".//i[contains(@class,'delete')]").click();
-        $x("//button/span[contains(text(),'Підтвердити')]").click();
+        confirmModal();
 
         return this;
     }
 
     private SelenideElement findRowByColumnValue(String searchValue) {
-        SelenideElement currentRow;
+        var buttonNavigationFirst = $x(format(NAVIGATION_BUTTON_PATH_TEMPLATE, "first"));
 
         if (buttonNavigationFirst.isEnabled()) {
             buttonNavigationFirst.click();
         }
 
-        currentRow = findRowOnCurrentPageByColumnValue(searchValue);
+        var currentRow = findRowOnCurrentPageByColumnValue(searchValue);
+        var buttonNavigationNext = $x(format(NAVIGATION_BUTTON_PATH_TEMPLATE, "next"));
 
         while (buttonNavigationNext.isEnabled() && currentRow == null) {
             buttonNavigationNext.click();
@@ -95,6 +113,7 @@ public class SpecialitiesPage extends MainMenu {
     private SelenideElement findRowOnCurrentPageByColumnValue(String searchValue) {
         SelenideElement searchRow = null;
         var tableRows = $$x("//table//tr//td");
+
         if (tableRows
                 .texts()
                 .contains(searchValue)) {
