@@ -22,6 +22,9 @@
         <lombok.version>1.18.24</lombok.version>
         <java.version>11</java.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+
+        <suiteXmlFile>positivetestssuite.xml</suiteXmlFile>
+        <suiteXmlFile1>negativetestssuite.xml</suiteXmlFile1>
     </properties>
 
     <build>
@@ -31,6 +34,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
                 <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+                        <suiteXmlFile>${suiteXmlFile1}</suiteXmlFile>
+                    </suiteXmlFiles>
                     <systemPropertyVariables>
                         <allure.results.directory>
                             ${project.basedir}/target/allure-results
