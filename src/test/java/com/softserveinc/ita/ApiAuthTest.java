@@ -43,7 +43,7 @@ public class ApiAuthTest {
     }
 
     @Test
-    @Description("Test to verify admin user is logged")
+    @Description("Test to verify student user is logged")
     public void verifyStudentUserIsLogged() {
         verifyUserIsLogged(authAsStudent(), STUDENT_LOGIN);
     }
