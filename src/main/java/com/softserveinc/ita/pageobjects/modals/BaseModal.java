@@ -10,7 +10,7 @@ import static java.lang.String.format;
 import static java.time.Duration.*;
 
 public class BaseModal<T extends BaseModal<T>> {
-    @Step("Adding form modal: Set {formControlName} title")
+    @Step("Adding form modal: Set {formControlName}")
     public T setValueFor(String formControlName, String value) {
         $x(format(INPUT_TEMPLATE, formControlName))
                 .should(appear, ofSeconds(5))
@@ -19,7 +19,7 @@ public class BaseModal<T extends BaseModal<T>> {
         return (T) this;
     }
 
-    @Step("Adding form modal: Set {formControlName} description")
+    @Step("Adding form modal: Set {formControlName}")
     public T setDescriptionFor(String formControlName, String description) {
         $x(format(TEXTAREA_TEMPLATE, formControlName))
                 .should(appear, ofSeconds(5))
@@ -38,5 +38,10 @@ public class BaseModal<T extends BaseModal<T>> {
         return $x("//mat-dialog-container")
                 .should(visible, ofSeconds(5))
                 .isDisplayed();
+    }
+
+    @Step("Adding form modal: added new item.")
+    public void addNewItem() {
+        $x("//button[@type='submit']").click();
     }
 }

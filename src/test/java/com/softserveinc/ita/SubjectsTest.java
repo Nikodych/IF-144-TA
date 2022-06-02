@@ -16,14 +16,14 @@ public class SubjectsTest extends TestRunner {
 
     private SubjectsPage subjectsPage;
 
-    @BeforeMethod (groups = {"positive", "negative"})
+    @BeforeMethod(groups = {"positive", "negative"})
     public void openSubjectsPage() {
         subjectsPage = new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openSubjectsPage();
     }
 
-    @Test (groups = "positive")
+    @Test(groups = "positive")
     @Description("Test to verify Subjects page opening")
     public void verifySubjectsPageOpening() {
 
@@ -35,7 +35,7 @@ public class SubjectsTest extends TestRunner {
                 .isEqualTo(expectedUrl);
     }
 
-    @Test (groups = "positive")
+    @Test(groups = "positive")
     @Description("Test to verify \" Add subject\" button should work with valid data")
     public void verifyAddSubjectButtonIsEnabledWithValidData() {
         openAndFillSubjectFields("Предметний", "Опис предмета");
@@ -45,7 +45,7 @@ public class SubjectsTest extends TestRunner {
                 .isTrue();
     }
 
-    @Test (groups = "negative")
+    @Test(groups = "negative")
     @Description("Test to verify that new subject should not be able to be created with invalid title")
     public void verifyNewSubjectCanNotBeCreatedWithInvalidTitle() {
         openAndFillSubjectFields("5предметний предмет", "Валідний опис предмета");
@@ -55,7 +55,7 @@ public class SubjectsTest extends TestRunner {
                 .isFalse();
     }
 
-    @Test (groups = "negative")
+    @Test(groups = "negative")
     @Description("Test to verify that new subject should not be able to be created with invalid description")
     public void verifyNewSubjectCanNotBeCreatedWithInvalidDescription() {
         openAndFillSubjectFields("Предметний предмет", "невалідний опис предмета");
@@ -65,7 +65,7 @@ public class SubjectsTest extends TestRunner {
                 .isFalse();
     }
 
-    @Test (groups = "positive")
+    @Test(groups = "positive")
     @Description("Test to verify that new subject should be able to be created with valid data")
     public void verifyAddingNewSubject() {
         var subjectName = "Новий предмет";
@@ -73,11 +73,11 @@ public class SubjectsTest extends TestRunner {
 
         openAndFillSubjectFields(subjectName, subjectDescription);
 
-        var isAddedAtTheEnd = new AddingSubjectModal()
-                .addNewSubject()
-                .switchToLastPageOfTable()
-                .getNamesOfSubjects()
-                .contains(subjectName);
+        new AddingSubjectModal().addNewItem();
+        var isAddedAtTheEnd =
+                subjectsPage.switchToLastPageOfTable()
+                        .getNamesOfSubjects()
+                        .contains(subjectName);
 
         assertThat(isAddedAtTheEnd)
                 .as("New subject should be displayed at the end of table")

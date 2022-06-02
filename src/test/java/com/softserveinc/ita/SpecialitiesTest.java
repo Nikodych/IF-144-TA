@@ -17,14 +17,14 @@ public class SpecialitiesTest extends TestRunner {
 
     private SpecialitiesPage specialitiesPage;
 
-    @BeforeMethod (groups = {"positive", "negative"})
+    @BeforeMethod(groups = {"positive", "negative"})
     public void openSpecialitiesPage() {
         specialitiesPage = new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openSpecialitiesPage();
     }
 
-    @Test (groups = "positive")
+    @Test(groups = "positive")
     @Description("Test to verify Specialities page opening")
     public void verifySpecialitiesPageOpening() {
 
@@ -36,7 +36,7 @@ public class SpecialitiesTest extends TestRunner {
                 .isEqualTo(expectedUrl);
     }
 
-    @Test (groups = "positive")
+    @Test(groups = "positive")
     @Description("Test to verify new speciality is added")
     public void verifyAddingNewSpeciality() {
 
@@ -44,9 +44,8 @@ public class SpecialitiesTest extends TestRunner {
         var specialityCode = Integer.toString(randCode); // only numbers, no more than 5 symbols
         var specialityName = "test" + randCode;
 
-        var messageText = openAndFillSpecialtiesFields(specialityCode, specialityName)
-                .addNewSpecialty()
-                .getMessageText();
+        openAndFillSpecialtiesFields(specialityCode, specialityName).addNewItem();
+        var messageText = specialitiesPage.getMessageText();
 
         assertThat(messageText)
                 .as("Message after adding should contain added speciality name")
@@ -61,8 +60,9 @@ public class SpecialitiesTest extends TestRunner {
                         "should be last in the table")
                 .isEqualTo(specialityCode);
     }
+
     private AddingSpecialtyModal openAndFillSpecialtiesFields(String code, String name) {
-       return specialitiesPage
+        return specialitiesPage
                 .openAddingSpecialtyForm()
                 .setValueFor(SPECIALTY_CODE, code)
                 .setValueFor(SPECIALTY_NAME, name);

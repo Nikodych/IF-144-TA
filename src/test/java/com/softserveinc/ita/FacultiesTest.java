@@ -93,7 +93,6 @@ public class FacultiesTest extends TestRunner {
         assertThat(actualResult)
                 .as("When name of faculty is invalid 'Add faculty' button shouldn't be enabled.")
                 .isFalse();
-
     }
 
     @Test
@@ -105,7 +104,6 @@ public class FacultiesTest extends TestRunner {
         assertThat(actualResult)
                 .as("When description is invalid 'Add faculty' button shouldn't be enabled.")
                 .isFalse();
-
     }
 
     private AddingFacultyModal openAndFillSubjectFields(String title, String description) {
@@ -116,7 +114,7 @@ public class FacultiesTest extends TestRunner {
     }
 
     @DataProvider(name = "searchValuesValid")
-    public static Object[][] inputData() {
+    public static Object[][] inputDataValid() {
         return new Object[][]{{"факультет справжніх", "Інститут інформаційних технологій"},
                 {"Інститут інформаційних технологій", "Інститут інформаційних технологій"}};
     }
@@ -125,7 +123,7 @@ public class FacultiesTest extends TestRunner {
     public Object[][] inputDataInvalid() {
         return new Object[][]{{"#@&$%^", 0},
                 {"123", 0},
-                {"asdf",0},
-                {"неіснуючий факультет",0}};
+                {"asdf", 0},
+                {"неіснуючий факультет", 0}};
     }
 }
