@@ -1,4 +1,4 @@
-package com.softserveinc.ita.pageobjects.util;
+package com.softserveinc.ita.util;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -6,7 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import static com.codeborne.selenide.Configuration.browser;
 import static com.codeborne.selenide.Configuration.browserSize;
 import static com.codeborne.selenide.Selenide.open;
-import static com.softserveinc.ita.pageobjects.util.DataProvider.LOGIN_PAGE_URL;
+import static com.softserveinc.ita.util.DataProvider.LOGIN_PAGE_URL;
 
 public abstract class TestRunner {
 
