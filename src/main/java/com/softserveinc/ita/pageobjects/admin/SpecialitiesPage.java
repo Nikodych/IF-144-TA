@@ -1,14 +1,11 @@
 package com.softserveinc.ita.pageobjects.admin;
 
 import com.codeborne.selenide.SelenideElement;
-import com.softserveinc.ita.pageobjects.models.SpecialityEntity;
 import io.qameta.allure.Step;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Condition.disappear;
-import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 import static java.lang.String.format;
@@ -19,24 +16,28 @@ public class SpecialitiesPage extends MainMenu {
 
     private SelenideElement progressBar = $x("//mat-progress-bar");
 
+    @Step("Speciality page: Confirmed in modal window")
     public SpecialitiesPage confirmModal() {
         $x("//button/span[contains(text(),'Підтвердити')]").click();
 
         return this;
     }
 
+    @Step("Speciality page: Set speciality name")
     public SpecialitiesPage setName(String value) {
         $x("//input[@formcontrolname='speciality_name']").setValue(value);
 
         return this;
     }
 
+    @Step("Speciality page: Set speciality code")
     public SpecialitiesPage setCode(String value) {
         $x("//input[@formcontrolname='speciality_code']").setValue(value);
 
         return this;
     }
 
+    @Step("Speciality page: Added new speciality")
     public SpecialitiesPage openAddingNewForm() {
         $x("//button[contains(@class,'addButton')]").click();
 
@@ -45,11 +46,7 @@ public class SpecialitiesPage extends MainMenu {
 
     @Step("Speciality page: Got last speciality code")
     public String getLastSpecialityCode() {
-        var buttonNavigationLast = $x(format(NAVIGATION_BUTTON_PATH_TEMPLATE, "last"));
-
-        if (buttonNavigationLast.isEnabled()) {
-            buttonNavigationLast.click();
-        }
+        goToTablePage("last");
 
         return $x("//table")
                 .$$x(".//tr")
@@ -79,49 +76,50 @@ public class SpecialitiesPage extends MainMenu {
                 .getText();
     }
 
-    @Step("Speciality page: Deleted speciality by code")
-    public SpecialitiesPage deleteSpeciality(SpecialityEntity speciality) {
-        var currentRow = findRowByColumnValue(speciality.getCode()); //consider code as unique field
-        currentRow.$x(".//i[contains(@class,'delete')]").click();
-        confirmModal();
+    @Step("Speciality page: Found table page with searched value")
+    public SpecialitiesPage findTablePageWithSearchValue(String searchValue) {
+        goToTablePage("first");
 
-        return this;
-    }
-
-    private SelenideElement findRowByColumnValue(String searchValue) {
-        var buttonNavigationFirst = $x(format(NAVIGATION_BUTTON_PATH_TEMPLATE, "first"));
-
-        if (buttonNavigationFirst.isEnabled()) {
-            buttonNavigationFirst.click();
-        }
-
-        var currentRow = findRowOnCurrentPageByColumnValue(searchValue);
         var buttonNavigationNext = $x(format(NAVIGATION_BUTTON_PATH_TEMPLATE, "next"));
+        boolean isSearchValueOnCurrentPage = false;
 
-        while (buttonNavigationNext.isEnabled() && currentRow == null) {
-            buttonNavigationNext.click();
+        while (buttonNavigationNext.isEnabled() && !isSearchValueOnCurrentPage) {
+            goToTablePage("next");
             buttonNavigationNext
                     .$x(".//div[contains(@class,'round')]/div[@class='mat-ripple-element']")
                     .should(disappear);
 
-            currentRow = findRowOnCurrentPageByColumnValue(searchValue);
+            isSearchValueOnCurrentPage = isSearchValueInTableTexts(searchValue);
         }
 
-        return currentRow;
+        return this;
     }
 
-    private SelenideElement findRowOnCurrentPageByColumnValue(String searchValue) {
-        SelenideElement searchRow = null;
+    @Step("Speciality page: Changed table page")
+    private void goToTablePage(String direction) {
+        var buttonNavigation = $x(format(NAVIGATION_BUTTON_PATH_TEMPLATE, direction));
+
+        if (buttonNavigation.isEnabled()) {
+            buttonNavigation.click();
+        }
+    }
+
+    public boolean isSearchValueInTableTexts(String searchValue) {
         var tableRows = $$x("//table//tr//td");
 
-        if (tableRows
+        return tableRows
                 .texts()
-                .contains(searchValue)) {
-            searchRow = tableRows
-                    .find(exactText(searchValue))
-                    .parent();
-        }
+                .contains(searchValue);
+    }
 
-        return searchRow;
+    @Step("Speciality page: Deleted row with searched value")
+    public SpecialitiesPage deleteRowByValue(String searchValue) {
+        $$x("//table//tr//td")
+                .find(exactText(searchValue))
+                .parent()
+                .$x(".//i[contains(@class,'delete')]")
+                .click();
+
+        return this;
     }
 }

@@ -1,12 +1,24 @@
 package com.softserveinc.ita.steps;
 
-import com.softserveinc.ita.pageobjects.models.SpecialityEntity;
+import com.softserveinc.ita.models.SpecialityEntity;
+import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.SpecialitiesPage;
-import lombok.experimental.UtilityClass;
+import lombok.Getter;
 
-@UtilityClass
+import static com.softserveinc.ita.pageobjects.util.DataProvider.ADMIN_LOGIN;
+import static com.softserveinc.ita.pageobjects.util.DataProvider.ADMIN_PASSWORD;
+
+@Getter
 public class SpecialitiesSteps {
-    public void addNewSpeciality(SpecialitiesPage page, SpecialityEntity speciality) {
+
+    private SpecialitiesPage page;
+
+    public void openSpecialityPage() {
+        page = new LoginPage()
+                .login(ADMIN_LOGIN, ADMIN_PASSWORD)
+                .openSpecialitiesPage();
+    }
+    public void addNewSpeciality(SpecialityEntity speciality) {
         page
                 .openAddingNewForm()
                 .setCode(speciality.getCode())
@@ -16,9 +28,12 @@ public class SpecialitiesSteps {
                 .waitForProgressBarToDisappear();
     }
 
-    public void deleteSpeciality(SpecialitiesPage page, SpecialityEntity speciality) {
+    public void deleteSpeciality(SpecialityEntity speciality) {
+        var searchValue = speciality.getCode(); //consider code as unique id
         page
-                .deleteSpeciality(speciality)
+                .findTablePageWithSearchValue(searchValue)
+                .deleteRowByValue(searchValue)
+                .confirmModal()
                 .waitForProgressBarToAppear()
                 .waitForProgressBarToDisappear();
     }
