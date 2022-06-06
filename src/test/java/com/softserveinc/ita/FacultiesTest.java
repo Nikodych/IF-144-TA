@@ -2,14 +2,14 @@ package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.FacultiesPage;
-import com.softserveinc.ita.pageobjects.util.TestRunner;
+import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
-import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
+import static com.softserveinc.ita.util.DataProvider.*;
+import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FacultiesTest extends TestRunner {

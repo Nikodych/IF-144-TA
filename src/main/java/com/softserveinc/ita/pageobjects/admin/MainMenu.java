@@ -1,11 +1,11 @@
 package com.softserveinc.ita.pageobjects.admin;
 
-import com.softserveinc.ita.pageobjects.models.MainMenuButtons;
+import com.softserveinc.ita.models.MainMenuButtons;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Selenide.$x;
-import static com.softserveinc.ita.pageobjects.models.MainMenuButtons.*;
+import static com.softserveinc.ita.models.MainMenuButtons.*;
 import static java.lang.String.format;
 import static java.time.Duration.ofSeconds;
 

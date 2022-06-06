@@ -1,4 +1,4 @@
-package com.softserveinc.ita.pageobjects.util;
+package com.softserveinc.ita.util;
 
 import com.typesafe.config.Config;
 

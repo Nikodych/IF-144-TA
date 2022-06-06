@@ -1,4 +1,4 @@
-package com.softserveinc.ita.pageobjects.models;
+package com.softserveinc.ita.models;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
