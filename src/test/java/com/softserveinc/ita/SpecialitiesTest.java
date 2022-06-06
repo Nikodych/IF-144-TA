@@ -1,15 +1,13 @@
 package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.admin.SpecialitiesPage;
-import com.softserveinc.ita.pageobjects.util.TestRunner;
-import com.softserveinc.ita.steps.SpecialitiesSteps;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.softserveinc.ita.models.SpecialityEntity.getNewValidSpeciality;
-import static com.softserveinc.ita.pageobjects.util.DataProvider.SPECIALITIES_PAGE_URL;
-import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
+import static com.softserveinc.ita.util.DataProvider.SPECIALITIES_PAGE_URL;
+import com.softserveinc.ita.util.TestRunner;
+import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SpecialitiesTest extends TestRunner {
