@@ -5,8 +5,8 @@ import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.SpecialitiesPage;
 import lombok.Getter;
 
-import static com.softserveinc.ita.pageobjects.util.DataProvider.ADMIN_LOGIN;
-import static com.softserveinc.ita.pageobjects.util.DataProvider.ADMIN_PASSWORD;
+import static com.softserveinc.ita.util.DataProvider.ADMIN_LOGIN;
+import static com.softserveinc.ita.util.DataProvider.ADMIN_PASSWORD;
 
 @Getter
 public class SpecialitiesSteps {
@@ -18,6 +18,7 @@ public class SpecialitiesSteps {
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openSpecialitiesPage();
     }
+
     public void addNewSpeciality(SpecialityEntity speciality) {
         page
                 .openAddingNewForm()

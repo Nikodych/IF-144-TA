@@ -3,18 +3,17 @@ package com.softserveinc.ita.pageobjects.admin;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 
-import java.time.Duration;
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 import static java.lang.String.format;
+import static java.time.Duration.ofSeconds;
 
 public class SpecialitiesPage extends MainMenu {
 
     private final String NAVIGATION_BUTTON_PATH_TEMPLATE = "//button[contains(@Class,'paginator-navigation-%s')]";
 
-    private SelenideElement progressBar = $x("//mat-progress-bar");
+    private final SelenideElement progressBar = $x("//mat-progress-bar");
 
     @Step("Speciality page: Confirmed in modal window")
     public SpecialitiesPage confirmModal() {
@@ -64,7 +63,7 @@ public class SpecialitiesPage extends MainMenu {
 
     @Step("Speciality page: Waited for progress bar to appear")
     public SpecialitiesPage waitForProgressBarToAppear() {
-        progressBar.should(appear, Duration.ofSeconds(3));
+        progressBar.should(appear, ofSeconds(3));
 
         return this;
     }
@@ -81,7 +80,7 @@ public class SpecialitiesPage extends MainMenu {
         goToTablePage("first");
 
         var buttonNavigationNext = $x(format(NAVIGATION_BUTTON_PATH_TEMPLATE, "next"));
-        boolean isSearchValueOnCurrentPage = false;
+        var isSearchValueOnCurrentPage = false;
 
         while (buttonNavigationNext.isEnabled() && !isSearchValueOnCurrentPage) {
             goToTablePage("next");
@@ -96,7 +95,7 @@ public class SpecialitiesPage extends MainMenu {
     }
 
     @Step("Speciality page: Changed table page")
-    private void goToTablePage(String direction) {
+    public void goToTablePage(String direction) {
         var buttonNavigation = $x(format(NAVIGATION_BUTTON_PATH_TEMPLATE, direction));
 
         if (buttonNavigation.isEnabled()) {
