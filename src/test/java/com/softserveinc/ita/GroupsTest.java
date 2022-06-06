@@ -7,15 +7,15 @@ import com.softserveinc.ita.models.SpecialityEntity;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.GroupsPage;
 import com.softserveinc.ita.pageobjects.admin.SpecialitiesPage;
-import com.softserveinc.ita.pageobjects.util.TestRunner;
 import com.softserveinc.ita.steps.SpecialitiesSteps;
+import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.codeborne.selenide.Selenide.refresh;
-import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
-import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
+import static com.softserveinc.ita.util.DataProvider.*;
+import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GroupsTest extends TestRunner {

@@ -4,17 +4,16 @@ import com.codeborne.selenide.SelenideElement;
 import com.softserveinc.ita.models.EntityTable;
 import io.qameta.allure.Step;
 
-import java.time.Duration;
-
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Selenide.$x;
+import static java.time.Duration.ofSeconds;
 
 public class SpecialitiesPage extends MainMenu {
 
     private final EntityTable table = new EntityTable();
 
-    private SelenideElement progressBar = $x("//mat-progress-bar");
+    private final SelenideElement progressBar = $x("//mat-progress-bar");
 
     public EntityTable getTable() {
         return table;
@@ -68,7 +67,7 @@ public class SpecialitiesPage extends MainMenu {
 
     @Step("Speciality page: Waited for progress bar to appear")
     public SpecialitiesPage waitForProgressBarToAppear() {
-        progressBar.should(appear, Duration.ofSeconds(3));
+        progressBar.should(appear, ofSeconds(3));
 
         return this;
     }
