@@ -37,7 +37,7 @@ public class EntityTable {
         goToTablePage("first");
 
         var buttonNavigationNext = $x(format(NAVIGATION_BUTTON_PATH_TEMPLATE, "next"));
-        boolean isSearchValueOnCurrentPage = false;
+        var isSearchValueOnCurrentPage = false;
 
         while (buttonNavigationNext.isEnabled() && !isSearchValueOnCurrentPage) {
             goToTablePage("next");
