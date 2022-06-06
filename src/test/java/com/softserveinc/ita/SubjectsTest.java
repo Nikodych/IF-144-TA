@@ -3,7 +3,7 @@ package com.softserveinc.ita;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.AddingSubjectModal;
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
-import com.softserveinc.ita.steps.SubjectSteps;
+import com.softserveinc.ita.steps.SubjectStep;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
@@ -40,7 +40,7 @@ public class SubjectsTest extends TestRunner {
     @Test (groups = "positive")
     @Description("Test to verify \" Add subject\" button should work with valid data")
     public void verifyAddSubjectButtonIsEnabledWithValidData() {
-        new SubjectSteps().openAndFillSubjectFields(getValidSubject());
+        new SubjectStep().openAndFillSubjectFields(getValidSubject());
 
         assertThat(new AddingSubjectModal().isAddButtonEnabled())
                 .as("When both fields have valid data add button should be enabled")
@@ -50,7 +50,7 @@ public class SubjectsTest extends TestRunner {
     @Test (groups = "negative")
     @Description("Test to verify that new subject should not be able to be created with invalid title")
     public void verifyNewSubjectCanNotBeCreatedWithInvalidTitle() {
-        new SubjectSteps().openAndFillSubjectFields(getSubjectWithInvalidName());
+        new SubjectStep().openAndFillSubjectFields(getSubjectWithInvalidName());
 
         assertThat(new AddingSubjectModal().isAddButtonEnabled())
                 .as("When title field has invalid data new subject can't be created")
@@ -60,7 +60,7 @@ public class SubjectsTest extends TestRunner {
     @Test (groups = "negative")
     @Description("Test to verify that new subject should not be able to be created with invalid description")
     public void verifyNewSubjectCanNotBeCreatedWithInvalidDescription() {
-        new SubjectSteps().openAndFillSubjectFields(getSubjectWithInvalidDescription());
+        new SubjectStep().openAndFillSubjectFields(getSubjectWithInvalidDescription());
 
         assertThat(new AddingSubjectModal().isAddButtonEnabled())
                 .as("When description field has invalid data new subject can't be created")
@@ -72,7 +72,7 @@ public class SubjectsTest extends TestRunner {
     public void verifyAddingNewSubject() {
         var subjectName = getValidSubject().getName();
 
-        new SubjectSteps().openAndFillSubjectFields(getValidSubject());
+        new SubjectStep().openAndFillSubjectFields(getValidSubject());
 
         var isAddedAtTheEnd = new AddingSubjectModal()
                 .addNewSubject()
