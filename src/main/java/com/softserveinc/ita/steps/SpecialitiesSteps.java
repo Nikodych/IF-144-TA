@@ -18,6 +18,7 @@ public class SpecialitiesSteps {
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openSpecialitiesPage();
     }
+
     public void addNewSpeciality(SpecialityEntity speciality) {
         page
                 .openAddingNewForm()
@@ -30,8 +31,11 @@ public class SpecialitiesSteps {
 
     public void deleteSpeciality(SpecialityEntity speciality) {
         var searchValue = speciality.getCode(); //consider code as unique id
+
         page
-                .findTablePageWithSearchValue(searchValue)
+                .getTable()
+                .findTablePageWithSearchValue(searchValue);
+        page
                 .deleteRowByValue(searchValue)
                 .confirmModal()
                 .waitForProgressBarToAppear()

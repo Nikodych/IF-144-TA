@@ -1,5 +1,6 @@
 package com.softserveinc.ita.pageobjects.admin;
 
+import com.softserveinc.ita.models.EntityTable;
 import io.qameta.allure.Step;
 
 import java.util.List;
@@ -8,6 +9,8 @@ import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class SubjectsPage extends MainMenu {
+
+    private EntityTable table = new EntityTable();
 
     @Step("Subjects page: Opened adding subject form")
     public AddingSubjectModal openAddingSubjectForm() {
@@ -22,14 +25,14 @@ public class SubjectsPage extends MainMenu {
 
     @Step("Subjects Page: Switched to last page of table")
     public SubjectsPage switchToLastPageOfTable() {
-        $x("//mat-paginator//button[contains(@class, 'mat-paginator-navigation-last')]").click();
+        table.goToTablePage("last");
 
         return this;
     }
 
     @Step("Subjects page: Switched to first page of table")
     public SubjectsPage switchToFirstPageOfTable() {
-        $x("//mat-paginator//button[contains(@class, 'mat-paginator-navigation-first')]").click();
+        table.goToTablePage("first");
 
         return this;
     }
