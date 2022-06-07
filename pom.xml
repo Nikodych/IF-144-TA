@@ -24,6 +24,9 @@
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <rest.assured.version>4.5.1</rest.assured.version>
         <jakson.databind.version>2.13.2.2</jakson.databind.version>
+
+        <suiteXmlFile>positivetestssuite.xml</suiteXmlFile>
+        <suiteXmlFile1>negativetestssuite.xml</suiteXmlFile1>
     </properties>
 
     <build>
@@ -33,6 +36,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
                 <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+                        <suiteXmlFile>${suiteXmlFile1}</suiteXmlFile>
+                    </suiteXmlFiles>
                     <systemPropertyVariables>
                         <allure.results.directory>
                             ${project.basedir}/target/allure-results

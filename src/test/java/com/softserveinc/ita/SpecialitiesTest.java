@@ -1,30 +1,29 @@
 package com.softserveinc.ita;
 
-import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.SpecialitiesPage;
-import com.softserveinc.ita.pageobjects.util.RandomUtil;
-import com.softserveinc.ita.pageobjects.util.TestRunner;
+import com.softserveinc.ita.steps.SpecialitiesSteps;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
-import static com.softserveinc.ita.pageobjects.util.RandomUtil.getRandomNumber;
-import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
+import static com.softserveinc.ita.models.SpecialityEntity.getNewValidSpeciality;
+import static com.softserveinc.ita.util.DataProvider.SPECIALITIES_PAGE_URL;
+import com.softserveinc.ita.util.TestRunner;
+import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SpecialitiesTest extends TestRunner {
 
     private SpecialitiesPage specialitiesPage;
+    private SpecialitiesSteps steps = new SpecialitiesSteps();
 
-    @BeforeMethod (groups = {"positive", "negative"})
+    @BeforeMethod(groups = {"positive", "negative"})
     public void openSpecialitiesPage() {
-        specialitiesPage = new LoginPage()
-                .login(ADMIN_LOGIN, ADMIN_PASSWORD)
-                .openSpecialitiesPage();
+        steps.openSpecialityPage();
+        specialitiesPage = steps.getPage();
     }
 
-    @Test (groups = "positive")
+    @Test(groups = "positive")
     @Description("Test to verify Specialities page opening")
     public void verifySpecialitiesPageOpening() {
 
@@ -36,29 +35,58 @@ public class SpecialitiesTest extends TestRunner {
                 .isEqualTo(expectedUrl);
     }
 
-    @Test (groups = "positive")
+    @Test(groups = "positive")
     @Description("Test to verify new speciality is added")
     public void verifyAddingNewSpeciality() {
 
-        var randCode = getRandomNumber(5);
-        var specialityCode = Integer.toString(randCode); // only numbers, no more than 5 symbols
-        var specialityName = "test" + randCode;
+        var speciality = getNewValidSpeciality();
 
-        var messageText = specialitiesPage
-                .addNewSpeciality(specialityCode, specialityName)
-                .getMessageText();
+        steps.addNewSpeciality(speciality);
+
+        var messageText = specialitiesPage.getMessageText();
 
         assertThat(messageText)
                 .as("Message after adding should contain added speciality name")
-                .contains(specialityName);
+                .contains(speciality.getName());
 
-        var lastSpecialityCode = specialitiesPage
-                .waitForProgressBarToDisappear()
-                .getLastSpecialityCode();
+        var lastSpecialityCode = specialitiesPage.getLastSpecialityCode();
 
         assertThat(lastSpecialityCode)
                 .as("After adding new speciality speciality with added code " +
                         "should be last in the table")
-                .isEqualTo(specialityCode);
+                .isEqualTo(speciality.getCode());
+
+        steps.deleteSpeciality(speciality);
+    }
+
+    @Test(groups = "positive")
+    @Description("Test to verify speciality is deleted")
+    public void verifyDeletingSpeciality() {
+
+        var speciality = getNewValidSpeciality();
+
+        steps.addNewSpeciality(speciality);
+
+        var lastSpecialityCode = specialitiesPage.getLastSpecialityCode();
+
+        assertThat(lastSpecialityCode)
+                .as("After adding new speciality speciality with added code " +
+                        "should be last in the table")
+                .isEqualTo(speciality.getCode());
+
+        steps.deleteSpeciality(speciality);
+
+        var messageText = specialitiesPage.getMessageText();
+
+        assertThat(messageText)
+                .as("Message after deleting should contain deleted speciality name")
+                .contains(speciality.getName());
+
+        lastSpecialityCode = specialitiesPage.getLastSpecialityCode();
+
+        assertThat(lastSpecialityCode)
+                .as("After deleting speciality last speciality in the table " +
+                        "should not have deleted code")
+                .isNotEqualTo(speciality.getCode());
     }
 }
