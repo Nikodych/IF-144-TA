@@ -18,14 +18,14 @@ public class SubjectsTest extends TestRunner {
 
     private SubjectsPage subjectsPage;
 
-    @BeforeMethod (groups = {"positive", "negative"})
+    @BeforeMethod(groups = {"positive", "negative"})
     public void openSubjectsPage() {
         subjectsPage = new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openSubjectsPage();
     }
 
-    @Test (groups = "positive")
+    @Test(groups = "positive")
     @Description("Test to verify Subjects page opening")
     public void verifySubjectsPageOpening() {
 
@@ -37,7 +37,7 @@ public class SubjectsTest extends TestRunner {
                 .isEqualTo(expectedUrl);
     }
 
-    @Test (groups = "positive")
+    @Test(groups = "positive")
     @Description("Test to verify \" Add subject\" button should work with valid data")
     public void verifyAddSubjectButtonIsEnabledWithValidData() {
         new SubjectStep().openAndFillSubjectFields(getValidSubject());
@@ -47,7 +47,7 @@ public class SubjectsTest extends TestRunner {
                 .isTrue();
     }
 
-    @Test (groups = "negative")
+    @Test(groups = "negative")
     @Description("Test to verify that new subject should not be able to be created with invalid title")
     public void verifyNewSubjectCanNotBeCreatedWithInvalidTitle() {
         new SubjectStep().openAndFillSubjectFields(getSubjectWithInvalidName());
@@ -57,7 +57,7 @@ public class SubjectsTest extends TestRunner {
                 .isFalse();
     }
 
-    @Test (groups = "negative")
+    @Test(groups = "negative")
     @Description("Test to verify that new subject should not be able to be created with invalid description")
     public void verifyNewSubjectCanNotBeCreatedWithInvalidDescription() {
         new SubjectStep().openAndFillSubjectFields(getSubjectWithInvalidDescription());
@@ -67,7 +67,7 @@ public class SubjectsTest extends TestRunner {
                 .isFalse();
     }
 
-    @Test (groups = "positive")
+    @Test(groups = "positive")
     @Description("Test to verify that new subject should be able to be created with valid data")
     public void verifyAddingNewSubject() {
         var subjectName = getValidSubject().getName();
@@ -77,8 +77,7 @@ public class SubjectsTest extends TestRunner {
         var isAddedAtTheEnd = new AddingSubjectModal()
                 .addNewSubject()
                 .switchToLastPageOfTable()
-                .getNamesOfSubjects()
-                .contains(subjectName);
+                .hasSubject(subjectName);
 
         assertThat(isAddedAtTheEnd)
                 .as("New subject should be displayed at the end of table")
@@ -87,11 +86,37 @@ public class SubjectsTest extends TestRunner {
         var isFound = subjectsPage
                 .switchToFirstPageOfTable()
                 .setSearchValue(subjectName)
-                .getNamesOfSubjects()
-                .contains(subjectName);
+                .hasSubject(subjectName);
 
         assertThat(isFound)
                 .as("New subject should be displayed after search is performed")
                 .isTrue();
+    }
+
+    @Test(groups = "positive")
+    @Description("Test to verify that deleted subject should not be displayed in the table")
+    public void verifyDeletingSubject() {
+        var subjectName = getValidSubject().getName();
+
+        new SubjectStep().openAndFillSubjectFields(getValidSubject());
+
+        var isAddedAtTheEnd = new AddingSubjectModal()
+                .addNewSubject()
+                .switchToLastPageOfTable()
+                .hasSubject(subjectName);
+
+        assertThat(isAddedAtTheEnd)
+                .as("New subject should be displayed at the end of table")
+                .isTrue();
+
+        var hasDeletedSubject = subjectsPage
+                .deleteSubject(subjectName)
+                .confirmDeletingSubject()
+                .setSearchValue(subjectName)
+                .hasSubject(subjectName);
+
+        assertThat(hasDeletedSubject)
+                .as("Deleted subject should not be displayed in the table")
+                .isFalse();
     }
 }
