@@ -21,11 +21,6 @@ import static io.restassured.http.ContentType.JSON;
 @UtilityClass
 public class ApiUtil {
 
-    public void setUpApiSpecifications() {
-        requestSpecification = getRequestSpecification();
-        responseSpecification = getResponseSpecification();
-    }
-
     public Response performPostRequestWithBody(Map<String, String> bodyContent, String basePath) {
         setUpApiSpecifications();
 
@@ -40,6 +35,11 @@ public class ApiUtil {
         return given()
                 .cookie(cookie)
                 .get(basePath);
+    }
+
+    private void setUpApiSpecifications() {
+        requestSpecification = getRequestSpecification();
+        responseSpecification = getResponseSpecification();
     }
 
     private RequestSpecification getRequestSpecification() {
