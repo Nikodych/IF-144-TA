@@ -101,6 +101,12 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jakson.databind.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-rest-assured</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>

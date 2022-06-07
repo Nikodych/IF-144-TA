@@ -1,6 +1,6 @@
 package com.softserveinc.ita;
 
-import com.softserveinc.ita.api.Api;
+import com.softserveinc.ita.api.ApiUtil;
 import io.qameta.allure.Description;
 import io.restassured.http.Cookie;
 import io.restassured.response.Response;
@@ -8,19 +8,17 @@ import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
+import static java.util.Map.of;
 
 public class ApiAuthTest {
 
-    private Api api;
     private SoftAssertions soft;
 
     @BeforeMethod
-    public void setUpApi() {
-        api = new Api();
+    public void setUpSoftAssertions() {
         soft = new SoftAssertions();
     }
 
@@ -62,7 +60,6 @@ public class ApiAuthTest {
 
     //method to verify related user`s authentication
     private void verifyUserAuth(Response response, String username) {
-
         var actualResponseCode = response.statusCode();
         var actualUsername = getValueFromResponseBody(response,"username");
 
@@ -79,9 +76,7 @@ public class ApiAuthTest {
 
     //method to verify related user is logged
     private void verifyUserIsLogged(Response authResponse, String username) {
-
-        var response = api
-                .performGET(getSessionsCookie(authResponse), API_IS_LOGGED_PATH);
+        var response = ApiUtil.performGetRequest(getSessionsCookie(authResponse), API_IS_LOGGED_PATH);
 
         var actualResponseCode = response.statusCode();
         var actualStatus = getValueFromResponseBody(response,"response");
@@ -104,9 +99,7 @@ public class ApiAuthTest {
 
     //method to verify related user`s can logout
     private void verifyUserCanLogout(Response authResponse) {
-
-        var response = api
-                .performGET(getSessionsCookie(authResponse), API_LOGOUT_PATH);
+        var response = ApiUtil.performGetRequest(getSessionsCookie(authResponse), API_LOGOUT_PATH);
 
         var actualResponseCode = response.statusCode();
         var actualStatus = getValueFromResponseBody(response,"response");
@@ -134,26 +127,22 @@ public class ApiAuthTest {
     }
 
     private Response authAsAdmin() {
-        return api.performPOSTWithBody(setUpAdminCredentials(), API_LOGIN_USER_PATH);
+        return ApiUtil.performPostRequestWithBody(setUpAdminCredentials(), API_LOGIN_USER_PATH);
     }
 
     private Response authAsStudent() {
-        return api.performPOSTWithBody(setUpStudentCredentials(), API_LOGIN_USER_PATH);
+        return ApiUtil.performPostRequestWithBody(setUpStudentCredentials(), API_LOGIN_USER_PATH);
     }
 
-    private Map<String, ?> setUpAdminCredentials() {
+    private Map<String, String> setUpAdminCredentials() {
         return setUpAuthRequestBody(ADMIN_LOGIN, ADMIN_PASSWORD);
     }
 
-    private Map<String, ?> setUpStudentCredentials() {
+    private Map<String, String> setUpStudentCredentials() {
         return setUpAuthRequestBody(STUDENT_LOGIN, STUDENT_PASSWORD);
     }
 
-    private Map<String, ?> setUpAuthRequestBody(String username, String password) {
-        Map<String, Object> bodyOfRequest = new HashMap<>();
-        bodyOfRequest.put("username", username);
-        bodyOfRequest.put("password", password);
-
-        return bodyOfRequest;
+    private Map<String, String> setUpAuthRequestBody(String username, String password) {
+        return of("username", username, "password", password);
     }
 }
