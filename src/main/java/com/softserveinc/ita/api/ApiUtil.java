@@ -13,7 +13,7 @@ import lombok.experimental.UtilityClass;
 
 import java.util.Map;
 
-import static com.softserveinc.ita.pageobjects.util.DataProvider.API_BASE_URI;
+import static com.softserveinc.ita.util.DataProvider.API_BASE_URI;
 import static io.restassured.RestAssured.*;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;

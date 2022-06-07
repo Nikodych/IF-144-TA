@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 import java.util.Map;
 
-import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
+import static com.softserveinc.ita.util.DataProvider.*;
 import static java.util.Map.of;
 
 public class ApiAuthTest {
