@@ -2,21 +2,28 @@ package com.softserveinc.ita.pageobjects.admin;
 
 import io.qameta.allure.Step;
 
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
+import static com.softserveinc.ita.models.ProgressBar.waitForAppear;
+import static com.softserveinc.ita.models.ProgressBar.waitForDisappear;
 
 public class SubjectsPage extends MainMenu {
 
     @Step("Subjects page: Opened adding subject form")
     public AddingSubjectModal openAddingSubjectForm() {
         $x("//button[contains(@class, 'addSubject')]").click();
+        $x("//app-subjects-create-modal").shouldBe(visible);
 
         return new AddingSubjectModal();
     }
 
     public boolean hasSubject(String subject) {
-        return $$x("//td[contains(@class, 'mat-column-subject_name')]").texts().contains(subject);
+        return $$x("//td[contains(@class, 'mat-column-subject_name')]")
+                .shouldHave(sizeGreaterThanOrEqual(0))
+                .texts()
+                .contains(subject);
     }
 
     @Step("Subjects Page: Switched to last page of table")
@@ -35,13 +42,16 @@ public class SubjectsPage extends MainMenu {
 
     @Step("Subjects page: Set search value")
     public SubjectsPage setSearchValue(String subject) {
-        $x("//mat-form-field[contains(@class, 'filter')]//input").sendKeys(subject);
+        var searchField = "//mat-form-field[contains(@class, 'filter')]//input";
+
+        $x(searchField).clear();
+        $x(searchField).sendKeys(subject);
 
         return this;
     }
 
     @Step("Subjects page: Deleted subject")
-    public SubjectsPage deleteSubject(String subject) {
+    public SubjectsPage deleteSubjectByName(String subject) {
         $$x("//tbody//tr//td")
                 .findBy(exactText(subject))
                 .parent()
@@ -56,6 +66,31 @@ public class SubjectsPage extends MainMenu {
         $x("//app-confirm//button[1]")
                 .shouldBe(visible)
                 .click();
+
+        return this;
+    }
+
+    @Step("Subjects page: Edited subject")
+    public AddingSubjectModal editSubject(String subject) {
+        $$x("//tbody//tr//td")
+                .findBy(exactText(subject))
+                .parent()
+                .$x(".//mat-icon[contains(@class, 'edit')]")
+                .click();
+
+        return new AddingSubjectModal();
+    }
+
+    @Step("SubjectsPage page: Waited for progress bar to disappear")
+    public SubjectsPage waitForProgressBarToDisappear() {
+        waitForDisappear();
+
+        return this;
+    }
+
+    @Step("SubjectsPage page: Waited for progress bar to appear")
+    public SubjectsPage waitForProgressBarToAppear() {
+        waitForAppear();
 
         return this;
     }

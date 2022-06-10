@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SubjectsTest extends TestRunner {
 
     private SubjectsPage subjectsPage;
+    private final SubjectStep step = new SubjectStep();
 
     @BeforeMethod(groups = {"positive", "negative"})
     public void openSubjectsPage() {
@@ -40,7 +41,7 @@ public class SubjectsTest extends TestRunner {
     @Test(groups = "positive")
     @Description("Test to verify \" Add subject\" button should work with valid data")
     public void verifyAddSubjectButtonIsEnabledWithValidData() {
-        new SubjectStep().openAndFillSubjectFields(getValidSubject());
+        step.openAndFillSubjectFields(getValidSubject());
 
         assertThat(new AddingSubjectModal().isAddButtonEnabled())
                 .as("When both fields have valid data add button should be enabled")
@@ -50,7 +51,7 @@ public class SubjectsTest extends TestRunner {
     @Test(groups = "negative")
     @Description("Test to verify that new subject should not be able to be created with invalid title")
     public void verifyNewSubjectCanNotBeCreatedWithInvalidTitle() {
-        new SubjectStep().openAndFillSubjectFields(getSubjectWithInvalidName());
+        step.openAndFillSubjectFields(getSubjectWithInvalidName());
 
         assertThat(new AddingSubjectModal().isAddButtonEnabled())
                 .as("When title field has invalid data new subject can't be created")
@@ -60,7 +61,7 @@ public class SubjectsTest extends TestRunner {
     @Test(groups = "negative")
     @Description("Test to verify that new subject should not be able to be created with invalid description")
     public void verifyNewSubjectCanNotBeCreatedWithInvalidDescription() {
-        new SubjectStep().openAndFillSubjectFields(getSubjectWithInvalidDescription());
+        step.openAndFillSubjectFields(getSubjectWithInvalidDescription());
 
         assertThat(new AddingSubjectModal().isAddButtonEnabled())
                 .as("When description field has invalid data new subject can't be created")
@@ -72,11 +73,10 @@ public class SubjectsTest extends TestRunner {
     public void verifyAddingNewSubject() {
         var subjectName = getValidSubject().getName();
 
-        new SubjectStep().openAndFillSubjectFields(getValidSubject());
+        step.openAndFillSubjectFields(getValidSubject());
+        step.addAndWaitForSubjectToAppear();
 
-        var isAddedAtTheEnd = new AddingSubjectModal()
-                .addNewSubject()
-                .switchToLastPageOfTable()
+        var isAddedAtTheEnd = subjectsPage
                 .hasSubject(subjectName);
 
         assertThat(isAddedAtTheEnd)
@@ -91,6 +91,8 @@ public class SubjectsTest extends TestRunner {
         assertThat(isFound)
                 .as("New subject should be displayed after search is performed")
                 .isTrue();
+
+        step.deleteSubject(subjectName);
     }
 
     @Test(groups = "positive")
@@ -98,22 +100,60 @@ public class SubjectsTest extends TestRunner {
     public void verifyDeletingSubject() {
         var subjectName = getValidSubject().getName();
 
-        new SubjectStep().openAndFillSubjectFields(getValidSubject());
+        step.openAndFillSubjectFields(getValidSubject());
+        step.addAndWaitForSubjectToAppear();
 
-        var isAddedAtTheEnd = new AddingSubjectModal()
-                .addNewSubject()
-                .switchToLastPageOfTable()
+        var isAddedAtTheEnd = subjectsPage
                 .hasSubject(subjectName);
 
         assertThat(isAddedAtTheEnd)
                 .as("New subject should be displayed at the end of table")
                 .isTrue();
 
+        step.deleteSubject(subjectName);
+
         var hasDeletedSubject = subjectsPage
-                .deleteSubject(subjectName)
-                .confirmDeletingSubject()
                 .setSearchValue(subjectName)
                 .hasSubject(subjectName);
+
+        assertThat(hasDeletedSubject)
+                .as("Deleted subject should not be displayed in the table")
+                .isFalse();
+    }
+
+    @Test
+    @Description("Test to verify that after editing subject changes should be displayed")
+    public void verifyEditingSubject() {
+        var subjectName = getValidSubject().getName();
+
+        step.openAndFillSubjectFields(getValidSubject());
+        step.addAndWaitForSubjectToAppear();
+
+        var isAddedAtTheEnd = subjectsPage
+                .hasSubject(subjectName);
+
+        assertThat(isAddedAtTheEnd)
+                .as("New subject should be displayed at the end of the table")
+                .isTrue();
+
+        var editSubstring = " редагований";
+
+        step.editSubjectFields(subjectName, editSubstring);
+
+        var editedSubjectName = subjectName + editSubstring;
+        var isSubjectEdited = subjectsPage
+                .setSearchValue(editedSubjectName)
+                .hasSubject(editedSubjectName);
+
+        assertThat(isSubjectEdited)
+                .as("Edited subject should be displayed in the table")
+                .isTrue();
+
+        step.deleteSubject(editedSubjectName);
+
+        var hasDeletedSubject = subjectsPage
+                .setSearchValue(editedSubjectName)
+                .hasSubject(editedSubjectName);
 
         assertThat(hasDeletedSubject)
                 .as("Deleted subject should not be displayed in the table")
