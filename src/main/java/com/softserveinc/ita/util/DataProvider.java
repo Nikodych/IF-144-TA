@@ -35,4 +35,5 @@ public interface DataProvider {
     String FACULTY = readConfig().getString("searchInput.faculty");
     String DESCRIPTION = readConfig().getString("searchInput.description");
     String INVALID = readConfig().getString("searchInput.invalid");
+    String TEST_SUBJECT = readConfig().getString("testData.testSubject");
 }

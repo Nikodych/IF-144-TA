@@ -4,8 +4,10 @@ import io.qameta.allure.Step;
 
 import java.util.List;
 
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
+import static java.lang.String.format;
 
 public class SubjectsPage extends MainMenu {
 
@@ -39,5 +41,21 @@ public class SubjectsPage extends MainMenu {
         $x("//mat-form-field[contains(@class, 'filter')]//input").sendKeys(subject);
 
         return this;
+    }
+
+    @Step("Subjects page: Opened Tests page of {subject}")
+    public TestsPage openSubjectTests(String subject) {
+        setSearchValue(subject);
+        performActionWithSubject(subject,"assignment_turned_in");
+
+        return new TestsPage();
+    }
+
+    private void performActionWithSubject(String subject, String actionToPerform) {
+        $$x("//tbody//tr//td") //this locator is general for every table and correspond to the cell of the table
+                .findBy(exactText(subject))
+                .parent()
+                .$x(format(".//mat-icon[contains(@class, '%s')]", actionToPerform))
+                .click();
     }
 }

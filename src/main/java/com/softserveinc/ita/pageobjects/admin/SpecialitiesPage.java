@@ -1,19 +1,16 @@
 package com.softserveinc.ita.pageobjects.admin;
 
-import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
+import static com.softserveinc.ita.models.ProgressBar.*;
 import static java.lang.String.format;
-import static java.time.Duration.ofSeconds;
 
 public class SpecialitiesPage extends MainMenu {
 
     private final String NAVIGATION_BUTTON_PATH_TEMPLATE = "//button[contains(@Class,'paginator-navigation-%s')]";
-
-    private final SelenideElement progressBar = $x("//mat-progress-bar");
 
     @Step("Speciality page: Confirmed in modal window")
     public SpecialitiesPage confirmModal() {
@@ -56,14 +53,14 @@ public class SpecialitiesPage extends MainMenu {
 
     @Step("Speciality page: Waited for progress bar to disappear")
     public SpecialitiesPage waitForProgressBarToDisappear() {
-        progressBar.should(disappear);
+        waitForDisappear();
 
         return this;
     }
 
     @Step("Speciality page: Waited for progress bar to appear")
     public SpecialitiesPage waitForProgressBarToAppear() {
-        progressBar.should(appear, ofSeconds(3));
+        waitForAppear();
 
         return this;
     }
