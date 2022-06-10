@@ -1,15 +1,18 @@
 package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.LoginPage;
-import com.softserveinc.ita.pageobjects.modals.AddingSubjectModal;
+
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
-import com.softserveinc.ita.pageobjects.util.TestRunner;
+import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
+import com.softserveinc.ita.steps.SubjectStep;
+import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.softserveinc.ita.pageobjects.util.DataProvider.*;
-import static com.softserveinc.ita.pageobjects.util.WindowTabHelper.getCurrentUrl;
+import static com.softserveinc.ita.repos.SubjectRepo.*;
+import static com.softserveinc.ita.util.DataProvider.*;
+import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SubjectsTest extends TestRunner {
@@ -38,9 +41,11 @@ public class SubjectsTest extends TestRunner {
     @Test(groups = "positive")
     @Description("Test to verify \" Add subject\" button should work with valid data")
     public void verifyAddSubjectButtonIsEnabledWithValidData() {
-        openAndFillSubjectFields("Предметний", "Опис предмета");
+        var addButtonEnabled = new SubjectStep()
+                .openAndFillSubjectFields(getValidSubject())
+                .isAddButtonEnabled();
 
-        assertThat(new AddingSubjectModal().isAddButtonEnabled())
+        assertThat(addButtonEnabled)
                 .as("When both fields have valid data add button should be enabled")
                 .isTrue();
     }
@@ -48,9 +53,11 @@ public class SubjectsTest extends TestRunner {
     @Test(groups = "negative")
     @Description("Test to verify that new subject should not be able to be created with invalid title")
     public void verifyNewSubjectCanNotBeCreatedWithInvalidTitle() {
-        openAndFillSubjectFields("5предметний предмет", "Валідний опис предмета");
+        var addButtonEnabled = new SubjectStep()
+                .openAndFillSubjectFields(getSubjectWithInvalidName())
+                .isAddButtonEnabled();
 
-        assertThat(new AddingSubjectModal().isAddButtonEnabled())
+        assertThat(addButtonEnabled)
                 .as("When title field has invalid data new subject can't be created")
                 .isFalse();
     }
@@ -58,9 +65,9 @@ public class SubjectsTest extends TestRunner {
     @Test(groups = "negative")
     @Description("Test to verify that new subject should not be able to be created with invalid description")
     public void verifyNewSubjectCanNotBeCreatedWithInvalidDescription() {
-        openAndFillSubjectFields("Предметний предмет", "невалідний опис предмета");
+        new SubjectStep().openAndFillSubjectFields(getSubjectWithInvalidDescription());
 
-        assertThat(new AddingSubjectModal().isAddButtonEnabled())
+        assertThat(new AddingFormModal().isAddButtonEnabled())
                 .as("When description field has invalid data new subject can't be created")
                 .isFalse();
     }
@@ -68,16 +75,16 @@ public class SubjectsTest extends TestRunner {
     @Test(groups = "positive")
     @Description("Test to verify that new subject should be able to be created with valid data")
     public void verifyAddingNewSubject() {
-        var subjectName = "Новий предмет";
-        var subjectDescription = "Його опис";
+        var subjectName = getValidSubject().getName();
 
-        openAndFillSubjectFields(subjectName, subjectDescription);
+        new SubjectStep()
+                .openAndFillSubjectFields(getValidSubject())
+                .confirmModal();
 
-        new AddingSubjectModal().addNewItem();
-        var isAddedAtTheEnd =
-                subjectsPage.switchToLastPageOfTable()
-                        .getNamesOfSubjects()
-                        .contains(subjectName);
+        var isAddedAtTheEnd = subjectsPage
+                .switchToLastPageOfTable()
+                .getNamesOfSubjects()
+                .contains(subjectName);
 
         assertThat(isAddedAtTheEnd)
                 .as("New subject should be displayed at the end of table")
@@ -92,12 +99,5 @@ public class SubjectsTest extends TestRunner {
         assertThat(isFound)
                 .as("New subject should be displayed after search is performed")
                 .isTrue();
-    }
-
-    private void openAndFillSubjectFields(String title, String description) {
-        subjectsPage
-                .openAddingSubjectForm()
-                .setValueFor(SUBJECT_NAME, title)
-                .setDescriptionFor(SUBJECT_DESCRIPTION, description);
     }
 }

@@ -1,6 +1,6 @@
 package com.softserveinc.ita.pageobjects.admin;
 
-import com.softserveinc.ita.pageobjects.modals.AddingFacultyModal;
+import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import io.qameta.allure.Step;
 
 import java.util.List;
@@ -24,9 +24,9 @@ public class FacultiesPage extends MainMenu {
     }
 
     @Step("Faculties page: opened adding faculties form")
-    public AddingFacultyModal openAddingFacultyForm() {
+    public AddingFormModal openAddingFacultyForm() {
         $x("//button[@class ='btn mat-stroked-button mat-button-base']").click();
 
-        return new AddingFacultyModal();
+        return new AddingFormModal();
     }
 }
