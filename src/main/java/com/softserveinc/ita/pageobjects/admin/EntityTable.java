@@ -1,7 +1,8 @@
-package com.softserveinc.ita.models;
+package com.softserveinc.ita.pageobjects.admin;
 
-import static com.codeborne.selenide.Condition.disappear;
-import static com.codeborne.selenide.Condition.exactText;
+import com.codeborne.selenide.Condition;
+
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 import static java.lang.String.format;
@@ -20,8 +21,10 @@ public class EntityTable {
     public void deleteRowByValue(String searchValue) {
         $$x("//table//tr//td")
                 .find(exactText(searchValue))
+                .should(exist)
                 .parent()
-                .$x(".//i[contains(@class,'delete')]")
+                .$x(".//*[contains(@class,'delete') or @aria-label='delete']")
+                .should(enabled)
                 .click();
     }
 

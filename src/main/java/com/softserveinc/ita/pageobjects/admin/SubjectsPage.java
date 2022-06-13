@@ -1,6 +1,5 @@
 package com.softserveinc.ita.pageobjects.admin;
 
-import com.softserveinc.ita.models.EntityTable;
 import io.qameta.allure.Step;
 
 import java.util.List;

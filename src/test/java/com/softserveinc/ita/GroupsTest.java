@@ -1,13 +1,11 @@
 package com.softserveinc.ita;
 
-import com.codeborne.selenide.Driver;
-import com.codeborne.selenide.Selenide;
+import com.softserveinc.ita.models.FacultyEntity;
 import com.softserveinc.ita.models.GroupEntity;
 import com.softserveinc.ita.models.SpecialityEntity;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.GroupsPage;
-import com.softserveinc.ita.pageobjects.admin.SpecialitiesPage;
-import com.softserveinc.ita.steps.SpecialitiesSteps;
+import com.softserveinc.ita.steps.GroupsSteps;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
@@ -21,12 +19,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GroupsTest extends TestRunner {
 
     private GroupsPage groupsPage;
+    private GroupsSteps steps = new GroupsSteps();
 
     @BeforeMethod(groups = {"positive", "negative"})
     public void openGroupsPage() {
-        groupsPage = new LoginPage()
-                .login(ADMIN_LOGIN, ADMIN_PASSWORD)
-                .openGroupsPage();
+        steps.openSpecialityPage();
+        groupsPage = steps.getPage();
     }
 
     @Test(groups = "positive")
@@ -42,31 +40,79 @@ public class GroupsTest extends TestRunner {
     }
 
     @Test(groups = "positive")
-    @Description("Test to verify group adding")
+    @Description("Test to verify new group is added")
     public void verifyAddingNewGroup() {
+        // TODO: 10.06.2022 move speciality, faculty to BeforeClass
+        var speciality = SpecialityEntity
+                .builder()
+                .name("Автоматизація та компютерно-інтегровані технології")
+                .build();
 
-        var speciality = SpecialityEntity.getNewValidSpeciality();
-        new SpecialitiesSteps().addNewSpeciality(speciality);
+        var faculty = FacultyEntity
+                .builder()
+                .name("Інститут інформаційних технологій")
+                .build();
 
         var group = GroupEntity
                 .builder()
                 .name(GroupEntity.getNewValidName())
                 .speciality(speciality)
+                .faculty(faculty)
                 .build();
 
-        groupsPage
-                .openAddingNewForm()
-                .setCode(group.getName())
-                .setSpeciality(group
-                        .getSpeciality()
-                        .getName())
-                .setFaculty(group.getFaculty())
-                .confirmModal();
+        steps.addNewGroup(group);
 
         refresh(); // for some reason there is no auto refresh for this page
 
         var lastGroupName = groupsPage.getLastGroupName();
 
-        assertThat(lastGroupName).isEqualTo(group.getName());
+        assertThat(lastGroupName)
+                .as("After adding new group group with added name " +
+                        "should be last in the table")
+                .isEqualTo(group.getName());
+    }
+
+    @Test(groups = "positive")
+    @Description("Test to verify new group is added")
+    public void verifyDeletingGroup() {
+        // TODO: 10.06.2022 move speciality, faculty to BeforeClass
+        var speciality = SpecialityEntity
+                .builder()
+                .name("Автоматизація та компютерно-інтегровані технології")
+                .build();
+
+        var faculty = FacultyEntity
+                .builder()
+                .name("Інститут інформаційних технологій")
+                .build();
+
+        var group = GroupEntity
+                .builder()
+                .name(GroupEntity.getNewValidName())
+                .speciality(speciality)
+                .faculty(faculty)
+                .build();
+
+        steps.addNewGroup(group);
+
+        refresh(); // for some reason there is no auto refresh for this page
+
+        var lastGroupName = groupsPage.getLastGroupName();
+
+        assertThat(lastGroupName)
+                .as("After adding new group group with added name " +
+                        "should be last in the table")
+                .isEqualTo(group.getName());
+
+        steps.deleteGroup(group);
+
+        refresh(); // for some reason there is no auto refresh for this page
+
+        lastGroupName = groupsPage.getLastGroupName();
+
+        assertThat(lastGroupName)
+                .as("After deleting group last group in the table " +
+                        "should not have deleted name")
+                .isNotEqualTo(group.getName());
     }
 }

@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import static com.softserveinc.ita.pageobjects.util.RandomUtil.getRandomNumber;
+import static com.softserveinc.ita.util.RandomUtil.getRandomNumber;
 
 @Builder
 @Getter
@@ -12,7 +12,7 @@ import static com.softserveinc.ita.pageobjects.util.RandomUtil.getRandomNumber;
 public class GroupEntity {
     private String name;
     private SpecialityEntity speciality;
-    private String faculty = "Інститут інформаційних технологій";
+    private FacultyEntity faculty;
 
     public static String getNewValidName() {
         // name could be string, max length 10
