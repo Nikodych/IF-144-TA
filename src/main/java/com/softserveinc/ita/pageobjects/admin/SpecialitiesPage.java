@@ -1,7 +1,6 @@
 package com.softserveinc.ita.pageobjects.admin;
 
 import com.codeborne.selenide.SelenideElement;
-import com.softserveinc.ita.models.EntityTable;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.appear;

@@ -1,4 +1,4 @@
-package com.softserveinc.ita.models;
+package com.softserveinc.ita.pageobjects.admin;
 
 import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Condition.exactText;
