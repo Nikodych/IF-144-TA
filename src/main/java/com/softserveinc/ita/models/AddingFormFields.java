@@ -23,5 +23,5 @@ public enum AddingFormFields {
     ADMIN_PASSWORD_CONFIRM($x("//input[@formcontrolname='password_confirm']"));
 
     @Getter
-    private final SelenideElement field;
+    private final SelenideElement name;
 }

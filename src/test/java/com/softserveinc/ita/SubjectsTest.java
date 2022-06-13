@@ -4,6 +4,7 @@ import com.softserveinc.ita.pageobjects.LoginPage;
 
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
 import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
+import com.softserveinc.ita.steps.SpecialitiesSteps;
 import com.softserveinc.ita.steps.SubjectStep;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
@@ -18,6 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SubjectsTest extends TestRunner {
 
     private SubjectsPage subjectsPage;
+    private final SubjectStep subjectStep = new SubjectStep();
+    private final AddingFormModal subjectAddingForm = new AddingFormModal();
 
     @BeforeMethod(groups = {"positive", "negative"})
     public void openSubjectsPage() {
@@ -41,11 +44,9 @@ public class SubjectsTest extends TestRunner {
     @Test(groups = "positive")
     @Description("Test to verify \" Add subject\" button should work with valid data")
     public void verifyAddSubjectButtonIsEnabledWithValidData() {
-        var addButtonEnabled = new SubjectStep()
-                .openAndFillSubjectFields(getValidSubject())
-                .isAddButtonEnabled();
+        subjectStep.openAndFillSubjectFields(getValidSubject());
 
-        assertThat(addButtonEnabled)
+        assertThat(subjectAddingForm.isAddButtonEnabled())
                 .as("When both fields have valid data add button should be enabled")
                 .isTrue();
     }
@@ -53,11 +54,9 @@ public class SubjectsTest extends TestRunner {
     @Test(groups = "negative")
     @Description("Test to verify that new subject should not be able to be created with invalid title")
     public void verifyNewSubjectCanNotBeCreatedWithInvalidTitle() {
-        var addButtonEnabled = new SubjectStep()
-                .openAndFillSubjectFields(getSubjectWithInvalidName())
-                .isAddButtonEnabled();
+        subjectStep.openAndFillSubjectFields(getSubjectWithInvalidName());
 
-        assertThat(addButtonEnabled)
+        assertThat(subjectAddingForm.isAddButtonEnabled())
                 .as("When title field has invalid data new subject can't be created")
                 .isFalse();
     }
@@ -65,9 +64,9 @@ public class SubjectsTest extends TestRunner {
     @Test(groups = "negative")
     @Description("Test to verify that new subject should not be able to be created with invalid description")
     public void verifyNewSubjectCanNotBeCreatedWithInvalidDescription() {
-        new SubjectStep().openAndFillSubjectFields(getSubjectWithInvalidDescription());
+        subjectStep.openAndFillSubjectFields(getSubjectWithInvalidDescription());
 
-        assertThat(new AddingFormModal().isAddButtonEnabled())
+        assertThat(subjectAddingForm.isAddButtonEnabled())
                 .as("When description field has invalid data new subject can't be created")
                 .isFalse();
     }
@@ -77,9 +76,8 @@ public class SubjectsTest extends TestRunner {
     public void verifyAddingNewSubject() {
         var subjectName = getValidSubject().getName();
 
-        new SubjectStep()
-                .openAndFillSubjectFields(getValidSubject())
-                .confirmModal();
+        subjectStep.openAndFillSubjectFields(getValidSubject());
+        subjectAddingForm.confirmModal();
 
         var isAddedAtTheEnd = subjectsPage
                 .switchToLastPageOfTable()

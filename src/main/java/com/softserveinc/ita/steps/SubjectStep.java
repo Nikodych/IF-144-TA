@@ -9,8 +9,8 @@ import static com.softserveinc.ita.models.AddingFormFields.SUBJECT_NAME;
 
 public class SubjectStep {
 
-    public AddingFormModal openAndFillSubjectFields(SubjectEntity subject) {
-       return new SubjectsPage()
+    public void openAndFillSubjectFields(SubjectEntity subject) {
+        new SubjectsPage()
                 .openAddingSubjectForm()
                 .setValueFor(SUBJECT_NAME, subject.getName())
                 .setValueFor(SUBJECT_DESCRIPTION, subject.getDescription());

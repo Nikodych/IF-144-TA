@@ -26,9 +26,6 @@ public class SpecialitiesSteps {
                 .setValueFor(SPECIALTY_CODE, speciality.getCode())
                 .setValueFor(SPECIALTY_NAME, speciality.getName())
                 .confirmModal();
-        page
-                .waitForProgressBarToAppear()
-                .waitForProgressBarToDisappear();
     }
 
     public void deleteSpeciality(SpecialityEntity speciality) {
@@ -37,8 +34,5 @@ public class SpecialitiesSteps {
                 .findTablePageWithSearchValue(searchValue)
                 .deleteRowByValue(searchValue)
                 .confirmModal();
-        page
-                .waitForProgressBarToAppear()
-                .waitForProgressBarToDisappear();
     }
 }

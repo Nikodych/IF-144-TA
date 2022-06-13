@@ -1,17 +1,20 @@
 package com.softserveinc.ita.pageobjects.modals;
 
+import com.codeborne.selenide.SelenideElement;
 import com.softserveinc.ita.models.AddingFormFields;
 import io.qameta.allure.Step;
 
-import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$x;
 import static java.time.Duration.ofSeconds;
 
 public class AddingFormModal {
-    @Step("Adding form modal: Set {field}")
+
+    private final SelenideElement progressBar = $x("//mat-progress-bar");
+
+    @Step("Adding form modal: Set {value} for {field}")
     public AddingFormModal setValueFor(AddingFormFields field, String value) {
-        field.getField()
+        field.getName()
                 .should(appear, ofSeconds(5))
                 .sendKeys(value);
 
@@ -33,13 +36,21 @@ public class AddingFormModal {
 
     @Step("Adding form modal: Confirmed in modal window")
     public void confirmModal() {
-        $x("//button[@type='submit' | ./span[contains(text(),'Додати')] | ./span[contains(text(),'Підтвердити')] or ./span[contains(text(),'Confirm')]]")
+        $x("//button[@type='submit' or ./span[contains(text(),'Додати')] or ./span[contains(text(),' Підтвердити ')] or ./span[contains(text(),'Confirm')]]")
+                .should(appear, ofSeconds(5))
+                .click();
+        waitTillProgressbarDisappear();
+    }
+
+    @Step("Adding form modal: Canceled in modal window")
+    public void cancelModal() {
+        $x("//button/span[contains(text(), 'Відмінити')] | //button/span[contains(text(), 'Скасувати')] | //button/span[contains(text(), 'Cancel')] ")
                 .should(appear, ofSeconds(5))
                 .click();
     }
 
-    @Step("Adding form modal: Canceled in modal window ")
-    public void cancelModal() {
-        $x("//button/span[contains(text(), 'Відмінити')] | //button/span[contains(text(), 'Скасувати')] | //button/span[contains(text(), 'Cancel')] ").click();
+    private void waitTillProgressbarDisappear() {
+        progressBar.should(appear, ofSeconds(5));
+        progressBar.should(disappear, ofSeconds(5));
     }
 }

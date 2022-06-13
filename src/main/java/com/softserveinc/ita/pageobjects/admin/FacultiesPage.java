@@ -25,7 +25,7 @@ public class FacultiesPage extends MainMenu {
 
     @Step("Faculties page: opened adding faculties form")
     public AddingFormModal openAddingFacultyForm() {
-        $x("//button[@class ='btn mat-stroked-button mat-button-base']").click();
+        $x("//app-faculties//*[@aria-label='add']/ancestor::button").click();
 
         return new AddingFormModal();
     }

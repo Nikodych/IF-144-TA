@@ -14,8 +14,6 @@ public class SpecialitiesPage extends MainMenu {
 
     private final String NAVIGATION_BUTTON_PATH_TEMPLATE = "//button[contains(@Class,'paginator-navigation-%s')]";
 
-    private final SelenideElement progressBar = $x("//mat-progress-bar");
-
     @Step("Speciality page: Added new speciality")
     public AddingFormModal openAddingNewForm() {
         $x("//button[contains(@class,'addButton')]").click();
@@ -32,20 +30,6 @@ public class SpecialitiesPage extends MainMenu {
                 .last()
                 .$x(".//td[contains(@class,'code')]")
                 .getText();
-    }
-
-    @Step("Speciality page: Waited for progress bar to disappear")
-    public SpecialitiesPage waitForProgressBarToDisappear() {
-        progressBar.should(disappear);
-
-        return this;
-    }
-
-    @Step("Speciality page: Waited for progress bar to appear")
-    public SpecialitiesPage waitForProgressBarToAppear() {
-        progressBar.should(appear, ofSeconds(5));
-
-        return this;
     }
 
     @Step("Speciality page: Got pop-up message text")

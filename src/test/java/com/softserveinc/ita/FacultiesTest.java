@@ -2,6 +2,7 @@ package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.FacultiesPage;
+import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import com.softserveinc.ita.steps.FacultySteps;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
@@ -9,7 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static com.softserveinc.ita.models.FacultyEntity.*;
+import static com.softserveinc.ita.repos.FacultyRepo.*;
 import static com.softserveinc.ita.util.DataProvider.*;
 import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,6 +19,7 @@ public class FacultiesTest extends TestRunner {
 
     private FacultiesPage facultiesPage;
     private final FacultySteps facultySteps = new FacultySteps();
+    private final AddingFormModal addingFacultyForm = new AddingFormModal();
 
     @BeforeMethod(groups = {"positive", "negative"})
     public void openFacultiesPage() {
@@ -78,11 +80,9 @@ public class FacultiesTest extends TestRunner {
     @Test(groups = "positive")
     @Description("Test to verify submit button is enabled when both fields filled with valid data")
     public void verifySubmitButtonIsEnabledWithValidData() {
-        var actualResult = facultySteps
-                .openAndFillFacultyFields(getValidFaculty())
-                .isAddButtonEnabled();
+        facultySteps.openAndFillFacultyFields(getValidFaculty());
 
-        assertThat(actualResult)
+        assertThat(addingFacultyForm.isAddButtonEnabled())
                 .as("When both fields filled with valid data 'Add faculty' button should be enabled")
                 .isTrue();
     }
@@ -90,11 +90,9 @@ public class FacultiesTest extends TestRunner {
     @Test(groups = "negative")
     @Description("Test to verify submit button is not enabled when name of faculty is invalid")
     public void verifySubmitButtonIsNotEnabledWithInvalidTitle() {
-        var actualResult = facultySteps
-                .openAndFillFacultyFields(getFacultyWithInvalidName())
-                .isAddButtonEnabled();
+        facultySteps.openAndFillFacultyFields(getFacultyWithInvalidName());
 
-        assertThat(actualResult)
+        assertThat(addingFacultyForm.isAddButtonEnabled())
                 .as("When name of faculty is invalid 'Add faculty' button shouldn't be enabled.")
                 .isFalse();
     }
@@ -102,11 +100,9 @@ public class FacultiesTest extends TestRunner {
     @Test(groups = "negative")
     @Description("Test to verify submit button is not enabled when description of faculty is invalid")
     public void verifyAddFacultyButtonIsNotEnabledWithInvalidDescription() {
-        var actualResult = facultySteps
-                .openAndFillFacultyFields(getFacultyWithInvalidDescription())
-                .isAddButtonEnabled();
+        facultySteps.openAndFillFacultyFields(getFacultyWithInvalidDescription());
 
-        assertThat(actualResult)
+        assertThat(addingFacultyForm.isAddButtonEnabled())
                 .as("When description is invalid 'Add faculty' button shouldn't be enabled.")
                 .isFalse();
     }
