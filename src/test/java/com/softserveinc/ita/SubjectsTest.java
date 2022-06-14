@@ -74,18 +74,19 @@ public class SubjectsTest extends TestRunner {
 
         new SubjectStep().openAndFillSubjectFields(getValidSubject());
 
-        var isAddedAtTheEnd = new AddingSubjectModal()
-                .addNewSubject()
-                .switchToLastPageOfTable()
-                .getNamesOfSubjects()
+        var newSubjectPage = new AddingSubjectModal().addNewSubject();
+        newSubjectPage.getTable().goToTablePage("last");
+
+        var isAddedAtTheEnd = newSubjectPage.getNamesOfSubjects()
                 .contains(subjectName);
 
         assertThat(isAddedAtTheEnd)
                 .as("New subject should be displayed at the end of table")
                 .isTrue();
 
+        subjectsPage.getTable().goToTablePage("first");
+
         var isFound = subjectsPage
-                .switchToFirstPageOfTable()
                 .setSearchValue(subjectName)
                 .getNamesOfSubjects()
                 .contains(subjectName);
