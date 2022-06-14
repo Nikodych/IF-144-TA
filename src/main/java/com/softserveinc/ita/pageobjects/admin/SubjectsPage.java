@@ -12,7 +12,7 @@ public class SubjectsPage extends MainMenu {
     @Step("Subjects page: Opened adding subject form")
     public AddingSubjectModal openAddingSubjectForm() {
         $x("//button[contains(@class, 'addSubject')]").click();
-        $x("//app-subjects-create-modal").shouldBe(visible);
+        waitUntilModalVisible();
 
         return new AddingSubjectModal();
     }
@@ -75,8 +75,12 @@ public class SubjectsPage extends MainMenu {
                 .parent()
                 .$x(".//mat-icon[contains(@class, 'edit')]")
                 .click();
-        $x("//app-subjects-create-modal").shouldBe(visible);
+        waitUntilModalVisible();
 
         return new AddingSubjectModal();
+    }
+
+    private void waitUntilModalVisible() {
+        $x("//app-subjects-create-modal").shouldBe(visible);
     }
 }

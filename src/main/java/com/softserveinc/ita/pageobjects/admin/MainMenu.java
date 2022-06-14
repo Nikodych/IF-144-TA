@@ -10,7 +10,7 @@ import static com.softserveinc.ita.models.MainMenuButtons.*;
 import static java.lang.String.format;
 import static java.time.Duration.ofSeconds;
 
-public class MainMenu {
+public class MainMenu<T extends MainMenu> {
 
     private static final String PROGRESS_BAR_PATH = "//mat-progress-bar";
 
@@ -42,36 +42,9 @@ public class MainMenu {
         return new SpecialitiesPage();
     }
 
-    @Step("Speciality page: Waited for progress bar to disappear")
-    public SpecialitiesPage waitForProgressBarToDisappearOnSpecialitiesPage() {
-        waitForDisappear();
-
-        return new SpecialitiesPage();
-    }
-
-    @Step("Speciality page: Waited for progress bar to appear")
-    public SpecialitiesPage waitForProgressBarToAppearOnSpecialitiesPage() {
-        waitForAppear();
-        return new SpecialitiesPage();
-    }
-
     @Step("Main menu: Opened subjects page")
     public SubjectsPage openSubjectsPage() {
         openPage(SUBJECTS_PAGE);
-
-        return new SubjectsPage();
-    }
-
-    @Step("SubjectsPage page: Waited for progress bar to disappear")
-    public SubjectsPage waitForProgressBarToDisappearOnSubjectsPage() {
-        waitForDisappear();
-
-        return new SubjectsPage();
-    }
-
-    @Step("SubjectsPage page: Waited for progress bar to appear")
-    public SubjectsPage waitForProgressBarToAppearOnSubjectsPage() {
-        waitForAppear();
 
         return new SubjectsPage();
     }
@@ -116,11 +89,18 @@ public class MainMenu {
                 .click();
     }
 
-    public static void waitForDisappear() {
+    public T waitTillProgressBarDisappears() {
+        waitForAppear();
+        waitForDisappear();
+
+        return (T) this;
+    }
+
+    private void waitForDisappear() {
         $x(PROGRESS_BAR_PATH).should(disappear);
     }
 
-    public static void waitForAppear() {
+    private void waitForAppear() {
         $x(PROGRESS_BAR_PATH).should(appear, ofSeconds(3));
     }
 }

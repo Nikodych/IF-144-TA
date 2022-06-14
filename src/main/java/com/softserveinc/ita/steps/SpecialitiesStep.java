@@ -9,7 +9,7 @@ import static com.softserveinc.ita.util.DataProvider.ADMIN_LOGIN;
 import static com.softserveinc.ita.util.DataProvider.ADMIN_PASSWORD;
 
 @Getter
-public class SpecialitiesSteps {
+public class SpecialitiesStep {
 
     private SpecialitiesPage page;
 
@@ -25,8 +25,7 @@ public class SpecialitiesSteps {
                 .setCode(speciality.getCode())
                 .setName(speciality.getName())
                 .confirmModal()
-                .waitForProgressBarToAppearOnSpecialitiesPage()
-                .waitForProgressBarToDisappearOnSpecialitiesPage();
+                .waitTillProgressBarDisappears();
     }
 
     public void deleteSpeciality(SpecialityEntity speciality) {
@@ -35,7 +34,6 @@ public class SpecialitiesSteps {
                 .findTablePageWithSearchValue(searchValue)
                 .deleteRowByValue(searchValue)
                 .confirmModal()
-                .waitForProgressBarToAppearOnSpecialitiesPage()
-                .waitForProgressBarToDisappearOnSpecialitiesPage();
+                .waitTillProgressBarDisappears();
     }
 }
