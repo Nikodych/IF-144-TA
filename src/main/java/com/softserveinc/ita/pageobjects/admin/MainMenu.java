@@ -1,6 +1,7 @@
 package com.softserveinc.ita.pageobjects.admin;
 
 import com.softserveinc.ita.models.MainMenuButtons;
+import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.appear;
@@ -84,5 +85,14 @@ public class MainMenu {
         $x(format("//a[@href='/admin/%s']", pageName.getPageName()))
                 .should(appear, ofSeconds(5))
                 .click();
+    }
+
+    @Step("Opened adding form")
+    public AddingFormModal openAddingNewForm(){
+       $x("//*[starts-with(name(), 'app')]//*[@aria-label='add']/ancestor::button")
+               .should(appear,ofSeconds(5))
+               .click();
+
+       return new AddingFormModal();
     }
 }

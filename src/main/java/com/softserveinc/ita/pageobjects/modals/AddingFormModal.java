@@ -14,7 +14,8 @@ public class AddingFormModal {
 
     @Step("Adding form modal: Set {value} for {field}")
     public AddingFormModal setValueFor(AddingFormFields field, String value) {
-        field.getName()
+        field
+                .getName()
                 .should(appear, ofSeconds(5))
                 .sendKeys(value);
 

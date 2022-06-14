@@ -1,6 +1,5 @@
 package com.softserveinc.ita.pageobjects.admin;
 
-import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import io.qameta.allure.Step;
 
 import java.util.List;
@@ -21,12 +20,5 @@ public class FacultiesPage extends MainMenu {
 
     public List<String> getFaculties() {
         return $$x("//td[contains(@class, 'faculty_name')]").texts();
-    }
-
-    @Step("Faculties page: opened adding faculties form")
-    public AddingFormModal openAddingFacultyForm() {
-        $x("//app-faculties//*[@aria-label='add']/ancestor::button").click();
-
-        return new AddingFormModal();
     }
 }

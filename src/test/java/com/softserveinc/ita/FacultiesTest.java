@@ -69,7 +69,7 @@ public class FacultiesTest extends TestRunner {
     @Description("Test to verify adding faculty form appears after pressing on add faculty button")
     public void verifyAddingFacultyFormIsDisplayed() {
         var actualResult = facultiesPage
-                .openAddingFacultyForm()
+                .openAddingNewForm()
                 .isAddingFormDisplayed();
 
         assertThat(actualResult)

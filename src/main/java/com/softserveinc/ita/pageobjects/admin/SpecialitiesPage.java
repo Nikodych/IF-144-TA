@@ -1,6 +1,5 @@
 package com.softserveinc.ita.pageobjects.admin;
 
-import com.codeborne.selenide.SelenideElement;
 import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import io.qameta.allure.Step;
 
@@ -13,13 +12,6 @@ import static java.time.Duration.ofSeconds;
 public class SpecialitiesPage extends MainMenu {
 
     private final String NAVIGATION_BUTTON_PATH_TEMPLATE = "//button[contains(@Class,'paginator-navigation-%s')]";
-
-    @Step("Speciality page: Added new speciality")
-    public AddingFormModal openAddingNewForm() {
-        $x("//button[contains(@class,'addButton')]").click();
-
-        return  new AddingFormModal();
-    }
 
     @Step("Speciality page: Got last speciality code")
     public String getLastSpecialityCode() {

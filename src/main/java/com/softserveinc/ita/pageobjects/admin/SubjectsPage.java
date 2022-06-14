@@ -1,6 +1,5 @@
 package com.softserveinc.ita.pageobjects.admin;
 
-import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import io.qameta.allure.Step;
 
 import java.util.List;
@@ -9,13 +8,6 @@ import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class SubjectsPage extends MainMenu {
-
-    @Step("Subjects page: Opened adding subject form")
-    public AddingFormModal openAddingSubjectForm() {
-        $x("//button[contains(@class, 'addSubject')]").click();
-
-        return new AddingFormModal();
-    }
 
     public List<String> getNamesOfSubjects() {
         return $$x("//td[contains(@class, 'mat-column-subject_name')]").texts();

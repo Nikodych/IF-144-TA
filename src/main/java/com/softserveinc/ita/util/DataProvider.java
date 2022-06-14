@@ -32,4 +32,8 @@ public interface DataProvider {
     String START_DATE = readConfig().getString("dates.startDate");
     String END_DATE = readConfig().getString("dates.endDate");
     String ERROR_MESSAGE_WRONG_DATE_ORDER = readConfig().getString("messages.error.wrongDateOrder");
+    String API_BASE_URI = readConfig().getString("api.baseUri");
+    String API_LOGIN_USER_PATH = readConfig().getString("api.basePathes.login");
+    String API_IS_LOGGED_PATH = readConfig().getString("api.basePathes.isLogged");
+    String API_LOGOUT_PATH = readConfig().getString("api.basePathes.logout");
 }
