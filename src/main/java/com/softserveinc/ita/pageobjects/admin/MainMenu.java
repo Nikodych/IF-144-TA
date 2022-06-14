@@ -4,12 +4,15 @@ import com.softserveinc.ita.models.MainMenuButtons;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.appear;
+import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Selenide.$x;
 import static com.softserveinc.ita.models.MainMenuButtons.*;
 import static java.lang.String.format;
 import static java.time.Duration.ofSeconds;
 
 public class MainMenu {
+
+    private static final String PROGRESS_BAR_PATH = "//mat-progress-bar";
 
     @Step("Main menu: Opened dashboard page")
     public DashboardPage openDashboardPage() {
@@ -42,6 +45,20 @@ public class MainMenu {
     @Step("Main menu: Opened subjects page")
     public SubjectsPage openSubjectsPage() {
         openPage(SUBJECTS_PAGE);
+
+        return new SubjectsPage();
+    }
+
+    @Step("SubjectsPage page: Waited for progress bar to disappear")
+    public SubjectsPage waitForProgressBarToDisappearOnSubjectsPage() {
+        waitForDisappear();
+
+        return new SubjectsPage();
+    }
+
+    @Step("SubjectsPage page: Waited for progress bar to appear")
+    public SubjectsPage waitForProgressBarToAppearOnSubjectsPage() {
+        waitForAppear();
 
         return new SubjectsPage();
     }
@@ -84,5 +101,13 @@ public class MainMenu {
         $x(format("//a[@href='/admin/%s']", pageName.getPageName()))
                 .should(appear, ofSeconds(5))
                 .click();
+    }
+
+    public static void waitForDisappear() {
+        $x(PROGRESS_BAR_PATH).should(disappear);
+    }
+
+    public static void waitForAppear() {
+        $x(PROGRESS_BAR_PATH).should(appear, ofSeconds(3));
     }
 }

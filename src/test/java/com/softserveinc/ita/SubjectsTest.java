@@ -76,8 +76,7 @@ public class SubjectsTest extends TestRunner {
         step.openAndFillSubjectFields(getValidSubject());
         step.addAndWaitForSubjectToAppear();
 
-        var isAddedAtTheEnd = subjectsPage
-                .hasSubject(subjectName);
+        var isAddedAtTheEnd = subjectsPage.hasSubject(subjectName);
 
         assertThat(isAddedAtTheEnd)
                 .as("New subject should be displayed at the end of table")
@@ -103,8 +102,7 @@ public class SubjectsTest extends TestRunner {
         step.openAndFillSubjectFields(getValidSubject());
         step.addAndWaitForSubjectToAppear();
 
-        var isAddedAtTheEnd = subjectsPage
-                .hasSubject(subjectName);
+        var isAddedAtTheEnd = subjectsPage.hasSubject(subjectName);
 
         assertThat(isAddedAtTheEnd)
                 .as("New subject should be displayed at the end of table")
@@ -129,8 +127,7 @@ public class SubjectsTest extends TestRunner {
         step.openAndFillSubjectFields(getValidSubject());
         step.addAndWaitForSubjectToAppear();
 
-        var isAddedAtTheEnd = subjectsPage
-                .hasSubject(subjectName);
+        var isAddedAtTheEnd = subjectsPage.hasSubject(subjectName);
 
         assertThat(isAddedAtTheEnd)
                 .as("New subject should be displayed at the end of the table")

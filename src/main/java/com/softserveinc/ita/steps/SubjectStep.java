@@ -16,8 +16,8 @@ public class SubjectStep {
     public void addAndWaitForSubjectToAppear() {
         new AddingSubjectModal()
                 .addNewSubject()
-                .waitForProgressBarToAppear()
-                .waitForProgressBarToDisappear()
+                .waitForProgressBarToAppearOnSubjectsPage()
+                .waitForProgressBarToDisappearOnSubjectsPage()
                 .switchToLastPageOfTable();
     }
 

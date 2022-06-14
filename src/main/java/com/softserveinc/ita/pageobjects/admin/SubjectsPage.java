@@ -6,8 +6,6 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
-import static com.softserveinc.ita.models.ProgressBar.waitForAppear;
-import static com.softserveinc.ita.models.ProgressBar.waitForDisappear;
 
 public class SubjectsPage extends MainMenu {
 
@@ -77,21 +75,8 @@ public class SubjectsPage extends MainMenu {
                 .parent()
                 .$x(".//mat-icon[contains(@class, 'edit')]")
                 .click();
+        $x("//app-subjects-create-modal").shouldBe(visible);
 
         return new AddingSubjectModal();
-    }
-
-    @Step("SubjectsPage page: Waited for progress bar to disappear")
-    public SubjectsPage waitForProgressBarToDisappear() {
-        waitForDisappear();
-
-        return this;
-    }
-
-    @Step("SubjectsPage page: Waited for progress bar to appear")
-    public SubjectsPage waitForProgressBarToAppear() {
-        waitForAppear();
-
-        return this;
     }
 }
