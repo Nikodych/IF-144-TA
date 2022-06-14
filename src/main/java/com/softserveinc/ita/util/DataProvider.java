@@ -35,4 +35,8 @@ public interface DataProvider {
     String FACULTY = readConfig().getString("searchInput.faculty");
     String DESCRIPTION = readConfig().getString("searchInput.description");
     String INVALID = readConfig().getString("searchInput.invalid");
+    String API_BASE_URI = readConfig().getString("api.baseUri");
+    String API_LOGIN_USER_PATH = readConfig().getString("api.basePathes.login");
+    String API_IS_LOGGED_PATH = readConfig().getString("api.basePathes.isLogged");
+    String API_LOGOUT_PATH = readConfig().getString("api.basePathes.logout");
 }
