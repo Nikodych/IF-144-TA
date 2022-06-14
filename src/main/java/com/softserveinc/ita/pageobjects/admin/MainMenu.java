@@ -42,6 +42,19 @@ public class MainMenu {
         return new SpecialitiesPage();
     }
 
+    @Step("Speciality page: Waited for progress bar to disappear")
+    public SpecialitiesPage waitForProgressBarToDisappearOnSpecialitiesPage() {
+        waitForDisappear();
+
+        return new SpecialitiesPage();
+    }
+
+    @Step("Speciality page: Waited for progress bar to appear")
+    public SpecialitiesPage waitForProgressBarToAppearOnSpecialitiesPage() {
+        waitForAppear();
+        return new SpecialitiesPage();
+    }
+
     @Step("Main menu: Opened subjects page")
     public SubjectsPage openSubjectsPage() {
         openPage(SUBJECTS_PAGE);
