@@ -1,6 +1,5 @@
 package com.softserveinc.ita;
 
-import com.softserveinc.ita.api.ApiUtil;
 import io.qameta.allure.Description;
 import io.restassured.http.Cookie;
 import io.restassured.response.Response;
@@ -10,6 +9,8 @@ import org.testng.annotations.Test;
 
 import java.util.Map;
 
+import static com.softserveinc.ita.util.ApiUtil.performGetRequest;
+import static com.softserveinc.ita.util.ApiUtil.performPostRequestWithBody;
 import static com.softserveinc.ita.util.DataProvider.*;
 import static java.util.Map.of;
 
@@ -76,7 +77,7 @@ public class ApiAuthTest {
 
     //method to verify related user is logged
     private void verifyUserIsLogged(Response authResponse, String username) {
-        var response = ApiUtil.performGetRequest(getSessionsCookie(authResponse), API_IS_LOGGED_PATH);
+        var response = performGetRequest(getSessionsCookie(authResponse), API_IS_LOGGED_PATH);
 
         var actualResponseCode = response.statusCode();
         var actualStatus = getValueFromResponseBody(response,"response");
@@ -99,7 +100,7 @@ public class ApiAuthTest {
 
     //method to verify related user`s can logout
     private void verifyUserCanLogout(Response authResponse) {
-        var response = ApiUtil.performGetRequest(getSessionsCookie(authResponse), API_LOGOUT_PATH);
+        var response = performGetRequest(getSessionsCookie(authResponse), API_LOGOUT_PATH);
 
         var actualResponseCode = response.statusCode();
         var actualStatus = getValueFromResponseBody(response,"response");
@@ -127,11 +128,11 @@ public class ApiAuthTest {
     }
 
     private Response authAsAdmin() {
-        return ApiUtil.performPostRequestWithBody(setUpAdminCredentials(), API_LOGIN_USER_PATH);
+        return performPostRequestWithBody(setUpAdminCredentials(), API_LOGIN_USER_PATH);
     }
 
     private Response authAsStudent() {
-        return ApiUtil.performPostRequestWithBody(setUpStudentCredentials(), API_LOGIN_USER_PATH);
+        return performPostRequestWithBody(setUpStudentCredentials(), API_LOGIN_USER_PATH);
     }
 
     private Map<String, String> setUpAdminCredentials() {

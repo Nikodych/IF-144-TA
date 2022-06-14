@@ -1,4 +1,4 @@
-package com.softserveinc.ita.api;
+package com.softserveinc.ita.util;
 
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -21,7 +21,7 @@ import static io.restassured.http.ContentType.JSON;
 @UtilityClass
 public class ApiUtil {
 
-    public Response performPostRequestWithBody(Map<String, String> bodyContent, String basePath) {
+    public static Response performPostRequestWithBody(Map<String, String> bodyContent, String basePath) {
         setUpApiSpecifications();
 
         return given()
@@ -29,7 +29,7 @@ public class ApiUtil {
                 .post(basePath);
     }
 
-    public Response performGetRequest(Cookie cookie, String basePath) {
+    public static Response performGetRequest(Cookie cookie, String basePath) {
         setUpApiSpecifications();
 
         return given()
