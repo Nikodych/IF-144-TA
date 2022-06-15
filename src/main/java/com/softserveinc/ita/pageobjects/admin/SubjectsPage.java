@@ -7,7 +7,7 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 
-public class SubjectsPage extends MainMenu {
+public class SubjectsPage extends MainMenu<SubjectsPage> {
 
     @Step("Subjects page: Opened adding subject form")
     public AddingSubjectModal openAddingSubjectForm() {

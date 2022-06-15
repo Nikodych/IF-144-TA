@@ -7,7 +7,7 @@ import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 import static java.lang.String.format;
 
-public class SpecialitiesPage extends MainMenu {
+public class SpecialitiesPage extends MainMenu<SpecialitiesPage> {
 
     private final String NAVIGATION_BUTTON_PATH_TEMPLATE = "//button[contains(@Class,'paginator-navigation-%s')]";
 
