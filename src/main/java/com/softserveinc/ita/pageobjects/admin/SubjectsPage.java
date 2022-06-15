@@ -1,15 +1,17 @@
 package com.softserveinc.ita.pageobjects.admin;
 
 import io.qameta.allure.Step;
+import lombok.Getter;
 
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 
+@Getter
 public class SubjectsPage extends MainMenu {
 
-    private EntityTable table = new EntityTable();
+    private final EntityTable table = new EntityTable();
 
     @Step("Subjects page: Opened adding subject form")
     public AddingSubjectModal openAddingSubjectForm() {
@@ -20,20 +22,6 @@ public class SubjectsPage extends MainMenu {
 
     public List<String> getNamesOfSubjects() {
         return $$x("//td[contains(@class, 'mat-column-subject_name')]").texts();
-    }
-
-    @Step("Subjects Page: Switched to last page of table")
-    public SubjectsPage switchToLastPageOfTable() {
-        table.goToTablePage("last");
-
-        return this;
-    }
-
-    @Step("Subjects page: Switched to first page of table")
-    public SubjectsPage switchToFirstPageOfTable() {
-        table.goToTablePage("first");
-
-        return this;
     }
 
     @Step("Subjects page: Set search value")

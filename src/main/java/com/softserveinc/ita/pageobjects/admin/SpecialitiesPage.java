@@ -2,21 +2,19 @@ package com.softserveinc.ita.pageobjects.admin;
 
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
+import lombok.Getter;
 
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Selenide.$x;
 import static java.time.Duration.ofSeconds;
 
+@Getter
 public class SpecialitiesPage extends MainMenu {
 
     private final EntityTable table = new EntityTable();
 
     private final SelenideElement progressBar = $x("//mat-progress-bar");
-
-    public EntityTable getTable() {
-        return table;
-    }
 
     @Step("Speciality page: Confirmed in modal window")
     public SpecialitiesPage confirmModal() {
@@ -76,12 +74,5 @@ public class SpecialitiesPage extends MainMenu {
         return $x("//simple-snack-bar/span")
                 .should(appear)
                 .getText();
-    }
-
-    @Step("Speciality page: Deleted row with searched value")
-    public SpecialitiesPage deleteRowByValue(String searchValue) {
-        table.deleteRowByValue(searchValue);
-
-        return this;
     }
 }

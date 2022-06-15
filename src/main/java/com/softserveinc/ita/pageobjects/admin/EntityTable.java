@@ -1,5 +1,7 @@
 package com.softserveinc.ita.pageobjects.admin;
 
+import io.qameta.allure.Step;
+
 import com.codeborne.selenide.Condition;
 
 import static com.codeborne.selenide.Condition.*;
@@ -10,6 +12,7 @@ import static java.lang.String.format;
 public class EntityTable {
     private final String NAVIGATION_BUTTON_PATH_TEMPLATE = "//button[contains(@Class,'paginator-navigation-%s')]";
 
+    @Step("Table: Switched table page")
     public void goToTablePage(String direction) {
         var buttonNavigation = $x(format(NAVIGATION_BUTTON_PATH_TEMPLATE, direction));
 
@@ -18,6 +21,7 @@ public class EntityTable {
         }
     }
 
+    @Step("Table: Deleted table row")
     public void deleteRowByValue(String searchValue) {
         $$x("//table//tr//td")
                 .find(exactText(searchValue))
@@ -28,6 +32,7 @@ public class EntityTable {
                 .click();
     }
 
+    @Step("Table: Searched for value in table texts")
     public boolean isSearchValueInTableTexts(String searchValue) {
         var tableRows = $$x("//table//tr//td");
 
@@ -36,11 +41,12 @@ public class EntityTable {
                 .contains(searchValue);
     }
 
+    @Step("Table: Searched for page containing value")
     public void findTablePageWithSearchValue(String searchValue) {
         goToTablePage("first");
 
         var buttonNavigationNext = $x(format(NAVIGATION_BUTTON_PATH_TEMPLATE, "next"));
-        boolean isSearchValueOnCurrentPage = false;
+        var isSearchValueOnCurrentPage = false;
 
         while (buttonNavigationNext.isEnabled() && !isSearchValueOnCurrentPage) {
             goToTablePage("next");
