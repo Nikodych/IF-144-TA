@@ -7,6 +7,7 @@ import static com.softserveinc.ita.models.AddingFormFields.FACULTY_DESCRIPTION;
 import static com.softserveinc.ita.models.AddingFormFields.FACULTY_NAME;
 
 public class FacultySteps {
+
     public void openAndFillFacultyFields(FacultyEntity faculty) {
         new FacultiesPage()
                 .openAddingNewForm()

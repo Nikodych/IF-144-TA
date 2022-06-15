@@ -2,7 +2,7 @@ package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.FacultiesPage;
-import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
+import com.softserveinc.ita.modals.AddingFormModal;
 import com.softserveinc.ita.steps.FacultySteps;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
