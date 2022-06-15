@@ -76,14 +76,21 @@ public class SubjectsTest extends TestRunner {
         step.openAndFillSubjectFields(getValidSubject());
         step.addAndWaitForSubjectToAppear();
 
+        subjectsPage
+                .getTable()
+                .goToTablePage("last");
+
         var isAddedAtTheEnd = subjectsPage.hasSubject(subjectName);
 
         assertThat(isAddedAtTheEnd)
                 .as("New subject should be displayed at the end of table")
                 .isTrue();
 
+        subjectsPage
+                .getTable()
+                .goToTablePage("first");
+
         var isFound = subjectsPage
-                .switchToFirstPageOfTable()
                 .setSearchValue(subjectName)
                 .hasSubject(subjectName);
 

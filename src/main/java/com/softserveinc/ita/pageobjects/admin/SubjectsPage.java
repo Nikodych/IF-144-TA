@@ -1,13 +1,17 @@
 package com.softserveinc.ita.pageobjects.admin;
 
 import io.qameta.allure.Step;
+import lombok.Getter;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 
+@Getter
 public class SubjectsPage extends MainMenu<SubjectsPage> {
+
+    private final EntityTable table = new EntityTable();
 
     @Step("Subjects page: Opened adding subject form")
     public AddingSubjectModal openAddingSubjectForm() {
@@ -22,20 +26,6 @@ public class SubjectsPage extends MainMenu<SubjectsPage> {
                 .shouldHave(sizeGreaterThanOrEqual(0))
                 .texts()
                 .contains(subject);
-    }
-
-    @Step("Subjects Page: Switched to last page of table")
-    public SubjectsPage switchToLastPageOfTable() {
-        $x("//mat-paginator//button[contains(@class, 'mat-paginator-navigation-last')]").click();
-
-        return this;
-    }
-
-    @Step("Subjects page: Switched to first page of table")
-    public SubjectsPage switchToFirstPageOfTable() {
-        $x("//mat-paginator//button[contains(@class, 'mat-paginator-navigation-first')]").click();
-
-        return this;
     }
 
     @Step("Subjects page: Set search value")

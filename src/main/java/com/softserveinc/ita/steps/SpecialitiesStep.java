@@ -30,9 +30,12 @@ public class SpecialitiesStep {
 
     public void deleteSpeciality(SpecialityEntity speciality) {
         var searchValue = speciality.getCode(); //consider code as unique id
+
+        var table = page.getTable();
+        table.findTablePageWithSearchValue(searchValue);
+        table.deleteRowByValue(searchValue);
+
         page
-                .findTablePageWithSearchValue(searchValue)
-                .deleteRowByValue(searchValue)
                 .confirmModal()
                 .waitTillProgressBarDisappears();
     }
