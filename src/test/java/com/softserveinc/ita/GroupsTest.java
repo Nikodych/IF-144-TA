@@ -8,12 +8,16 @@ import com.softserveinc.ita.pageobjects.admin.GroupsPage;
 import com.softserveinc.ita.steps.GroupsSteps;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
+import org.openqa.selenium.Cookie;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.codeborne.selenide.Selenide.refresh;
+import static com.softserveinc.ita.util.ApiUtil.performGetRequest;
+import static com.softserveinc.ita.util.ApiUtil.performPostRequestWithBody;
 import static com.softserveinc.ita.util.DataProvider.*;
 import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
+import static java.util.Map.of;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GroupsTest extends TestRunner {
@@ -70,6 +74,13 @@ public class GroupsTest extends TestRunner {
                 .as("After adding new group group with added name " +
                         "should be last in the table")
                 .isEqualTo(group.getName());
+
+        var adminCredentials = of("username", ADMIN_LOGIN, "password", ADMIN_PASSWORD);
+
+        var authResponse = performPostRequestWithBody(adminCredentials, API_LOGIN_USER_PATH);
+
+        var response = performGetRequest(authResponse.getDetailedCookie("session_id"), "/group/getRecords");
+
     }
 
     @Test(groups = "positive")
