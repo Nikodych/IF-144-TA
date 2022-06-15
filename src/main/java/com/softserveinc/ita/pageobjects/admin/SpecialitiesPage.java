@@ -1,20 +1,15 @@
 package com.softserveinc.ita.pageobjects.admin;
 
-import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import lombok.Getter;
 
 import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Selenide.$x;
-import static java.time.Duration.ofSeconds;
 
 @Getter
-public class SpecialitiesPage extends MainMenu {
+public class SpecialitiesPage extends MainMenu<SpecialitiesPage> {
 
     private final EntityTable table = new EntityTable();
-
-    private final SelenideElement progressBar = $x("//mat-progress-bar");
 
     @Step("Speciality page: Confirmed in modal window")
     public SpecialitiesPage confirmModal() {
@@ -53,20 +48,6 @@ public class SpecialitiesPage extends MainMenu {
                 .last()
                 .$x(".//td[contains(@class,'code')]")
                 .getText();
-    }
-
-    @Step("Speciality page: Waited for progress bar to disappear")
-    public SpecialitiesPage waitForProgressBarToDisappear() {
-        progressBar.should(disappear);
-
-        return this;
-    }
-
-    @Step("Speciality page: Waited for progress bar to appear")
-    public SpecialitiesPage waitForProgressBarToAppear() {
-        progressBar.should(appear, ofSeconds(3));
-
-        return this;
     }
 
     @Step("Speciality page: Got pop-up message text")
