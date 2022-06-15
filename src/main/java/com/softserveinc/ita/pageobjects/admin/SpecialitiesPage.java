@@ -8,7 +8,7 @@ import static com.codeborne.selenide.Selenide.$x;
 import static java.time.Duration.ofSeconds;
 
 @Getter
-public class SpecialitiesPage extends MainMenu {
+public class SpecialitiesPage extends MainMenu<SpecialitiesPage> {
 
     private final EntityTable table = new EntityTable();
 

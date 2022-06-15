@@ -11,7 +11,7 @@ import static com.softserveinc.ita.models.AddingFormFields.SPECIALTY_NAME;
 import static com.softserveinc.ita.util.DataProvider.*;
 
 @Getter
-public class SpecialitiesSteps {
+public class SpecialitiesStep {
 
     private SpecialitiesPage page;
 
@@ -27,6 +27,8 @@ public class SpecialitiesSteps {
                 .setValueFor(SPECIALTY_CODE, speciality.getCode())
                 .setValueFor(SPECIALTY_NAME, speciality.getName())
                 .confirmModal();
+
+        page.waitTillProgressBarDisappears();
     }
 
     public void deleteSpeciality(SpecialityEntity speciality) {
@@ -35,7 +37,9 @@ public class SpecialitiesSteps {
         var table = page.getTable();
         table.findTablePageWithSearchValue(searchValue);
         table.deleteRowByValue(searchValue);
+
         new AddingFormModal().confirmModal();
 
+        page.waitTillProgressBarDisappears();
     }
 }

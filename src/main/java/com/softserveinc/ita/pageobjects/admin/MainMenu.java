@@ -5,12 +5,15 @@ import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.appear;
+import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Selenide.$x;
 import static com.softserveinc.ita.models.MainMenuButtons.*;
 import static java.lang.String.format;
 import static java.time.Duration.ofSeconds;
 
-public class MainMenu {
+public class MainMenu<T extends MainMenu<T>> {
+
+    private static final String PROGRESS_BAR_PATH = "//mat-progress-bar";
 
     @Step("Main menu: Opened dashboard page")
     public DashboardPage openDashboardPage() {
@@ -89,10 +92,25 @@ public class MainMenu {
 
     @Step("Opened adding form")
     public AddingFormModal openAddingNewForm(){
-       $x("//*[starts-with(name(), 'app')]//*[@aria-label='add']/ancestor::button")
-               .should(appear,ofSeconds(5))
-               .click();
+        $x("//*[starts-with(name(), 'app')]//*[@aria-label='add']/ancestor::button")
+                .should(appear,ofSeconds(5))
+                .click();
 
-       return new AddingFormModal();
+        return new AddingFormModal();
+    }
+
+    public T waitTillProgressBarDisappears() {
+        waitForAppear();
+        waitForDisappear();
+
+        return (T) this;
+    }
+
+    private void waitForDisappear() {
+        $x(PROGRESS_BAR_PATH).should(disappear);
+    }
+
+    private void waitForAppear() {
+        $x(PROGRESS_BAR_PATH).should(appear, ofSeconds(3));
     }
 }

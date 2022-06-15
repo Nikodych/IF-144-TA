@@ -1,7 +1,7 @@
 package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.admin.SpecialitiesPage;
-import com.softserveinc.ita.steps.SpecialitiesSteps;
+import com.softserveinc.ita.steps.SpecialitiesStep;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SpecialitiesTest extends TestRunner {
 
     private SpecialitiesPage specialitiesPage;
-    private final SpecialitiesSteps steps = new SpecialitiesSteps();
+    private SpecialitiesStep steps = new SpecialitiesStep();
 
     @BeforeMethod(groups = {"positive", "negative"})
     public void openSpecialitiesPage() {
