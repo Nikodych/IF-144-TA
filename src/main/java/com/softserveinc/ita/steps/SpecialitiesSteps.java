@@ -1,5 +1,6 @@
 package com.softserveinc.ita.steps;
 
+import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import com.softserveinc.ita.models.SpecialityEntity;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.SpecialitiesPage;
@@ -30,9 +31,11 @@ public class SpecialitiesSteps {
 
     public void deleteSpeciality(SpecialityEntity speciality) {
         var searchValue = speciality.getCode(); //consider code as unique id
-        page
-                .findTablePageWithSearchValue(searchValue)
-                .deleteRowByValue(searchValue)
-                .confirmModal();
+
+        var table = page.getTable();
+        table.findTablePageWithSearchValue(searchValue);
+        table.deleteRowByValue(searchValue);
+        new AddingFormModal().confirmModal();
+
     }
 }

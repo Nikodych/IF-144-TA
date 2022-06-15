@@ -2,7 +2,7 @@ package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
-import com.softserveinc.ita.modals.AddingFormModal;
+import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import com.softserveinc.ita.steps.SubjectStep;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
@@ -77,8 +77,11 @@ public class SubjectsTest extends TestRunner {
         subjectStep.openAndFillSubjectFields(getValidSubject());
         subjectAddingForm.confirmModal();
 
+        subjectsPage
+                .getTable()
+                .goToTablePage("last");
+
         var isAddedAtTheEnd = subjectsPage
-                .switchToLastPageOfTable()
                 .getNamesOfSubjects()
                 .contains(subjectName);
 
@@ -86,8 +89,11 @@ public class SubjectsTest extends TestRunner {
                 .as("New subject should be displayed at the end of table")
                 .isTrue();
 
+        subjectsPage
+                .getTable()
+                .goToTablePage("first");
+
         var isFound = subjectsPage
-                .switchToFirstPageOfTable()
                 .setSearchValue(subjectName)
                 .getNamesOfSubjects()
                 .contains(subjectName);

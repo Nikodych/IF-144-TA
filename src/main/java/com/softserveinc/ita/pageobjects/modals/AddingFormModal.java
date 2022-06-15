@@ -1,4 +1,4 @@
-package com.softserveinc.ita.modals;
+package com.softserveinc.ita.pageobjects.modals;
 
 import com.codeborne.selenide.SelenideElement;
 import com.softserveinc.ita.models.AddingFormFields;
