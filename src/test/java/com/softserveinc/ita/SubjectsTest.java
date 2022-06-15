@@ -75,7 +75,6 @@ public class SubjectsTest extends TestRunner {
 
         step.openAndFillSubjectFields(getValidSubject());
         step.addAndWaitForSubjectToAppear();
-
         subjectsPage
                 .getTable()
                 .goToTablePage("last");
@@ -108,6 +107,9 @@ public class SubjectsTest extends TestRunner {
 
         step.openAndFillSubjectFields(getValidSubject());
         step.addAndWaitForSubjectToAppear();
+        subjectsPage
+                .getTable()
+                .goToTablePage("last");
 
         var isAddedAtTheEnd = subjectsPage.hasSubject(subjectName);
 
@@ -133,6 +135,9 @@ public class SubjectsTest extends TestRunner {
 
         step.openAndFillSubjectFields(getValidSubject());
         step.addAndWaitForSubjectToAppear();
+        subjectsPage
+                .getTable()
+                .goToTablePage("last");
 
         var isAddedAtTheEnd = subjectsPage.hasSubject(subjectName);
 
