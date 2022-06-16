@@ -12,7 +12,7 @@ import static com.softserveinc.ita.util.DataProvider.ADMIN_PASSWORD;
 public class GroupsStep {
     private GroupsPage page;
 
-    public void openSpecialityPage() {
+    public void openPage() {
         page = new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openGroupsPage();

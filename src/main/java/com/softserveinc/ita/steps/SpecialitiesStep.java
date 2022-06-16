@@ -13,7 +13,7 @@ public class SpecialitiesStep {
 
     private SpecialitiesPage page;
 
-    public void openSpecialityPage() {
+    public void openPage() {
         page = new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openSpecialitiesPage();

@@ -56,7 +56,7 @@ public class GroupsTest extends TestRunner {
 
     @BeforeMethod(groups = {"positive", "negative"})
     public void openGroupsPage() {
-        steps.openSpecialityPage();
+        steps.openPage();
         groupsPage = steps.getPage();
     }
 
