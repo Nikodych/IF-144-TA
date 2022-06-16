@@ -4,7 +4,7 @@ import com.softserveinc.ita.models.FacultyEntity;
 import com.softserveinc.ita.models.GroupEntity;
 import com.softserveinc.ita.models.SpecialityEntity;
 import com.softserveinc.ita.pageobjects.admin.GroupsPage;
-import com.softserveinc.ita.steps.GroupsSteps;
+import com.softserveinc.ita.steps.GroupsStep;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import io.restassured.http.Cookie;
@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GroupsTest extends TestRunner {
 
     private GroupsPage groupsPage;
-    private final GroupsSteps steps = new GroupsSteps();
+    private final GroupsStep steps = new GroupsStep();
 
     private Cookie sessionId;
     private SpecialityEntity speciality;
@@ -82,7 +82,7 @@ public class GroupsTest extends TestRunner {
                 .faculty(faculty)
                 .build();
 
-        List<Object> groups = getGroupsListByAPI();
+        var groups = getGroupsListByAPI();
 
         assertThat(groups)
                 .as("Before adding new group it shouldn't be present in the list of groups returned by API call")
@@ -129,7 +129,7 @@ public class GroupsTest extends TestRunner {
                 .as("After adding new group it should be last in the table")
                 .isEqualTo(group.getName());
 
-        List<Object> groups = getGroupsListByAPI();
+        var groups = getGroupsListByAPI();
 
         assertThat(groups)
                 .as("After adding new group it should be present in the list of groups returned by API call")

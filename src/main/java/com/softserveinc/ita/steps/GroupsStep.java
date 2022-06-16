@@ -1,8 +1,6 @@
 package com.softserveinc.ita.steps;
 
-import com.softserveinc.ita.models.FacultyEntity;
 import com.softserveinc.ita.models.GroupEntity;
-import com.softserveinc.ita.models.SpecialityEntity;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.GroupsPage;
 import lombok.Getter;
@@ -11,7 +9,7 @@ import static com.softserveinc.ita.util.DataProvider.ADMIN_LOGIN;
 import static com.softserveinc.ita.util.DataProvider.ADMIN_PASSWORD;
 
 @Getter
-public class GroupsSteps {
+public class GroupsStep {
     private GroupsPage page;
 
     public void openSpecialityPage() {
