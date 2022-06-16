@@ -11,7 +11,7 @@ import static com.softserveinc.ita.models.MainMenuButtons.*;
 import static java.lang.String.format;
 import static java.time.Duration.ofSeconds;
 
-public class MainMenu<T extends MainMenu<T>> {
+public abstract class MainMenu<T extends MainMenu<T>> {
 
     private static final String PROGRESS_BAR_PATH = "//mat-progress-bar";
 
