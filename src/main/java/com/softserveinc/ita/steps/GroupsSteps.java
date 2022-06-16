@@ -31,6 +31,8 @@ public class GroupsSteps {
                         .getFaculty()
                         .getName())
                 .confirmModal();
+
+        page.waitTillProgressBarDisappears();
     }
 
     public void deleteGroup(GroupEntity group) {
@@ -40,6 +42,8 @@ public class GroupsSteps {
         table.findTablePageWithSearchValue(searchValue);
         table.deleteRowByValue(searchValue);
 
-        page.confirmModal();
+        page
+                .confirmModal()
+                .waitTillProgressBarDisappears();
     }
 }

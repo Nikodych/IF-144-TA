@@ -8,8 +8,8 @@ import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 
 @Getter
-public class GroupsPage extends MainMenu {
-    private EntityTable table = new EntityTable();
+public class GroupsPage extends MainMenu<GroupsPage> {
+    private final EntityTable table = new EntityTable();
 
     @Step("Group page: Added new group")
     public GroupsPage openAddingNewForm() {
@@ -68,7 +68,7 @@ public class GroupsPage extends MainMenu {
                 "| //app-confirm//button/span[contains(text(),'Підтвердити')]")
                 .parent()
                 .should(enabled)
-                .click();
+                .doubleClick();
 
         return this;
     }
