@@ -107,6 +107,8 @@ public class GroupsTest extends TestRunner {
                 .contains(group.getName());
 
         soft.assertAll();
+
+        steps.deleteGroup(group);
     }
 
     @Test(groups = "positive")
@@ -121,14 +123,6 @@ public class GroupsTest extends TestRunner {
 
         steps.addNewGroup(group);
 
-        refresh(); // for some reason there is no auto refresh for this page
-
-        var lastGroupName = groupsPage.getLastGroupName();
-
-        assertThat(lastGroupName)
-                .as("After adding new group it should be last in the table")
-                .isEqualTo(group.getName());
-
         var groups = getGroupsListByAPI();
 
         assertThat(groups)
@@ -139,7 +133,7 @@ public class GroupsTest extends TestRunner {
 
         refresh(); // for some reason there is no auto refresh for this page
 
-        lastGroupName = groupsPage.getLastGroupName();
+        var lastGroupName = groupsPage.getLastGroupName();
 
         soft.assertThat(lastGroupName)
                 .as("After deleting group last group in the table " +

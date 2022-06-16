@@ -22,5 +22,6 @@ public abstract class TestRunner {
     @BeforeMethod (groups = {"positive", "negative"})
     public void openLoginPage() {
         open(LOGIN_PAGE_URL);
+        soft = new SoftAssertions();
     }
 }
