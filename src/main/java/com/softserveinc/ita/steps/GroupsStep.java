@@ -21,15 +21,19 @@ public class GroupsStep {
     }
 
     public void addNewGroup(GroupEntity group) {
+        var specialityName = group
+                .getSpeciality()
+                .getName();
+
+        var facultyName = group
+                .getFaculty()
+                .getName();
+
         page
                 .openAddingNewForm()
                 .setValueFor(GROUP_NAME, group.getName())
-                .setValueFor(GROUP_SPECIALTY_ID, group
-                        .getSpeciality()
-                        .getName())
-                .setValueFor(GROUP_FACULTY_ID, group
-                        .getFaculty()
-                        .getName())
+                .setValueFor(GROUP_SPECIALTY_ID, specialityName)
+                .setValueFor(GROUP_FACULTY_ID, facultyName)
                 .confirmModal();
 
         page.waitTillProgressBarDisappears();

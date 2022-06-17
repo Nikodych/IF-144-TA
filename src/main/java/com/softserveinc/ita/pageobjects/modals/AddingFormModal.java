@@ -3,12 +3,11 @@ package com.softserveinc.ita.pageobjects.modals;
 import com.softserveinc.ita.models.AddingFormFields;
 import io.qameta.allure.Step;
 
-import java.util.Objects;
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 import static java.time.Duration.ofSeconds;
+import static java.util.Objects.requireNonNull;
 
 public class AddingFormModal {
 
@@ -18,9 +17,9 @@ public class AddingFormModal {
                 .getName()
                 .should(appear, ofSeconds(5));
 
-        if (Objects.requireNonNull(fieldElement
-                        .getAttribute("class"))
-                .startsWith("mat-select")) { //it's dropdown menu, not input field
+        var fieldClass = requireNonNull(fieldElement.getAttribute("class"));
+
+        if (fieldClass.startsWith("mat-select")) { //it's dropdown menu, not input field
             fieldElement.click();
 
             $$x("//mat-option")
@@ -40,7 +39,6 @@ public class AddingFormModal {
 
         return this;
     }
-
 
     //TODO: choose options in group adding form: specialty id, faculty id
 

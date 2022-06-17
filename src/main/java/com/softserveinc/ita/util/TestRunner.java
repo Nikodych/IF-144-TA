@@ -11,8 +11,6 @@ import static com.softserveinc.ita.util.DataProvider.LOGIN_PAGE_URL;
 
 public abstract class TestRunner {
 
-    protected SoftAssertions soft;
-
     @BeforeClass (groups = {"positive", "negative"})
     public void setUp() {
         browser = "chrome";
@@ -22,6 +20,9 @@ public abstract class TestRunner {
     @BeforeMethod (groups = {"positive", "negative"})
     public void openLoginPage() {
         open(LOGIN_PAGE_URL);
-        soft = new SoftAssertions();
+    }
+
+    public static SoftAssertions getSoftAssert() {
+        return new SoftAssertions();
     }
 }

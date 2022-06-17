@@ -75,12 +75,7 @@ public class GroupsTest extends TestRunner {
     @Test(groups = "positive")
     @Description("Test to verify new group is added")
     public void verifyAddingNewGroup() {
-        var group = GroupEntity
-                .builder()
-                .name(GroupEntity.getNewValidName())
-                .speciality(speciality)
-                .faculty(faculty)
-                .build();
+        var group = GroupEntity.getNewValidGroup(speciality, faculty);
 
         var groups = getGroupsListByAPI();
 
@@ -94,6 +89,7 @@ public class GroupsTest extends TestRunner {
 
         var lastGroupName = groupsPage.getLastGroupName();
 
+        var soft = getSoftAssert();
         soft.assertThat(lastGroupName)
                 .as("After adding new group group with added name " +
                         "should be last in the table")
@@ -114,12 +110,7 @@ public class GroupsTest extends TestRunner {
     @Test(groups = "positive")
     @Description("Test to verify new group is added")
     public void verifyDeletingGroup() {
-        var group = GroupEntity
-                .builder()
-                .name(GroupEntity.getNewValidName())
-                .speciality(speciality)
-                .faculty(faculty)
-                .build();
+        var group = GroupEntity.getNewValidGroup(speciality, faculty);
 
         steps.addNewGroup(group);
 
@@ -135,6 +126,7 @@ public class GroupsTest extends TestRunner {
 
         var lastGroupName = groupsPage.getLastGroupName();
 
+        var soft = getSoftAssert();
         soft.assertThat(lastGroupName)
                 .as("After deleting group last group in the table " +
                         "should not have deleted name")
