@@ -10,7 +10,7 @@ import static com.codeborne.selenide.Selenide.$x;
 import static java.lang.String.format;
 import static java.time.Duration.ofSeconds;
 
-public class ProtocolPage extends MainMenu {
+public class ProtocolPage extends MainMenu<ProtocolPage> {
 
     private final SelenideElement chooseMonthAndYearButton = $x("//button[@aria-label='Choose month and year']");
     private final SelenideElement searchButton = $x("//button[@type='submit']");

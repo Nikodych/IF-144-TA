@@ -1,47 +1,73 @@
 package com.softserveinc.ita.pageobjects.admin;
 
+import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import io.qameta.allure.Step;
+import lombok.Getter;
 
-import java.util.List;
-
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 import static java.lang.String.format;
 
-public class SubjectsPage extends MainMenu {
+@Getter
+public class SubjectsPage extends MainMenu<SubjectsPage> {
+    private final EntityTable table = new EntityTable();
 
-    @Step("Subjects page: Opened adding subject form")
-    public AddingSubjectModal openAddingSubjectForm() {
-        $x("//button[contains(@class, 'addSubject')]").click();
-
-        return new AddingSubjectModal();
-    }
-
-    public List<String> getNamesOfSubjects() {
-        return $$x("//td[contains(@class, 'mat-column-subject_name')]").texts();
-    }
-
-    @Step("Subjects Page: Switched to last page of table")
-    public SubjectsPage switchToLastPageOfTable() {
-        $x("//mat-paginator//button[contains(@class, 'mat-paginator-navigation-last')]").click();
-
-        return this;
-    }
-
-    @Step("Subjects page: Switched to first page of table")
-    public SubjectsPage switchToFirstPageOfTable() {
-        $x("//mat-paginator//button[contains(@class, 'mat-paginator-navigation-first')]").click();
-
-        return this;
+    public boolean hasSubject(String subject) {
+        return $$x("//td[contains(@class, 'mat-column-subject_name')]")
+                .shouldHave(sizeGreaterThanOrEqual(0))
+                .texts()
+                .contains(subject);
     }
 
     @Step("Subjects page: Set search value")
     public SubjectsPage setSearchValue(String subject) {
-        $x("//mat-form-field[contains(@class, 'filter')]//input").sendKeys(subject);
+        var searchField = "//mat-form-field[contains(@class, 'filter')]//input";
+
+        $x(searchField).clear();
+        $x(searchField).sendKeys(subject);
 
         return this;
     }
+
+    @Step("Subjects page: Deleted subject")
+    public SubjectsPage deleteSubjectByName(String subject) {
+        $$x("//tbody//tr//td")
+                .findBy(exactText(subject))
+                .parent()
+                .$x(".//mat-icon[contains(@class, 'delete')]")
+                .click();
+
+        return this;
+    }
+
+    @Step("Subjects page: Confirmed deleting subject")
+    public SubjectsPage confirmDeletingSubject() {
+        $x("//app-confirm//button[1]")
+                .shouldBe(visible)
+                .click();
+
+        return this;
+    }
+
+    @Step("Subjects page: Edited subject")
+    public AddingFormModal editSubject(String subject) {
+        $$x("//tbody//tr//td")
+                .findBy(exactText(subject))
+                .parent()
+                .$x(".//mat-icon[contains(@class, 'edit')]")
+                .click();
+        waitUntilModalVisible();
+
+        return new AddingFormModal();
+    }
+
+    private void waitUntilModalVisible() {
+        $x("//app-subjects-create-modal").shouldBe(visible);
+    }
+}
 
     @Step("Subjects page: Opened Tests page of {subject}")
     public TestsPage openSubjectTests(String subject) {

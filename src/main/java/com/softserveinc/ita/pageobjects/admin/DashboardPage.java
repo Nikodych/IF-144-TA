@@ -1,4 +1,4 @@
 package com.softserveinc.ita.pageobjects.admin;
 
-public class DashboardPage extends MainMenu {
+public class DashboardPage extends MainMenu<DashboardPage> {
 }

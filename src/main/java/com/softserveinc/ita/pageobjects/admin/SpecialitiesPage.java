@@ -1,48 +1,20 @@
 package com.softserveinc.ita.pageobjects.admin;
 
 import io.qameta.allure.Step;
+import lombok.Getter;
 
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$$x;
+import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Selenide.$x;
-import static com.softserveinc.ita.models.ProgressBar.*;
-import static java.lang.String.format;
+import static java.time.Duration.ofSeconds;
 
-public class SpecialitiesPage extends MainMenu {
+@Getter
+public class SpecialitiesPage extends MainMenu<SpecialitiesPage> {
 
-    private final String NAVIGATION_BUTTON_PATH_TEMPLATE = "//button[contains(@Class,'paginator-navigation-%s')]";
-
-    @Step("Speciality page: Confirmed in modal window")
-    public SpecialitiesPage confirmModal() {
-        $x("//button/span[contains(text(),'Підтвердити')]").click();
-
-        return this;
-    }
-
-    @Step("Speciality page: Set speciality name")
-    public SpecialitiesPage setName(String value) {
-        $x("//input[@formcontrolname='speciality_name']").setValue(value);
-
-        return this;
-    }
-
-    @Step("Speciality page: Set speciality code")
-    public SpecialitiesPage setCode(String value) {
-        $x("//input[@formcontrolname='speciality_code']").setValue(value);
-
-        return this;
-    }
-
-    @Step("Speciality page: Added new speciality")
-    public SpecialitiesPage openAddingNewForm() {
-        $x("//button[contains(@class,'addButton')]").click();
-
-        return this;
-    }
+    private final EntityTable table = new EntityTable();
 
     @Step("Speciality page: Got last speciality code")
     public String getLastSpecialityCode() {
-        goToTablePage("last");
+        table.goToTablePage("last");
 
         return $x("//table")
                 .$$x(".//tr")
@@ -51,71 +23,10 @@ public class SpecialitiesPage extends MainMenu {
                 .getText();
     }
 
-    @Step("Speciality page: Waited for progress bar to disappear")
-    public SpecialitiesPage waitForProgressBarToDisappear() {
-        waitForDisappear();
-
-        return this;
-    }
-
-    @Step("Speciality page: Waited for progress bar to appear")
-    public SpecialitiesPage waitForProgressBarToAppear() {
-        waitForAppear();
-
-        return this;
-    }
-
     @Step("Speciality page: Got pop-up message text")
     public String getMessageText() {
         return $x("//simple-snack-bar/span")
-                .should(appear)
+                .should(appear, ofSeconds(5))
                 .getText();
-    }
-
-    @Step("Speciality page: Found table page with searched value")
-    public SpecialitiesPage findTablePageWithSearchValue(String searchValue) {
-        goToTablePage("first");
-
-        var buttonNavigationNext = $x(format(NAVIGATION_BUTTON_PATH_TEMPLATE, "next"));
-        var isSearchValueOnCurrentPage = false;
-
-        while (buttonNavigationNext.isEnabled() && !isSearchValueOnCurrentPage) {
-            goToTablePage("next");
-            buttonNavigationNext
-                    .$x(".//div[contains(@class,'round')]/div[@class='mat-ripple-element']")
-                    .should(disappear);
-
-            isSearchValueOnCurrentPage = isSearchValueInTableTexts(searchValue);
-        }
-
-        return this;
-    }
-
-    @Step("Speciality page: Changed table page")
-    public void goToTablePage(String direction) {
-        var buttonNavigation = $x(format(NAVIGATION_BUTTON_PATH_TEMPLATE, direction));
-
-        if (buttonNavigation.isEnabled()) {
-            buttonNavigation.click();
-        }
-    }
-
-    public boolean isSearchValueInTableTexts(String searchValue) {
-        var tableRows = $$x("//table//tr//td");
-
-        return tableRows
-                .texts()
-                .contains(searchValue);
-    }
-
-    @Step("Speciality page: Deleted row with searched value")
-    public SpecialitiesPage deleteRowByValue(String searchValue) {
-        $$x("//table//tr//td")
-                .find(exactText(searchValue))
-                .parent()
-                .$x(".//i[contains(@class,'delete')]")
-                .click();
-
-        return this;
     }
 }

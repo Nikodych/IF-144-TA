@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Builder
 @Data
-public class SubjectEntity {
-    private String name;
-    private String description;
+public class FacultyEntity {
+    String name;
+    String description;
 }
+
