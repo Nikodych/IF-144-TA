@@ -3,8 +3,10 @@ package com.softserveinc.ita.steps;
 import com.softserveinc.ita.models.GroupEntity;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.GroupsPage;
+import com.softserveinc.ita.pageobjects.modals.DeletingFormModal;
 import lombok.Getter;
 
+import static com.softserveinc.ita.models.AddingFormFields.*;
 import static com.softserveinc.ita.util.DataProvider.ADMIN_LOGIN;
 import static com.softserveinc.ita.util.DataProvider.ADMIN_PASSWORD;
 
@@ -21,11 +23,11 @@ public class GroupsStep {
     public void addNewGroup(GroupEntity group) {
         page
                 .openAddingNewForm()
-                .setCode(group.getName())
-                .setSpeciality(group
+                .setValueFor(GROUP_NAME, group.getName())
+                .setValueFor(GROUP_SPECIALTY_ID, group
                         .getSpeciality()
                         .getName())
-                .setFaculty(group
+                .setValueFor(GROUP_FACULTY_ID, group
                         .getFaculty()
                         .getName())
                 .confirmModal();
@@ -40,8 +42,7 @@ public class GroupsStep {
         table.findTablePageWithSearchValue(searchValue);
         table.deleteRowByValue(searchValue);
 
-        page
-                .confirmModal()
-                .waitTillProgressBarDisappears();
+        new DeletingFormModal().confirmModal();
+        page.waitTillProgressBarDisappears();
     }
 }

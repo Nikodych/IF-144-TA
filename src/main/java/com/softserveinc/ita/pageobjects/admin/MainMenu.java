@@ -100,17 +100,17 @@ public abstract class MainMenu<T extends MainMenu<T>> {
     }
 
     public T waitTillProgressBarDisappears() {
-        waitForAppear();
-        waitForDisappear();
+        waitForProgressBarToAppear();
+        waitForProgressBarToDisappear();
 
         return (T) this;
     }
 
-    private void waitForDisappear() {
+    public void waitForProgressBarToDisappear() {
         $x(PROGRESS_BAR_PATH).should(disappear);
     }
 
-    private void waitForAppear() {
+    public void waitForProgressBarToAppear() {
         $x(PROGRESS_BAR_PATH).should(appear, ofSeconds(3));
     }
 }
