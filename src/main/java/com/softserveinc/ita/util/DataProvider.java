@@ -32,9 +32,6 @@ public interface DataProvider {
     String START_DATE = readConfig().getString("dates.startDate");
     String END_DATE = readConfig().getString("dates.endDate");
     String ERROR_MESSAGE_WRONG_DATE_ORDER = readConfig().getString("messages.error.wrongDateOrder");
-    String FACULTY = readConfig().getString("searchInput.faculty");
-    String DESCRIPTION = readConfig().getString("searchInput.description");
-    String INVALID = readConfig().getString("searchInput.invalid");
     String TEST_SUBJECT = readConfig().getString("testData.testSubject");
     String API_BASE_URI = readConfig().getString("api.baseUri");
     String API_LOGIN_USER_PATH = readConfig().getString("api.basePathes.login");

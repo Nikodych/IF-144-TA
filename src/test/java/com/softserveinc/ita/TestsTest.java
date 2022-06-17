@@ -22,12 +22,12 @@ public class TestsTest extends TestRunner {
     }
 
     @Test(groups = "positive")
-    @Description("Test to verify Subject`s Tests page opening")
+    @Description("Test to verify certain Subject`s Tests page opening")
     public void verifySubjectsTestsPageOpening() {
 
-        var isExpectedSubject = testsPage.isExpectedSubjectTestsPage(TEST_SUBJECT);
+        var isTestsPageOfExpectedSubject = testsPage.isExpectedSubjectTestsPage(TEST_SUBJECT);
 
-        assertThat(isExpectedSubject)
+        assertThat(isTestsPageOfExpectedSubject)
                 .as("Should be tests page of subject: " + TEST_SUBJECT)
                 .isTrue();
     }

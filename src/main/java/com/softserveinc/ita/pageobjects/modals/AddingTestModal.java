@@ -64,13 +64,15 @@ public class AddingTestModal {
 
     @Step("Adding test modal form: Added test")
     public TestsPage addSubjectTest() {
-        $x("//app-test-add//button/span[contains(text(),'Додати')]").click();
+        $x("//span/mat-icon[@aria-label='save']").click();
 
         return new TestsPage();
     }
 
     private void setInputField(int index, String value) {
         String INPUT_FIELD_TEMPLATE = "//mat-form-field[%s]//input";
-        $x(format(INPUT_FIELD_TEMPLATE,index)).setValue(value);
+        var inputField = $x(format(INPUT_FIELD_TEMPLATE,index));
+        inputField.clear();
+        inputField.setValue(value);
     }
 }

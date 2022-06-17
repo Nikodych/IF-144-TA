@@ -25,7 +25,6 @@ public class TestsSteps {
                 .setNumberOfAttempts(test.getNumberOfAttempts())
                 .setStateAsTurnedOn()
                 .addSubjectTest()
-                .waitForProgressBarToAppear()
-                .waitForProgressBarToDisappear();
+                .waitTillProgressBarDisappears();
     }
 }

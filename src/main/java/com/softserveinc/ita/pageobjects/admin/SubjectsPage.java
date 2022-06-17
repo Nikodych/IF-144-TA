@@ -34,11 +34,7 @@ public class SubjectsPage extends MainMenu<SubjectsPage> {
 
     @Step("Subjects page: Deleted subject")
     public SubjectsPage deleteSubjectByName(String subject) {
-        $$x("//tbody//tr//td")
-                .findBy(exactText(subject))
-                .parent()
-                .$x(".//mat-icon[contains(@class, 'delete')]")
-                .click();
+        performActionWithSubject(subject, "delete");
 
         return this;
     }
@@ -54,11 +50,7 @@ public class SubjectsPage extends MainMenu<SubjectsPage> {
 
     @Step("Subjects page: Edited subject")
     public AddingFormModal editSubject(String subject) {
-        $$x("//tbody//tr//td")
-                .findBy(exactText(subject))
-                .parent()
-                .$x(".//mat-icon[contains(@class, 'edit')]")
-                .click();
+        performActionWithSubject(subject, "edit");
         waitUntilModalVisible();
 
         return new AddingFormModal();
@@ -67,7 +59,6 @@ public class SubjectsPage extends MainMenu<SubjectsPage> {
     private void waitUntilModalVisible() {
         $x("//app-subjects-create-modal").shouldBe(visible);
     }
-}
 
     @Step("Subjects page: Opened Tests page of {subject}")
     public TestsPage openSubjectTests(String subject) {
