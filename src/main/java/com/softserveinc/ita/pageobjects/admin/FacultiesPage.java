@@ -7,7 +7,7 @@ import java.util.List;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 
-public class FacultiesPage extends MainMenu {
+public class FacultiesPage extends MainMenu<FacultiesPage> {
 
     @Step("Faculties page: Performed search of {searchValue}")
     public FacultiesPage performSearch(String searchValue) {
@@ -20,9 +20,5 @@ public class FacultiesPage extends MainMenu {
 
     public List<String> getFaculties() {
         return $$x("//td[contains(@class, 'faculty_name')]").texts();
-    }
-
-    public List<String> getDescriptions() {
-        return $$x("//td[contains(@class, 'description')]").texts();
     }
 }
