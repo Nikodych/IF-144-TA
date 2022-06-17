@@ -5,6 +5,7 @@ import com.softserveinc.ita.pageobjects.admin.AddingSubjectModal;
 import com.softserveinc.ita.pageobjects.admin.MainMenu;
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
 import com.softserveinc.ita.pageobjects.admin.TimetablePage;
+import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import com.softserveinc.ita.steps.SubjectStep;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
@@ -20,6 +21,7 @@ public class SubjectsTest extends TestRunner {
 
     private SubjectsPage subjectsPage;
     private final SubjectStep step = new SubjectStep();
+    private final AddingFormModal subjectAddingForm = new AddingFormModal();
 
     @BeforeMethod(groups = {"positive", "negative"})
     public void openSubjectsPage() {
@@ -45,7 +47,7 @@ public class SubjectsTest extends TestRunner {
     public void verifyAddSubjectButtonIsEnabledWithValidData() {
         step.openAndFillSubjectFields(getValidSubject());
 
-        assertThat(new AddingSubjectModal().isAddButtonEnabled())
+        assertThat(subjectAddingForm.isAddButtonEnabled())
                 .as("When both fields have valid data add button should be enabled")
                 .isTrue();
     }
@@ -55,7 +57,7 @@ public class SubjectsTest extends TestRunner {
     public void verifyNewSubjectCanNotBeCreatedWithInvalidTitle() {
         step.openAndFillSubjectFields(getSubjectWithInvalidName());
 
-        assertThat(new AddingSubjectModal().isAddButtonEnabled())
+        assertThat(subjectAddingForm.isAddButtonEnabled())
                 .as("When title field has invalid data new subject can't be created")
                 .isFalse();
     }
@@ -65,7 +67,7 @@ public class SubjectsTest extends TestRunner {
     public void verifyNewSubjectCanNotBeCreatedWithInvalidDescription() {
         step.openAndFillSubjectFields(getSubjectWithInvalidDescription());
 
-        assertThat(new AddingSubjectModal().isAddButtonEnabled())
+        assertThat(subjectAddingForm.isAddButtonEnabled())
                 .as("When description field has invalid data new subject can't be created")
                 .isFalse();
     }
@@ -77,6 +79,7 @@ public class SubjectsTest extends TestRunner {
 
         step.openAndFillSubjectFields(getValidSubject());
         step.addAndWaitForSubjectToAppear();
+
         subjectsPage
                 .getTable()
                 .goToTablePage("last");
@@ -109,6 +112,7 @@ public class SubjectsTest extends TestRunner {
 
         step.openAndFillSubjectFields(getValidSubject());
         step.addAndWaitForSubjectToAppear();
+
         subjectsPage
                 .getTable()
                 .goToTablePage("last");
@@ -137,6 +141,7 @@ public class SubjectsTest extends TestRunner {
 
         step.openAndFillSubjectFields(getValidSubject());
         step.addAndWaitForSubjectToAppear();
+
         subjectsPage
                 .getTable()
                 .goToTablePage("last");

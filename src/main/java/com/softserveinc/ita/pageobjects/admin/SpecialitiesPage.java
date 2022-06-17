@@ -5,39 +5,12 @@ import lombok.Getter;
 
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Selenide.$x;
+import static java.time.Duration.ofSeconds;
 
 @Getter
 public class SpecialitiesPage extends MainMenu<SpecialitiesPage> {
 
     private final EntityTable table = new EntityTable();
-
-    @Step("Speciality page: Confirmed in modal window")
-    public SpecialitiesPage confirmModal() {
-        $x("//button/span[contains(text(),'Підтвердити')]").click();
-
-        return this;
-    }
-
-    @Step("Speciality page: Set speciality name")
-    public SpecialitiesPage setName(String value) {
-        $x("//input[@formcontrolname='speciality_name']").setValue(value);
-
-        return this;
-    }
-
-    @Step("Speciality page: Set speciality code")
-    public SpecialitiesPage setCode(String value) {
-        $x("//input[@formcontrolname='speciality_code']").setValue(value);
-
-        return this;
-    }
-
-    @Step("Speciality page: Added new speciality")
-    public SpecialitiesPage openAddingNewForm() {
-        $x("//button[contains(@class,'addButton')]").click();
-
-        return this;
-    }
 
     @Step("Speciality page: Got last speciality code")
     public String getLastSpecialityCode() {
@@ -53,7 +26,7 @@ public class SpecialitiesPage extends MainMenu<SpecialitiesPage> {
     @Step("Speciality page: Got pop-up message text")
     public String getMessageText() {
         return $x("//simple-snack-bar/span")
-                .should(appear)
+                .should(appear, ofSeconds(5))
                 .getText();
     }
 }

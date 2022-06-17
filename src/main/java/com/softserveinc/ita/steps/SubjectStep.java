@@ -1,37 +1,44 @@
 package com.softserveinc.ita.steps;
 
 import com.softserveinc.ita.models.SubjectEntity;
-import com.softserveinc.ita.pageobjects.admin.AddingSubjectModal;
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
 import com.softserveinc.ita.pageobjects.admin.TimetablePage;
+import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
+
+import static com.softserveinc.ita.models.AddingFormFields.SUBJECT_DESCRIPTION;
+import static com.softserveinc.ita.models.AddingFormFields.SUBJECT_NAME;
 
 public class SubjectStep {
+    SubjectsPage subjectsPage = new SubjectsPage();
 
     public void openAndFillSubjectFields(SubjectEntity subject) {
-        new SubjectsPage()
-                .openAddingSubjectForm()
-                .setSubjectTitle(subject.getName())
-                .setSubjectDescription(subject.getDescription());
+        subjectsPage
+                .openAddingNewForm()
+                .setValueFor(SUBJECT_NAME, subject.getName())
+                .setValueFor(SUBJECT_DESCRIPTION, subject.getDescription());
     }
 
     public void addAndWaitForSubjectToAppear() {
-        new AddingSubjectModal()
-                .addNewSubject()
-                .waitTillProgressBarDisappears();
+        new AddingFormModal()
+                .confirmModal();
+
+        subjectsPage.waitTillProgressBarDisappears();
     }
 
     public void deleteSubject(String subject) {
-        new SubjectsPage()
+        subjectsPage
                 .deleteSubjectByName(subject)
                 .confirmDeletingSubject();
     }
 
     public void editSubjectFields(String subject, String substring) {
-        new SubjectsPage()
+        subjectsPage
                 .editSubject(subject)
-                .setSubjectTitle(substring)
-                .setSubjectDescription(substring)
-                .addNewSubject();
+                .setValueFor(SUBJECT_NAME, substring)
+                .setValueFor(SUBJECT_DESCRIPTION, substring)
+                .confirmModal();
+
+        subjectsPage.waitTillProgressBarDisappears();
     }
 
     public void openAndFillTimetableFields() {

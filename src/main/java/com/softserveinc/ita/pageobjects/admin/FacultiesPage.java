@@ -21,8 +21,4 @@ public class FacultiesPage extends MainMenu<FacultiesPage> {
     public List<String> getFaculties() {
         return $$x("//td[contains(@class, 'faculty_name')]").texts();
     }
-
-    public List<String> getDescriptions() {
-        return $$x("//td[contains(@class, 'description')]").texts();
-    }
 }
