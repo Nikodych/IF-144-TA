@@ -7,6 +7,7 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
+import static java.lang.String.format;
 
 @Getter
 public class SubjectsPage extends MainMenu<SubjectsPage> {
@@ -40,11 +41,7 @@ public class SubjectsPage extends MainMenu<SubjectsPage> {
 
     @Step("Subjects page: Deleted subject")
     public SubjectsPage deleteSubjectByName(String subject) {
-        $$x("//tbody//tr//td")
-                .findBy(exactText(subject))
-                .parent()
-                .$x(".//mat-icon[contains(@class, 'delete')]")
-                .click();
+        pickIconMenu(subject, "delete");
 
         return this;
     }
@@ -60,17 +57,28 @@ public class SubjectsPage extends MainMenu<SubjectsPage> {
 
     @Step("Subjects page: Edited subject")
     public AddingSubjectModal editSubject(String subject) {
-        $$x("//tbody//tr//td")
-                .findBy(exactText(subject))
-                .parent()
-                .$x(".//mat-icon[contains(@class, 'edit')]")
-                .click();
+        pickIconMenu(subject, "edit");
         waitUntilModalVisible();
 
         return new AddingSubjectModal();
     }
 
+    @Step("Subjects page: Opened timetable of subject")
+    public TimetablePage openTimetablePage(String subject) {
+        pickIconMenu(subject, "date_range");
+
+        return new TimetablePage();
+    }
+
     private void waitUntilModalVisible() {
         $x("//app-subjects-create-modal").shouldBe(visible);
+    }
+
+    private void pickIconMenu(String subject, String menuItem) {
+        $$x("//tbody//tr//td")
+                .findBy(exactText(subject))
+                .parent()
+                .$x(format(".//mat-icon[contains(@class, '%s')]", menuItem))
+                .click();
     }
 }

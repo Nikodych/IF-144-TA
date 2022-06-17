@@ -2,7 +2,9 @@ package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.AddingSubjectModal;
+import com.softserveinc.ita.pageobjects.admin.MainMenu;
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
+import com.softserveinc.ita.pageobjects.admin.TimetablePage;
 import com.softserveinc.ita.steps.SubjectStep;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
@@ -128,7 +130,7 @@ public class SubjectsTest extends TestRunner {
                 .isFalse();
     }
 
-    @Test
+    @Test(groups = "positive")
     @Description("Test to verify that after editing subject changes should be displayed")
     public void verifyEditingSubject() {
         var subjectName = getValidSubject().getName();
@@ -163,6 +165,50 @@ public class SubjectsTest extends TestRunner {
         var hasDeletedSubject = subjectsPage
                 .setSearchValue(editedSubjectName)
                 .hasSubject(editedSubjectName);
+
+        assertThat(hasDeletedSubject)
+                .as("Deleted subject should not be displayed in the table")
+                .isFalse();
+    }
+
+    @Test(groups = "positive")
+    @Description("Test to verify that newly added timetable should be displayed")
+    public void verifyCreatingTimetableOfSubject() {
+        var subjectName = getValidSubject().getName();
+
+        step.openAndFillSubjectFields(getValidSubject());
+        step.addAndWaitForSubjectToAppear();
+        subjectsPage
+                .getTable()
+                .goToTablePage("last");
+
+        var isAddedAtTheEnd = subjectsPage.hasSubject(subjectName);
+
+        assertThat(isAddedAtTheEnd)
+                .as("New subject should be displayed at the end of table")
+                .isTrue();
+
+        subjectsPage.openTimetablePage(subjectName);
+        step.openAndFillTimetableFields();
+        step.addAndWaitForNewTimetableForAppear();
+
+        var group = "СІ-12-2";
+        var isTimetableAdded = new TimetablePage().hasTimetable(group);
+
+        assertThat(isTimetableAdded)
+                .as("New timetable should be displayed in the table")
+                .isTrue();
+
+        new MainMenu<>()
+                .openSubjectsPage()
+                .waitTillProgressBarDisappears()
+                .setSearchValue(subjectName);
+
+        step.deleteSubject(subjectName);
+
+        var hasDeletedSubject = subjectsPage
+                .setSearchValue(subjectName)
+                .hasSubject(subjectName);
 
         assertThat(hasDeletedSubject)
                 .as("Deleted subject should not be displayed in the table")

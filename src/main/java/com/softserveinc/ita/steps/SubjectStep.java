@@ -3,6 +3,7 @@ package com.softserveinc.ita.steps;
 import com.softserveinc.ita.models.SubjectEntity;
 import com.softserveinc.ita.pageobjects.admin.AddingSubjectModal;
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
+import com.softserveinc.ita.pageobjects.admin.TimetablePage;
 
 public class SubjectStep {
 
@@ -31,5 +32,21 @@ public class SubjectStep {
                 .setSubjectTitle(substring)
                 .setSubjectDescription(substring)
                 .addNewSubject();
+    }
+
+    public void openAndFillTimetableFields() {
+        new TimetablePage()
+                .addTimetable()
+                .setGroupBy(2)
+                .setStartDate()
+                .setStartTime()
+                .setEndDate()
+                .setEndTime();
+    }
+
+    public void addAndWaitForNewTimetableForAppear() {
+        new TimetablePage()
+                .submitAdding()
+                .waitTillProgressBarDisappears();
     }
 }
