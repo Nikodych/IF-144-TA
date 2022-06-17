@@ -1,13 +1,12 @@
 package com.softserveinc.ita.models;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Builder
-@Getter
-@Setter
+@Data
 public class FacultyEntity {
-    private String name;
-    private String description;
+    String name;
+    String description;
 }
+

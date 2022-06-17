@@ -1,6 +1,7 @@
 package com.softserveinc.ita.pageobjects.admin;
 
 import com.softserveinc.ita.models.MainMenuButtons;
+import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.appear;
@@ -10,7 +11,7 @@ import static com.softserveinc.ita.models.MainMenuButtons.*;
 import static java.lang.String.format;
 import static java.time.Duration.ofSeconds;
 
-public class MainMenu<T extends MainMenu<T>> {
+public abstract class MainMenu<T extends MainMenu<T>> {
 
     private static final String PROGRESS_BAR_PATH = "//mat-progress-bar";
 
@@ -87,6 +88,15 @@ public class MainMenu<T extends MainMenu<T>> {
         $x(format("//a[@href='/admin/%s']", pageName.getPageName()))
                 .should(appear, ofSeconds(5))
                 .click();
+    }
+
+    @Step("Opened adding form")
+    public AddingFormModal openAddingNewForm(){
+        $x("//*[starts-with(name(), 'app')]//*[@aria-label='add']/ancestor::button")
+                .should(appear,ofSeconds(5))
+                .click();
+
+        return new AddingFormModal();
     }
 
     public T waitTillProgressBarDisappears() {

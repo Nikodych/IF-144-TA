@@ -1,25 +1,20 @@
 package com.softserveinc.ita.pageobjects.admin;
 
+import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import io.qameta.allure.Step;
 import lombok.Getter;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 
 @Getter
 public class SubjectsPage extends MainMenu<SubjectsPage> {
-
     private final EntityTable table = new EntityTable();
-
-    @Step("Subjects page: Opened adding subject form")
-    public AddingSubjectModal openAddingSubjectForm() {
-        $x("//button[contains(@class, 'addSubject')]").click();
-        waitUntilModalVisible();
-
-        return new AddingSubjectModal();
-    }
 
     public boolean hasSubject(String subject) {
         return $$x("//td[contains(@class, 'mat-column-subject_name')]")
@@ -59,7 +54,7 @@ public class SubjectsPage extends MainMenu<SubjectsPage> {
     }
 
     @Step("Subjects page: Edited subject")
-    public AddingSubjectModal editSubject(String subject) {
+    public AddingFormModal editSubject(String subject) {
         $$x("//tbody//tr//td")
                 .findBy(exactText(subject))
                 .parent()
@@ -67,7 +62,7 @@ public class SubjectsPage extends MainMenu<SubjectsPage> {
                 .click();
         waitUntilModalVisible();
 
-        return new AddingSubjectModal();
+        return new AddingFormModal();
     }
 
     private void waitUntilModalVisible() {

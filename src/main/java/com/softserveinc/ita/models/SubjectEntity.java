@@ -6,7 +6,6 @@ import lombok.Data;
 @Builder
 @Data
 public class SubjectEntity {
-
     private String name;
     private String description;
 }
