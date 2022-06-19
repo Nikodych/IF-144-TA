@@ -34,9 +34,7 @@ public class GroupsTest extends TestRunner {
     private FacultyEntity faculty;
 
     @BeforeClass(groups = {"positive", "negative"})
-    @Override
-    public void setUp() {
-        super.setUp();
+    public void setUpGroupsTests() {
 
         sessionId = getSessionsCookie(authAsAdmin());
 

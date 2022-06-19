@@ -29,10 +29,7 @@ public class TestsTest extends TestRunner {
     private SoftAssertions soft;
 
     @BeforeClass(groups = {"positive", "negative"})
-    @Override
-    public void setUp() {
-        super.setUp();
-
+    public void setUpTestsTests() {
         sessionId = getSessionsCookie(authAsAdmin());
     }
 
