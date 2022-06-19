@@ -70,8 +70,7 @@ public class AddingTestModal {
     }
 
     private void setInputField(int index, String value) {
-        String INPUT_FIELD_TEMPLATE = "//mat-form-field[%s]//input";
-        var inputField = $x(format(INPUT_FIELD_TEMPLATE,index));
+        var inputField = $x(format("//mat-form-field[%s]//input",index));
         inputField.clear();
         inputField.setValue(value);
     }

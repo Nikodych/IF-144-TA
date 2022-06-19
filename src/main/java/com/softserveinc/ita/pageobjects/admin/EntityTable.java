@@ -23,13 +23,12 @@ public class EntityTable {
 
     @Step("Table: Deleted table row")
     public void deleteRowByValue(String searchValue) {
-        $$x("//table//tr//td")
-                .find(exactText(searchValue))
-                .should(exist)
-                .parent()
-                .$x(".//*[contains(@class,'delete') or @aria-label='delete']")
-                .should(enabled)
-                .click();
+        performActionWithRowByValue(searchValue, "delete");
+    }
+
+    @Step("Table: Edit table row")
+    public void editRowByValue(String searchValue) {
+        performActionWithRowByValue(searchValue, "edit");
     }
 
     @Step("Table: Searched for value in table texts")
@@ -56,5 +55,15 @@ public class EntityTable {
 
             isSearchValueOnCurrentPage = isSearchValueInTableTexts(searchValue);
         }
+    }
+
+    public void performActionWithRowByValue(String searchValue, String actionToPerform) {
+        $$x("//tbody//tr//td")
+                .findBy(exactText(searchValue))
+                .should(exist)
+                .parent()
+                .$x(format(".//*[contains(@class, '%s') or @aria-label='%s']", actionToPerform, actionToPerform))
+                .should(enabled)
+                .click();
     }
 }

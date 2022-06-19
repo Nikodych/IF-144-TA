@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Selenide.$x;
 import static java.lang.String.format;
 import static java.time.Duration.ofSeconds;
 
-public class TestsPage extends MainMenu<TestsPage>{
+public class TestsPage extends MainMenu<TestsPage> {
 
     @Step("Subject's Tests page: Opened adding test form")
     public AddingTestModal openAddingTestForm() {
@@ -27,11 +27,10 @@ public class TestsPage extends MainMenu<TestsPage>{
     }
 
     public List<String> getNamesOfTests() {
-        return  $$x("//td[contains(@class, 'mat-column-name')]").texts();
+        return $$x("//td[contains(@class, 'mat-column-name')]").texts();
     }
 
     public boolean isExpectedNameOfTestFound(String expectedNameOfTest) {
-        return getNamesOfTests()
-                .contains(expectedNameOfTest);
+        return getNamesOfTests().contains(expectedNameOfTest);
     }
 }

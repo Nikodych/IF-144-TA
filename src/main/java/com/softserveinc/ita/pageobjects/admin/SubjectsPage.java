@@ -34,7 +34,7 @@ public class SubjectsPage extends MainMenu<SubjectsPage> {
 
     @Step("Subjects page: Deleted subject")
     public SubjectsPage deleteSubjectByName(String subject) {
-        performActionWithSubject(subject, "delete");
+        table.deleteRowByValue(subject);
 
         return this;
     }
@@ -50,29 +50,21 @@ public class SubjectsPage extends MainMenu<SubjectsPage> {
 
     @Step("Subjects page: Edited subject")
     public AddingFormModal editSubject(String subject) {
-        performActionWithSubject(subject, "edit");
+        table.editRowByValue(subject);
         waitUntilModalVisible();
 
         return new AddingFormModal();
     }
 
-    private void waitUntilModalVisible() {
-        $x("//app-subjects-create-modal").shouldBe(visible);
-    }
-
     @Step("Subjects page: Opened Tests page of {subject}")
     public TestsPage openSubjectTests(String subject) {
         setSearchValue(subject);
-        performActionWithSubject(subject,"assignment_turned_in");
+        table.performActionWithRowByValue(subject,"assignment_turned_in");
 
         return new TestsPage();
     }
 
-    private void performActionWithSubject(String subject, String actionToPerform) {
-        $$x("//tbody//tr//td") //this locator is general for every table and correspond to the cell of the table
-                .findBy(exactText(subject))
-                .parent()
-                .$x(format(".//mat-icon[contains(@class, '%s')]", actionToPerform))
-                .click();
+    private void waitUntilModalVisible() {
+        $x("//app-subjects-create-modal").shouldBe(visible);
     }
 }
