@@ -1,12 +1,12 @@
 package com.softserveinc.ita.models;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 import static com.softserveinc.ita.util.RandomUtil.getRandomStringWithNumbers;
 
 @Builder
-@Getter
+@Data
 public class SpecialityEntity {
     private String code;
     private String name;
