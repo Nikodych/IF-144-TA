@@ -1,5 +1,6 @@
 package com.softserveinc.ita.util;
 
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
@@ -19,5 +20,9 @@ public abstract class TestRunner {
     @BeforeMethod (groups = {"positive", "negative"})
     public void openLoginPage() {
         open(LOGIN_PAGE_URL);
+    }
+
+    public static SoftAssertions getSoftAssert() {
+        return new SoftAssertions();
     }
 }

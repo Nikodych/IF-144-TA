@@ -15,11 +15,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SpecialitiesTest extends TestRunner {
 
     private SpecialitiesPage specialitiesPage;
-    private SpecialitiesStep steps = new SpecialitiesStep();
+    private final SpecialitiesStep steps = new SpecialitiesStep();
 
     @BeforeMethod(groups = {"positive", "negative"})
     public void openSpecialitiesPage() {
-        steps.openSpecialityPage();
+        steps.openPage();
         specialitiesPage = steps.getPage();
     }
 
