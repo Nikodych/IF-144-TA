@@ -10,6 +10,7 @@ import static com.softserveinc.ita.models.AddingFormFields.SUBJECT_NAME;
 
 public class SubjectStep {
     SubjectsPage subjectsPage = new SubjectsPage();
+    TimetablePage timetablePage = new TimetablePage();
 
     public void openAndFillSubjectFields(SubjectEntity subject) {
         subjectsPage
@@ -19,8 +20,7 @@ public class SubjectStep {
     }
 
     public void addAndWaitForSubjectToAppear() {
-        new AddingFormModal()
-                .confirmModal();
+        new AddingFormModal().confirmModal();
 
         subjectsPage.waitTillProgressBarDisappears();
     }
@@ -28,7 +28,8 @@ public class SubjectStep {
     public void deleteSubject(String subject) {
         subjectsPage
                 .deleteSubjectByName(subject)
-                .confirmDeletingSubject();
+                .confirmDeletingSubject()
+                .waitTillProgressBarDisappears();
     }
 
     public void editSubjectFields(String subject, String substring) {
@@ -42,9 +43,9 @@ public class SubjectStep {
     }
 
     public void openAndFillTimetableFields() {
-        new TimetablePage()
+        timetablePage
                 .addTimetable()
-                .setGroupBy(2)
+                .setGroupBy(4)
                 .setStartDate()
                 .setStartTime()
                 .setEndDate()
@@ -52,8 +53,15 @@ public class SubjectStep {
     }
 
     public void addAndWaitForNewTimetableForAppear() {
-        new TimetablePage()
+        timetablePage
                 .submitAdding()
+                .waitTillProgressBarDisappears();
+    }
+
+    public void deleteTimetable(String group) {
+        timetablePage
+                .deleteTimetableByGroup(group)
+                .confirmDeletingTimetable()
                 .waitTillProgressBarDisappears();
     }
 }

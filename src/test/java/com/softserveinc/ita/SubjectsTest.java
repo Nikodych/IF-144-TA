@@ -1,20 +1,27 @@
 package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.LoginPage;
-import com.softserveinc.ita.pageobjects.admin.AddingSubjectModal;
-import com.softserveinc.ita.pageobjects.admin.MainMenu;
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
 import com.softserveinc.ita.pageobjects.admin.TimetablePage;
 import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import com.softserveinc.ita.steps.SubjectStep;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
+import io.restassured.http.Cookie;
+import org.assertj.core.api.SoftAssertions;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.softserveinc.ita.repos.SubjectRepo.*;
+import static com.softserveinc.ita.util.ApiContentUtil.getSubjectsListByAPI;
+import static com.softserveinc.ita.util.ApiContentUtil.getTimeTablesListByAPI;
+import static com.softserveinc.ita.util.ApiUtil.performGetRequest;
+import static com.softserveinc.ita.util.ApiUtil.performPostRequestWithBody;
 import static com.softserveinc.ita.util.DataProvider.*;
 import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
+import static java.util.Map.of;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SubjectsTest extends TestRunner {
@@ -22,6 +29,24 @@ public class SubjectsTest extends TestRunner {
     private SubjectsPage subjectsPage;
     private final SubjectStep step = new SubjectStep();
     private final AddingFormModal subjectAddingForm = new AddingFormModal();
+    private final TimetablePage timetablePage = new TimetablePage();
+    private Cookie sessionId;
+
+    @BeforeClass(groups = {"positive", "negative"})
+    @Override
+    public void setUp() {
+        super.setUp();
+
+        var adminCredentials = of("username", ADMIN_LOGIN, "password", ADMIN_PASSWORD);
+        var authResponse = performPostRequestWithBody(adminCredentials, API_LOGIN_USER_PATH);
+
+        sessionId = authResponse.getDetailedCookie("session_id");
+    }
+
+    @AfterClass(groups = {"positive", "negative"})
+    public void tearDown() {
+        performGetRequest(sessionId, API_LOGOUT_PATH);
+    }
 
     @BeforeMethod(groups = {"positive", "negative"})
     public void openSubjectsPage() {
@@ -183,40 +208,77 @@ public class SubjectsTest extends TestRunner {
 
         step.openAndFillSubjectFields(getValidSubject());
         step.addAndWaitForSubjectToAppear();
+
+        var addedSubject = getSubjectsListByAPI(sessionId)
+                .stream()
+                .filter(subject -> subject.getName().equals(subjectName))
+                .findFirst()
+                .orElse(null);
+
+        var soft = new SoftAssertions();
+        soft.assertThat(addedSubject)
+                .as("New subject should be present in API get request")
+                .isNotNull();
+
         subjectsPage
                 .getTable()
                 .goToTablePage("last");
 
         var isAddedAtTheEnd = subjectsPage.hasSubject(subjectName);
 
-        assertThat(isAddedAtTheEnd)
-                .as("New subject should be displayed at the end of table")
+        soft.assertThat(isAddedAtTheEnd)
+                .as("New subject should be displayed at the end of the table")
                 .isTrue();
 
         subjectsPage.openTimetablePage(subjectName);
         step.openAndFillTimetableFields();
         step.addAndWaitForNewTimetableForAppear();
 
-        var group = "СІ-12-2";
-        var isTimetableAdded = new TimetablePage().hasTimetable(group);
+        soft.assertThat(getTimeTablesListByAPI(sessionId))
+                .as("New timetable should be present in APi get request")
+                .filteredOn(timeTableEntity -> timeTableEntity.getSubjectId() == addedSubject.getId())
+                .isNotEmpty();
 
-        assertThat(isTimetableAdded)
+        var group = "ТК-12-1";
+        var isTimetableAdded = timetablePage.hasTimetable(group);
+
+        soft.assertThat(isTimetableAdded)
                 .as("New timetable should be displayed in the table")
                 .isTrue();
 
-        new MainMenu<>()
+        step.deleteTimetable(group);
+
+        soft.assertThat(getTimeTablesListByAPI(sessionId))
+                .as("Deleted timetable should not be present in APi get request")
+                .filteredOn(timeTableEntity -> timeTableEntity.getSubjectId() == addedSubject.getId())
+                .isEmpty();
+
+        var hasDeletedTimetable = timetablePage.hasTimetable(group);
+
+        assertThat(hasDeletedTimetable)
+                .as("Deleted timetable should not be displayed in the table")
+                .isFalse();
+
+        timetablePage
                 .openSubjectsPage()
                 .waitTillProgressBarDisappears()
                 .setSearchValue(subjectName);
 
         step.deleteSubject(subjectName);
 
+        soft.assertThat(getSubjectsListByAPI(sessionId))
+                .as("Deleted subject should not be present in API get request")
+                .filteredOn(subject -> subject.getName().equals(subjectName))
+                .isEmpty();
+
         var hasDeletedSubject = subjectsPage
                 .setSearchValue(subjectName)
                 .hasSubject(subjectName);
 
-        assertThat(hasDeletedSubject)
+        soft.assertThat(hasDeletedSubject)
                 .as("Deleted subject should not be displayed in the table")
                 .isFalse();
+
+        soft.assertAll();
     }
 }

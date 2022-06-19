@@ -5,12 +5,15 @@ import io.qameta.allure.Step;
 import java.time.LocalDate;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 import static java.lang.String.format;
 
 public class TimetablePage extends MainMenu<TimetablePage> {
+
+    private final LocalDate dateTime = LocalDate.now();
 
     @Step("Timetable page: Added new timetable")
     public TimetablePage addTimetable() {
@@ -30,8 +33,6 @@ public class TimetablePage extends MainMenu<TimetablePage> {
 
     @Step("Timetable page: Set start date")
     public TimetablePage setStartDate() {
-        LocalDate dateTime = LocalDate.now();
-
         $x("//input[@formcontrolname='start_date']").sendKeys(dateTime.toString());
 
         return this;
@@ -39,8 +40,6 @@ public class TimetablePage extends MainMenu<TimetablePage> {
 
     @Step("Timetable page: Set end date")
     public TimetablePage setEndDate() {
-        LocalDate dateTime = LocalDate.now();
-
         $x("//input[@formcontrolname='end_date']").sendKeys(dateTime.toString());
 
         return this;
@@ -57,7 +56,7 @@ public class TimetablePage extends MainMenu<TimetablePage> {
 
     @Step("Timetable page: Set end time")
     public TimetablePage setEndTime() {
-        var time = "09:35";
+        var time = "10:35";
 
         $x("//input[@formcontrolname='end_time']").sendKeys(time);
 
@@ -71,10 +70,34 @@ public class TimetablePage extends MainMenu<TimetablePage> {
         return this;
     }
 
+    @Step("Timetable page: Deleted timetable")
+    public TimetablePage deleteTimetableByGroup(String group) {
+        pickIconMenu(group, "delete");
+
+        return this;
+    }
+
+    @Step("Timetable page: Confirmed deleting timetable")
+    public TimetablePage confirmDeletingTimetable() {
+        $x("//app-confirm//span[contains(text(),'Confirm') or contains(text(),'Підтвердити')]")
+                .shouldBe(visible)
+                .click();
+
+        return this;
+    }
+
     public boolean hasTimetable(String group) {
         return $$x("//td[contains(@class, 'mat-column-group')]")
                 .shouldHave(sizeGreaterThanOrEqual(0))
                 .texts()
                 .contains(group);
+    }
+
+    private void pickIconMenu(String group, String menuItem) {
+        $$x("//tbody//tr//td")
+                .findBy(exactText(group))
+                .parent()
+                .$x(format(".//mat-icon[@aria-label='%s']", menuItem))
+                .click();
     }
 }
