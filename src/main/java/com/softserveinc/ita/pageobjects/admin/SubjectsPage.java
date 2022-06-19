@@ -5,11 +5,9 @@ import io.qameta.allure.Step;
 import lombok.Getter;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
-import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
-import static java.lang.String.format;
 
 @Getter
 public class SubjectsPage extends MainMenu<SubjectsPage> {
