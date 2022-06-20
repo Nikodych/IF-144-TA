@@ -5,9 +5,6 @@ import io.qameta.allure.Step;
 import lombok.Getter;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
-import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
@@ -35,11 +32,7 @@ public class SubjectsPage extends MainMenu<SubjectsPage> {
 
     @Step("Subjects page: Deleted subject")
     public SubjectsPage deleteSubjectByName(String subject) {
-        $$x("//tbody//tr//td")
-                .findBy(exactText(subject))
-                .parent()
-                .$x(".//mat-icon[contains(@class, 'delete')]")
-                .click();
+        table.deleteRowByValue(subject);
 
         return this;
     }
@@ -55,14 +48,18 @@ public class SubjectsPage extends MainMenu<SubjectsPage> {
 
     @Step("Subjects page: Edited subject")
     public AddingFormModal editSubject(String subject) {
-        $$x("//tbody//tr//td")
-                .findBy(exactText(subject))
-                .parent()
-                .$x(".//mat-icon[contains(@class, 'edit')]")
-                .click();
+        table.editRowByValue(subject);
         waitUntilModalVisible();
 
         return new AddingFormModal();
+    }
+
+    @Step("Subjects page: Opened Tests page of {subject}")
+    public TestsPage openSubjectTests(String subject) {
+        setSearchValue(subject);
+        table.performActionWithRowByValue(subject,"assignment_turned_in");
+
+        return new TestsPage();
     }
 
     private void waitUntilModalVisible() {

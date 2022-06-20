@@ -3,8 +3,7 @@ package com.softserveinc.ita.models;
 import lombok.Builder;
 import lombok.Data;
 
-import static com.softserveinc.ita.util.RandomUtil.getRandomNumber;
-import static java.lang.String.valueOf;
+import static com.softserveinc.ita.util.RandomUtil.getRandomStringWithNumbers;
 
 @Builder
 @Data
@@ -13,13 +12,12 @@ public class SpecialityEntity {
     private String name;
 
     public static SpecialityEntity getNewValidSpeciality() {
-        var randCode = getRandomNumber(5);
-        var code = valueOf(randCode); // only numbers, no more than 5 symbols;
+        var randCode = getRandomStringWithNumbers(5);
         var name = "test" + randCode;
 
         return SpecialityEntity
                 .builder()
-                .code(code)
+                .code(randCode)
                 .name(name)
                 .build();
     }
