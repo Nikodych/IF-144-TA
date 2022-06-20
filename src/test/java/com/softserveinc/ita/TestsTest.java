@@ -26,7 +26,6 @@ public class TestsTest extends TestRunner {
     private TestsPage testsPage;
     private TestsSteps steps = new TestsSteps();
     private Cookie sessionId;
-    private SoftAssertions soft;
 
     @BeforeClass(groups = {"positive", "negative"})
     public void setUpTestsTests() {
@@ -59,7 +58,7 @@ public class TestsTest extends TestRunner {
                 .addNewTest(test)
                 .isExpectedNameOfTestFound(test.getName());
 
-        soft = getSoftAssert();
+        var soft = getSoftAssert();
 
         soft.assertThat(isExpectedTestNameFound)
                 .as("Test should be added and displayed with expected name")
