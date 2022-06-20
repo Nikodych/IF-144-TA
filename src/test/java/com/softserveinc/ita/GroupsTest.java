@@ -34,9 +34,7 @@ public class GroupsTest extends TestRunner {
     private FacultyEntity faculty;
 
     @BeforeClass(groups = {"positive", "negative"})
-    @Override
-    public void setUp() {
-        super.setUp();
+    public void setUpGroupsTests() {
 
         var adminCredentials = of("username", ADMIN_LOGIN, "password", ADMIN_PASSWORD);
         var authResponse = performPostRequestWithBody(adminCredentials, API_LOGIN_USER_PATH);
