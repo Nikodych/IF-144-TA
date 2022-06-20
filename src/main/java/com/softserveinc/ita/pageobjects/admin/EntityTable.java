@@ -2,8 +2,9 @@ package com.softserveinc.ita.pageobjects.admin;
 
 import io.qameta.allure.Step;
 
-import static com.codeborne.selenide.Condition.disappear;
-import static com.codeborne.selenide.Condition.exactText;
+import com.codeborne.selenide.Condition;
+
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 import static java.lang.String.format;
@@ -22,11 +23,12 @@ public class EntityTable {
 
     @Step("Table: Deleted table row")
     public void deleteRowByValue(String searchValue) {
-        $$x("//table//tr//td")
-                .find(exactText(searchValue))
-                .parent()
-                .$x(".//i[contains(@class,'delete')]")
-                .click();
+        performActionWithRowByValue(searchValue, "delete");
+    }
+
+    @Step("Table: Edit table row")
+    public void editRowByValue(String searchValue) {
+        performActionWithRowByValue(searchValue, "edit");
     }
 
     @Step("Table: Searched for value in table texts")
@@ -53,5 +55,15 @@ public class EntityTable {
 
             isSearchValueOnCurrentPage = isSearchValueInTableTexts(searchValue);
         }
+    }
+
+    public void performActionWithRowByValue(String searchValue, String actionToPerform) {
+        $$x("//tbody//tr//td")
+                .findBy(exactText(searchValue))
+                .should(exist)
+                .parent()
+                .$x(format(".//*[contains(@class, '%s') or @aria-label='%s']", actionToPerform, actionToPerform))
+                .should(enabled)
+                .click();
     }
 }

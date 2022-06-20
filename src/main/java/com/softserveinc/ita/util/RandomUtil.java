@@ -1,24 +1,18 @@
 package com.softserveinc.ita.util;
 
 import lombok.experimental.UtilityClass;
+import org.apache.commons.lang3.RandomStringUtils;
 
-import java.util.Random;
-
-import static java.lang.Integer.MAX_VALUE;
-import static java.lang.Math.pow;
+import static org.apache.commons.lang3.RandomStringUtils.*;
 
 @UtilityClass
 public class RandomUtil {
-    public static int getRandomNumber(int length) {
-        int bound; // bound is max possible value
 
-        if (length > 9) {
-            bound = MAX_VALUE;
-        } else {
-            // example: if length = 3, bound will be 10^3 - 1 = 999
-            bound = (int) pow(10, length) - 1;
-        }
+    public static String getRandomStringWithLetters(int length) {
+        return randomAlphabetic(length);
+    }
 
-        return new Random().nextInt(bound);
+    public static String getRandomStringWithNumbers(int length) {
+        return randomNumeric(length);
     }
 }

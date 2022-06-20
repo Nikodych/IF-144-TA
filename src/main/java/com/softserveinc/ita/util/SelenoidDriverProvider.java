@@ -19,7 +19,7 @@ public class SelenoidDriverProvider implements WebDriverProvider {
     @Nonnull
     @Override
     public WebDriver createDriver(@Nonnull Capabilities capabilities) {
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+        var desiredCapabilities = new DesiredCapabilities();
         desiredCapabilities.setCapability("browserName", browserName);
         desiredCapabilities.setCapability("browserVersion", browserVersion);
         desiredCapabilities.setCapability("selenoid:options", Map.<String, Object>of(
@@ -38,8 +38,8 @@ public class SelenoidDriverProvider implements WebDriverProvider {
         }
     }
 
-    public static void setUpBrowser(String Name, String Version) {
-        browserName = Name;
-        browserVersion = Version;
+    public static void setUpBrowser(String name, String version) {
+        browserName = name;
+        browserVersion = version;
     }
 }
