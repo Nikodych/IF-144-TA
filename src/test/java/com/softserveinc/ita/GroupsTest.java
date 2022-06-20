@@ -17,11 +17,11 @@ import java.util.List;
 
 import static com.codeborne.selenide.Selenide.refresh;
 import static com.softserveinc.ita.util.ApiUtil.performGetRequest;
-import static com.softserveinc.ita.util.ApiUtil.performPostRequestWithBody;
+import static com.softserveinc.ita.util.AuthApiUtil.authAsAdmin;
+import static com.softserveinc.ita.util.AuthApiUtil.getSessionsCookie;
 import static com.softserveinc.ita.util.DataProvider.*;
 import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
 import static java.lang.String.format;
-import static java.util.Map.of;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GroupsTest extends TestRunner {
@@ -34,14 +34,9 @@ public class GroupsTest extends TestRunner {
     private FacultyEntity faculty;
 
     @BeforeClass(groups = {"positive", "negative"})
-    @Override
-    public void setUp() {
-        super.setUp();
+    public void setUpGroupsTests() {
 
-        var adminCredentials = of("username", ADMIN_LOGIN, "password", ADMIN_PASSWORD);
-        var authResponse = performPostRequestWithBody(adminCredentials, API_LOGIN_USER_PATH);
-
-        sessionId = authResponse.getDetailedCookie("session_id");
+        sessionId = getSessionsCookie(authAsAdmin());
 
         speciality = SpecialityEntity
                 .builder()

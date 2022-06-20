@@ -1,6 +1,9 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
 <suite name="AllTests">
+    <listeners>
+        <listener class-name="com.softserveinc.ita.util.AnnotationTransformer"/>
+    </listeners>
     <test name="All"/>
     <packages>
         <package name="com.softserveinc.ita"/>

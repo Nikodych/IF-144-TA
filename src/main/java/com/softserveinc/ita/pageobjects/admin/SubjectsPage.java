@@ -5,6 +5,7 @@ import io.qameta.allure.Step;
 import lombok.Getter;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$$x;
@@ -35,7 +36,7 @@ public class SubjectsPage extends MainMenu<SubjectsPage> {
 
     @Step("Subjects page: Deleted subject")
     public SubjectsPage deleteSubjectByName(String subject) {
-        pickIconMenu(subject, "delete");
+        table.deleteRowByValue(subject);
 
         return this;
     }
@@ -51,10 +52,25 @@ public class SubjectsPage extends MainMenu<SubjectsPage> {
 
     @Step("Subjects page: Edited subject")
     public AddingFormModal editSubject(String subject) {
-        pickIconMenu(subject, "edit");
+        table.editRowByValue(subject);
         waitUntilModalVisible();
 
         return new AddingFormModal();
+    }
+
+    @Step("Subjects page: Opened Tests page of {subject}")
+    public TestsPage openSubjectTests(String subject) {
+        setSearchValue(subject);
+        table.performActionWithRowByValue(subject,"assignment_turned_in");
+
+        return new TestsPage();
+    }
+
+    @Step("Subjects page: Opened timetable of subject")
+    public TimetablePage openTimetablePage(String subject) {
+        pickIconMenu(subject, "date_range");
+
+        return new TimetablePage();
     }
 
     @Step("Subjects page: Opened timetable of subject")

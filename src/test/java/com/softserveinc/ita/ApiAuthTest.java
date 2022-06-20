@@ -1,18 +1,14 @@
 package com.softserveinc.ita;
 
 import io.qameta.allure.Description;
-import io.restassured.http.Cookie;
 import io.restassured.response.Response;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.Map;
-
 import static com.softserveinc.ita.util.ApiUtil.performGetRequest;
-import static com.softserveinc.ita.util.ApiUtil.performPostRequestWithBody;
+import static com.softserveinc.ita.util.AuthApiUtil.*;
 import static com.softserveinc.ita.util.DataProvider.*;
-import static java.util.Map.of;
 
 public class ApiAuthTest {
 
@@ -114,36 +110,5 @@ public class ApiAuthTest {
                 .isEqualTo("user has been logout");
 
         soft.assertAll();
-    }
-
-    private Object getValueFromResponseBody(Response response, String key) {
-        return response
-                .getBody()
-                .jsonPath()
-                .get(key);
-    }
-
-    private Cookie getSessionsCookie(Response response) {
-        return response.getDetailedCookie("session_id");
-    }
-
-    private Response authAsAdmin() {
-        return performPostRequestWithBody(setUpAdminCredentials(), API_LOGIN_USER_PATH);
-    }
-
-    private Response authAsStudent() {
-        return performPostRequestWithBody(setUpStudentCredentials(), API_LOGIN_USER_PATH);
-    }
-
-    private Map<String, String> setUpAdminCredentials() {
-        return setUpAuthRequestBody(ADMIN_LOGIN, ADMIN_PASSWORD);
-    }
-
-    private Map<String, String> setUpStudentCredentials() {
-        return setUpAuthRequestBody(STUDENT_LOGIN, STUDENT_PASSWORD);
-    }
-
-    private Map<String, String> setUpAuthRequestBody(String username, String password) {
-        return of("username", username, "password", password);
     }
 }
