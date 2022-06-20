@@ -1,9 +1,11 @@
 package com.softserveinc.ita.steps;
 
+import com.softserveinc.ita.models.DateTimeRange;
 import com.softserveinc.ita.models.SubjectEntity;
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
 import com.softserveinc.ita.pageobjects.admin.TimeTablePage;
 import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
+import org.joda.time.LocalDateTime;
 
 import static com.softserveinc.ita.models.AddingFormFields.SUBJECT_DESCRIPTION;
 import static com.softserveinc.ita.models.AddingFormFields.SUBJECT_NAME;
@@ -43,13 +45,24 @@ public class SubjectStep {
     }
 
     public void openAndFillTimetableFields() {
+        var currentDate = LocalDateTime.now();
+        var dateRange = DateTimeRange
+                .builder()
+                .start(currentDate
+                        .millisOfDay()
+                        .withMinimumValue())
+                .end(currentDate
+                        .millisOfDay()
+                        .withMaximumValue())
+                .build();
+
         timetablePage
                 .addTimeTable()
                 .setGroupBy(4)
-                .setStartDate()
-                .setStartTime()
-                .setEndDate()
-                .setEndTime();
+                .setStartDate(dateRange.getStart())
+                .setStartTime(dateRange.getStart())
+                .setEndDate(dateRange.getEnd())
+                .setEndTime(dateRange.getEnd());
     }
 
     public void addAndWaitForNewTimetableForAppear() {

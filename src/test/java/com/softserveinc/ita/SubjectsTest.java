@@ -15,8 +15,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.softserveinc.ita.repos.SubjectRepo.*;
-import static com.softserveinc.ita.util.ApiContentUtil.getSubjectsListByAPI;
-import static com.softserveinc.ita.util.ApiContentUtil.getTimeTablesListByAPI;
+import static com.softserveinc.ita.util.ApiUtil.getSubjectsListByAPI;
+import static com.softserveinc.ita.util.ApiUtil.getTimeTablesListByAPI;
 import static com.softserveinc.ita.util.ApiUtil.performGetRequest;
 import static com.softserveinc.ita.util.AuthApiUtil.authAsAdmin;
 import static com.softserveinc.ita.util.AuthApiUtil.getSessionsCookie;

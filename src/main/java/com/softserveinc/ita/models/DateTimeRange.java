@@ -2,12 +2,11 @@ package com.softserveinc.ita.models;
 
 import lombok.Builder;
 import lombok.Data;
-
-import java.time.LocalDate;
+import org.joda.time.LocalDateTime;
 
 @Builder
 @Data
 public class DateTimeRange {
-    private LocalDate start;
-    private LocalDate end;
+    private LocalDateTime start;
+    private LocalDateTime end;
 }

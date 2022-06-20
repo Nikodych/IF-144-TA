@@ -1,8 +1,7 @@
 package com.softserveinc.ita.pageobjects.admin;
 
 import io.qameta.allure.Step;
-
-import java.time.LocalDate;
+import org.joda.time.LocalDateTime;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.visible;
@@ -13,7 +12,6 @@ import static java.lang.String.format;
 public class TimeTablePage extends MainMenu<TimeTablePage> {
 
     private final EntityTable table = new EntityTable();
-    private final LocalDate dateTime = LocalDate.now();
 
     @Step("Timetable page: Added new timetable")
     public TimeTablePage addTimeTable() {
@@ -32,33 +30,29 @@ public class TimeTablePage extends MainMenu<TimeTablePage> {
     }
 
     @Step("Timetable page: Set start date")
-    public TimeTablePage setStartDate() {
-        $x("//input[@formcontrolname='start_date']").sendKeys(dateTime.toString());
+    public TimeTablePage setStartDate(LocalDateTime date) {
+        $x("//input[@formcontrolname='start_date']").sendKeys(date.toLocalDate().toString());
 
         return this;
     }
 
     @Step("Timetable page: Set end date")
-    public TimeTablePage setEndDate() {
-        $x("//input[@formcontrolname='end_date']").sendKeys(dateTime.toString());
+    public TimeTablePage setEndDate(LocalDateTime date) {
+        $x("//input[@formcontrolname='end_date']").sendKeys(date.toLocalDate().toString());
 
         return this;
     }
 
     @Step("Timetable page: Set start time")
-    public TimeTablePage setStartTime() {
-        var time = "09:35";
-
-        $x("//input[@formcontrolname='start_time']").sendKeys(time);
+    public TimeTablePage setStartTime(LocalDateTime time) {
+        $x("//input[@formcontrolname='start_time']").sendKeys(time.toLocalTime().toString());
 
         return this;
     }
 
     @Step("Timetable page: Set end time")
-    public TimeTablePage setEndTime() {
-        var time = "10:35";
-
-        $x("//input[@formcontrolname='end_time']").sendKeys(time);
+    public TimeTablePage setEndTime(LocalDateTime time) {
+        $x("//input[@formcontrolname='end_time']").sendKeys(time.toLocalTime().plusHours(1).toString());
 
         return this;
     }
