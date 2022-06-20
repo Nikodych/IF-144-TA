@@ -2,7 +2,7 @@ package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
-import com.softserveinc.ita.pageobjects.admin.TimetablePage;
+import com.softserveinc.ita.pageobjects.admin.TimeTablePage;
 import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import com.softserveinc.ita.steps.SubjectStep;
 import com.softserveinc.ita.util.TestRunner;
@@ -18,10 +18,10 @@ import static com.softserveinc.ita.repos.SubjectRepo.*;
 import static com.softserveinc.ita.util.ApiContentUtil.getSubjectsListByAPI;
 import static com.softserveinc.ita.util.ApiContentUtil.getTimeTablesListByAPI;
 import static com.softserveinc.ita.util.ApiUtil.performGetRequest;
-import static com.softserveinc.ita.util.ApiUtil.performPostRequestWithBody;
+import static com.softserveinc.ita.util.AuthApiUtil.authAsAdmin;
+import static com.softserveinc.ita.util.AuthApiUtil.getSessionsCookie;
 import static com.softserveinc.ita.util.DataProvider.*;
 import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
-import static java.util.Map.of;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SubjectsTest extends TestRunner {
@@ -29,18 +29,12 @@ public class SubjectsTest extends TestRunner {
     private SubjectsPage subjectsPage;
     private final SubjectStep step = new SubjectStep();
     private final AddingFormModal subjectAddingForm = new AddingFormModal();
-    private final TimetablePage timetablePage = new TimetablePage();
+    private final TimeTablePage timetablePage = new TimeTablePage();
     private Cookie sessionId;
 
     @BeforeClass(groups = {"positive", "negative"})
-    @Override
-    public void setUp() {
-        super.setUp();
-
-        var adminCredentials = of("username", ADMIN_LOGIN, "password", ADMIN_PASSWORD);
-        var authResponse = performPostRequestWithBody(adminCredentials, API_LOGIN_USER_PATH);
-
-        sessionId = authResponse.getDetailedCookie("session_id");
+    public void setUpSubjectsTest() {
+        sessionId = getSessionsCookie(authAsAdmin());
     }
 
     @AfterClass(groups = {"positive", "negative"})
@@ -177,24 +171,23 @@ public class SubjectsTest extends TestRunner {
                 .as("New subject should be displayed at the end of the table")
                 .isTrue();
 
-        var editSubstring = " редагований";
+        var editSubstring = "Редагований";
 
         step.editSubjectFields(subjectName, editSubstring);
 
-        var editedSubjectName = subjectName + editSubstring;
         var isSubjectEdited = subjectsPage
-                .setSearchValue(editedSubjectName)
-                .hasSubject(editedSubjectName);
+                .setSearchValue(editSubstring)
+                .hasSubject(editSubstring);
 
         assertThat(isSubjectEdited)
                 .as("Edited subject should be displayed in the table")
                 .isTrue();
 
-        step.deleteSubject(editedSubjectName);
+        step.deleteSubject(editSubstring);
 
         var hasDeletedSubject = subjectsPage
-                .setSearchValue(editedSubjectName)
-                .hasSubject(editedSubjectName);
+                .setSearchValue(editSubstring)
+                .hasSubject(editSubstring);
 
         assertThat(hasDeletedSubject)
                 .as("Deleted subject should not be displayed in the table")

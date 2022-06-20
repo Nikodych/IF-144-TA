@@ -5,12 +5,9 @@ import io.qameta.allure.Step;
 import lombok.Getter;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
-import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
-import static java.lang.String.format;
 
 @Getter
 public class SubjectsPage extends MainMenu<SubjectsPage> {
@@ -61,34 +58,20 @@ public class SubjectsPage extends MainMenu<SubjectsPage> {
     @Step("Subjects page: Opened Tests page of {subject}")
     public TestsPage openSubjectTests(String subject) {
         setSearchValue(subject);
-        table.performActionWithRowByValue(subject,"assignment_turned_in");
+        table.performActionWithRowByValue(subject, "assignment_turned_in");
 
         return new TestsPage();
     }
 
     @Step("Subjects page: Opened timetable of subject")
-    public TimetablePage openTimetablePage(String subject) {
-        pickIconMenu(subject, "date_range");
+    public TimeTablePage openTimetablePage(String subject) {
+        setSearchValue(subject);
+        table.performActionWithRowByValue(subject, "date_range");
 
-        return new TimetablePage();
-    }
-
-    @Step("Subjects page: Opened timetable of subject")
-    public TimetablePage openTimetablePage(String subject) {
-        pickIconMenu(subject, "date_range");
-
-        return new TimetablePage();
+        return new TimeTablePage();
     }
 
     private void waitUntilModalVisible() {
         $x("//app-subjects-create-modal").shouldBe(visible);
-    }
-
-    private void pickIconMenu(String subject, String menuItem) {
-        $$x("//tbody//tr//td")
-                .findBy(exactText(subject))
-                .parent()
-                .$x(format(".//mat-icon[contains(@class, '%s')]", menuItem))
-                .click();
     }
 }
