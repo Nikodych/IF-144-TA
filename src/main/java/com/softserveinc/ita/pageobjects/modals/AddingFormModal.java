@@ -34,7 +34,8 @@ public class AddingFormModal {
 
             fieldElement
                     .shouldBe(focused)
-                    .sendKeys(value);
+                    .clear();
+            fieldElement.sendKeys(value);
         }
 
         return this;
