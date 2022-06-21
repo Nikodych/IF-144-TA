@@ -11,6 +11,7 @@ import static com.codeborne.selenide.Selenide.$x;
 
 @Getter
 public class SubjectsPage extends MainMenu<SubjectsPage> {
+
     private final EntityTable table = new EntityTable();
 
     public boolean hasSubject(String subject) {
@@ -57,9 +58,17 @@ public class SubjectsPage extends MainMenu<SubjectsPage> {
     @Step("Subjects page: Opened Tests page of {subject}")
     public TestsPage openSubjectTests(String subject) {
         setSearchValue(subject);
-        table.performActionWithRowByValue(subject,"assignment_turned_in");
+        table.performActionWithRowByValue(subject, "assignment_turned_in");
 
         return new TestsPage();
+    }
+
+    @Step("Subjects page: Opened timetable of subject")
+    public TimeTablePage openTimetablePage(String subject) {
+        setSearchValue(subject);
+        table.performActionWithRowByValue(subject, "date_range");
+
+        return new TimeTablePage();
     }
 
     private void waitUntilModalVisible() {
