@@ -31,28 +31,28 @@ public class TimeTablePage extends MainMenu<TimeTablePage> {
 
     @Step("Timetable page: Set start date")
     public TimeTablePage setStartDate(LocalDateTime date) {
-        $x("//input[@formcontrolname='start_date']").sendKeys(date.toLocalDate().toString());
+        $x("//input[@formcontrolname='start_date']").sendKeys(date.toString("YYYY-MM-dd"));
 
         return this;
     }
 
     @Step("Timetable page: Set end date")
     public TimeTablePage setEndDate(LocalDateTime date) {
-        $x("//input[@formcontrolname='end_date']").sendKeys(date.toLocalDate().toString());
+        $x("//input[@formcontrolname='end_date']").sendKeys(date.toString("YYYY-MM-dd"));
 
         return this;
     }
 
     @Step("Timetable page: Set start time")
     public TimeTablePage setStartTime(LocalDateTime time) {
-        $x("//input[@formcontrolname='start_time']").sendKeys(time.toLocalTime().toString());
+        $x("//input[@formcontrolname='start_time']").sendKeys(time.toString("HH:mm:ss"));
 
         return this;
     }
 
     @Step("Timetable page: Set end time")
     public TimeTablePage setEndTime(LocalDateTime time) {
-        $x("//input[@formcontrolname='end_time']").sendKeys(time.toLocalTime().plusHours(1).toString());
+        $x("//input[@formcontrolname='end_time']").sendKeys(time.toString("HH:mm:ss"));
 
         return this;
     }
