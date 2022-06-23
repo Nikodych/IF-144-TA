@@ -19,4 +19,22 @@ public class GroupsPage extends MainMenu<GroupsPage> {
                 .$x(".//td[contains(@class,'name')]")
                 .getText();
     }
+
+    @Step("Group page: Students page of {group} opened")
+    public StudentsPage openStudentsPage(String group) {
+        performSearch(group);
+        table.performActionWithRowByValue(group, "supervisor_account");
+
+        return new StudentsPage();
+    }
+
+    @Step("Groups page: Performed search of {searchValue}")
+    public GroupsPage performSearch(String group) {
+        var searchField = $x("//input[contains(@placeholder, 'Filter')]");
+
+        searchField.clear();
+        searchField.sendKeys(group);
+
+        return this;
+    }
 }
