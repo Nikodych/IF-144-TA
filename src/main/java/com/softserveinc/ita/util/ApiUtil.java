@@ -1,6 +1,8 @@
 package com.softserveinc.ita.util;
 
+import com.google.gson.Gson;
 import com.softserveinc.ita.models.SubjectEntity;
+import com.softserveinc.ita.models.TestEntity;
 import com.softserveinc.ita.models.TimeTableEntity;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -13,13 +15,14 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import lombok.experimental.UtilityClass;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static com.google.gson.JsonParser.parseString;
 import static com.softserveinc.ita.util.DataProvider.API_BASE_URI;
 import static com.softserveinc.ita.util.DataProvider.API_ENTITY_GET_RECORDS_PATH;
 import static io.restassured.RestAssured.*;
-import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static java.lang.String.format;
 
@@ -62,6 +65,21 @@ public class ApiUtil {
                 .extract()
                 .jsonPath()
                 .getList(".", TimeTableEntity.class);
+    }
+
+    public static List<TestEntity> getTestsListByAPI(Cookie sessionId) {
+        var path = format(API_ENTITY_GET_RECORDS_PATH, "test");
+        var response = parseString(performGetRequest(sessionId, path)
+                .then()
+                .extract()
+                .body()
+                .asString())
+                .getAsJsonArray();
+        var list = new LinkedList<TestEntity>();
+
+        response.forEach(item -> list.add(new Gson().fromJson(item, TestEntity.class)));
+
+        return list;
     }
 
     private void setUpApiSpecifications() {
