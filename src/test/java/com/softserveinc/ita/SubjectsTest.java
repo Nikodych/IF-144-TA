@@ -4,7 +4,6 @@ import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
 import com.softserveinc.ita.pageobjects.admin.TimeTablePage;
 import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
-import com.softserveinc.ita.steps.SubjectStep;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import io.restassured.http.Cookie;
@@ -27,7 +26,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SubjectsTest extends TestRunner {
 
     private SubjectsPage subjectsPage;
-    private final SubjectStep step = new SubjectStep();
     private final AddingFormModal subjectAddingForm = new AddingFormModal();
     private final TimeTablePage timetablePage = new TimeTablePage();
     private Cookie sessionId;
@@ -64,7 +62,7 @@ public class SubjectsTest extends TestRunner {
     @Test(groups = "positive")
     @Description("Test to verify \" Add subject\" button should work with valid data")
     public void verifyAddSubjectButtonIsEnabledWithValidData() {
-        step.openAndFillSubjectFields(getValidSubject());
+        subjectStep.openAndFillSubjectFields(getValidSubject());
 
         assertThat(subjectAddingForm.isAddButtonEnabled())
                 .as("When both fields have valid data add button should be enabled")
@@ -74,7 +72,7 @@ public class SubjectsTest extends TestRunner {
     @Test(groups = "negative")
     @Description("Test to verify that new subject should not be able to be created with invalid title")
     public void verifyNewSubjectCanNotBeCreatedWithInvalidTitle() {
-        step.openAndFillSubjectFields(getSubjectWithInvalidName());
+        subjectStep.openAndFillSubjectFields(getSubjectWithInvalidName());
 
         assertThat(subjectAddingForm.isAddButtonEnabled())
                 .as("When title field has invalid data new subject can't be created")
@@ -84,7 +82,7 @@ public class SubjectsTest extends TestRunner {
     @Test(groups = "negative")
     @Description("Test to verify that new subject should not be able to be created with invalid description")
     public void verifyNewSubjectCanNotBeCreatedWithInvalidDescription() {
-        step.openAndFillSubjectFields(getSubjectWithInvalidDescription());
+        subjectStep.openAndFillSubjectFields(getSubjectWithInvalidDescription());
 
         assertThat(subjectAddingForm.isAddButtonEnabled())
                 .as("When description field has invalid data new subject can't be created")
@@ -96,8 +94,8 @@ public class SubjectsTest extends TestRunner {
     public void verifyAddingNewSubject() {
         var subjectName = getValidSubject().getName();
 
-        step.openAndFillSubjectFields(getValidSubject());
-        step.addAndWaitForSubjectToAppear();
+        subjectStep.openAndFillSubjectFields(getValidSubject());
+        subjectStep.addAndWaitForSubjectToAppear();
 
         subjectsPage
                 .getTable()
@@ -121,7 +119,7 @@ public class SubjectsTest extends TestRunner {
                 .as("New subject should be displayed after search is performed")
                 .isTrue();
 
-        step.deleteSubject(subjectName);
+        subjectStep.deleteSubject(subjectName);
     }
 
     @Test(groups = "positive")
@@ -129,8 +127,8 @@ public class SubjectsTest extends TestRunner {
     public void verifyDeletingSubject() {
         var subjectName = getValidSubject().getName();
 
-        step.openAndFillSubjectFields(getValidSubject());
-        step.addAndWaitForSubjectToAppear();
+        subjectStep.openAndFillSubjectFields(getValidSubject());
+        subjectStep.addAndWaitForSubjectToAppear();
 
         subjectsPage
                 .getTable()
@@ -142,7 +140,7 @@ public class SubjectsTest extends TestRunner {
                 .as("New subject should be displayed at the end of table")
                 .isTrue();
 
-        step.deleteSubject(subjectName);
+        subjectStep.deleteSubject(subjectName);
 
         var hasDeletedSubject = subjectsPage
                 .setSearchValue(subjectName)
@@ -158,8 +156,8 @@ public class SubjectsTest extends TestRunner {
     public void verifyEditingSubject() {
         var subjectName = getValidSubject().getName();
 
-        step.openAndFillSubjectFields(getValidSubject());
-        step.addAndWaitForSubjectToAppear();
+        subjectStep.openAndFillSubjectFields(getValidSubject());
+        subjectStep.addAndWaitForSubjectToAppear();
 
         subjectsPage
                 .getTable()
@@ -173,7 +171,7 @@ public class SubjectsTest extends TestRunner {
 
         var editSubstring = "Редагований";
 
-        step.editSubjectFields(subjectName, editSubstring);
+        subjectStep.editSubjectFields(subjectName, editSubstring);
 
         var isSubjectEdited = subjectsPage
                 .setSearchValue(editSubstring)
@@ -183,7 +181,7 @@ public class SubjectsTest extends TestRunner {
                 .as("Edited subject should be displayed in the table")
                 .isTrue();
 
-        step.deleteSubject(editSubstring);
+        subjectStep.deleteSubject(editSubstring);
 
         var hasDeletedSubject = subjectsPage
                 .setSearchValue(editSubstring)
@@ -199,8 +197,8 @@ public class SubjectsTest extends TestRunner {
     public void verifyCreatingTimetableOfSubject() {
         var subjectName = getValidSubject().getName();
 
-        step.openAndFillSubjectFields(getValidSubject());
-        step.addAndWaitForSubjectToAppear();
+        subjectStep.openAndFillSubjectFields(getValidSubject());
+        subjectStep.addAndWaitForSubjectToAppear();
 
         var addedSubject = getSubjectsListByAPI(sessionId)
                 .stream()
@@ -224,8 +222,8 @@ public class SubjectsTest extends TestRunner {
                 .isTrue();
 
         subjectsPage.openTimetablePage(subjectName);
-        step.openAndFillTimetableFields();
-        step.addAndWaitForNewTimetableForAppear();
+        subjectStep.openAndFillTimetableFields();
+        subjectStep.addAndWaitForNewTimetableForAppear();
 
         soft.assertThat(getTimeTablesListByAPI(sessionId))
                 .as("New timetable should be present in APi get request")
@@ -239,7 +237,7 @@ public class SubjectsTest extends TestRunner {
                 .as("New timetable should be displayed in the table")
                 .isTrue();
 
-        step.deleteTimetable(group);
+        subjectStep.deleteTimetable(group);
 
         soft.assertThat(getTimeTablesListByAPI(sessionId))
                 .as("Deleted timetable should not be present in APi get request")
@@ -257,7 +255,7 @@ public class SubjectsTest extends TestRunner {
                 .waitTillProgressBarDisappears()
                 .setSearchValue(subjectName);
 
-        step.deleteSubject(subjectName);
+        subjectStep.deleteSubject(subjectName);
 
         soft.assertThat(getSubjectsListByAPI(sessionId))
                 .as("Deleted subject should not be present in API get request")

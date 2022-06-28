@@ -1,5 +1,6 @@
 package com.softserveinc.ita.util;
 
+import com.softserveinc.ita.steps.*;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.BeforeClass;
@@ -16,6 +17,12 @@ import static com.softserveinc.ita.util.SelenoidDriverProvider.setUpBrowser;
 import static com.softserveinc.ita.util.SystemPropertyHelper.isRemote;
 
 public abstract class TestRunner {
+    public final StudentsStep studentsStep = new StudentsStep();
+    public final FacultyStep facultyStep = new FacultyStep();
+    public final GroupsStep groupsStep = new GroupsStep();
+    public final SpecialitiesStep specialitiesStep = new SpecialitiesStep();
+    public final SubjectStep subjectStep = new SubjectStep();
+    public final TestsSteps testsSteps = new TestsSteps();
 
     @Parameters({"browserName", "browserVersion"})
     @BeforeClass(groups = {"positive", "negative"})

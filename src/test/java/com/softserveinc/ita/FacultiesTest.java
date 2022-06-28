@@ -3,7 +3,6 @@ package com.softserveinc.ita;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.FacultiesPage;
 import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
-import com.softserveinc.ita.steps.FacultyStep;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
@@ -18,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class FacultiesTest extends TestRunner {
 
     private FacultiesPage facultiesPage;
-    private final FacultyStep facultyStep = new FacultyStep();
     private final AddingFormModal addingFacultyForm = new AddingFormModal();
 
     @BeforeMethod(groups = {"positive", "negative"})
