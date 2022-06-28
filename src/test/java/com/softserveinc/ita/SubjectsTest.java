@@ -284,7 +284,7 @@ public class SubjectsTest extends TestRunner {
                 .findFirst()
                 .orElse(null);
         var updatedSubjects = getSubjectsListByAPI(sessionId);
-        var soft = new SoftAssertions();
+        var soft = getSoftAssert();
 
         soft.assertThat(updatedSubjects)
                 .as("After new subject added previous list of subjects cannot be the same as the current one")
@@ -344,7 +344,7 @@ public class SubjectsTest extends TestRunner {
                 .doesNotContain(timeTable);
         soft.assertThat(updatedTimeTableResponse)
                 .as("Update response has to be equal to the sent timetable")
-                .filteredOn(timeTable1 -> timeTable1.getGroupId().equals(updatedTimeTable.getGroupId()))
+                .filteredOn(unit -> unit.getGroupId().equals(updatedTimeTable.getGroupId()))
                 .isNotEmpty();
 
         var deleteTimeTableResponse = deleteTimeTable(sessionId, updatedTimeTable);

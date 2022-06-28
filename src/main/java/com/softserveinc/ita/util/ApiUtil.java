@@ -59,6 +59,7 @@ public class ApiUtil {
 
     public static Response deleteSubject(Cookie sessionId, SubjectEntity subject) {
         var path = format(API_ENTITY_DELETE_RECORDS_PATH, "Subject", subject.getId());
+
         return performGetRequest(sessionId, path);
     }
 
@@ -85,6 +86,7 @@ public class ApiUtil {
 
     public static Response deleteTimeTable(Cookie sessionId, TimeTableEntity timeTable) {
         var path = format(API_ENTITY_DELETE_RECORDS_PATH, "TimeTable", timeTable.getId());
+
         return performGetRequest(sessionId, path);
     }
 
