@@ -6,6 +6,7 @@ import java.io.File;
 
 import static com.typesafe.config.ConfigFactory.load;
 import static com.typesafe.config.ConfigFactory.parseFile;
+import static java.lang.System.getenv;
 
 public interface DataProvider {
 
@@ -14,14 +15,18 @@ public interface DataProvider {
     }
 
     static Config readCredentials() {
-        var path = System.getenv("CREDENTIALS");
+        var path = getenv("CREDENTIALS");
+        Config config;
+
         if (path == null) {
-            return load("credentials.conf"); // local usage, file should be at resources directory
+            config = load("credentials.conf"); // local usage, file should be at resources directory
         } else {
             var configFile = new File(path);
             var fileConfig = parseFile(configFile);
-            return load(fileConfig);
+            config = load(fileConfig);
         }
+
+        return config;
     }
 
     String ADMIN_LOGIN = readCredentials().getString("users.admin.login");
