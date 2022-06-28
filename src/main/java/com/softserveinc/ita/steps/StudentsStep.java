@@ -4,27 +4,26 @@ import com.softserveinc.ita.models.StudentEntity;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.StudentsPage;
 import com.softserveinc.ita.pageobjects.modals.DeletingFormModal;
+import io.qameta.allure.Step;
 import lombok.Getter;
 
 import static com.softserveinc.ita.models.AddingFormFields.*;
-import static com.softserveinc.ita.models.AddingFormFields.STUDENT_LOGIN;
-import static com.softserveinc.ita.models.AddingFormFields.STUDENT_PASSWORD;
-import static com.softserveinc.ita.util.DataProvider.*;
+import static com.softserveinc.ita.util.DataProvider.ADMIN_LOGIN;
 import static com.softserveinc.ita.util.DataProvider.ADMIN_PASSWORD;
-import static com.softserveinc.ita.util.DataProvider.GROUP_NAME;
 
 @Getter
 public class StudentsStep {
     private StudentsPage page;
 
+    @Step("Students step: opened students page of {group}")
     public void openStudentsPage(String group) {
         page = new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openGroupsPage()
-                .performSearch(group)
                 .openStudentsPage(group);
     }
 
+    @Step("Students step: added new student")
     public void addNewStudent(StudentEntity student) {
         page.openAddingNewForm()
                 .setValueFor(STUDENT_SURNAME, student.getSurname())
@@ -38,6 +37,7 @@ public class StudentsStep {
                 .confirmModal();
     }
 
+    @Step("Students step: deleted student")
     public void deleteStudent(StudentEntity student) {
         var gradeBookId = student.getGradeBookId();
 

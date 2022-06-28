@@ -22,14 +22,14 @@ public class GroupsPage extends MainMenu<GroupsPage> {
 
     @Step("Group page: Students page of {group} opened")
     public StudentsPage openStudentsPage(String group) {
-        performSearch(group);
+        performSearchOf(group);
         table.performActionWithRowByValue(group, "supervisor_account");
 
         return new StudentsPage();
     }
 
-    @Step("Groups page: Performed search of {searchValue}")
-    public GroupsPage performSearch(String group) {
+    @Step("Groups page: Performed search of {group}")
+    public GroupsPage performSearchOf(String group) {
         var searchField = $x("//input[contains(@placeholder, 'Filter')]");
 
         searchField.clear();

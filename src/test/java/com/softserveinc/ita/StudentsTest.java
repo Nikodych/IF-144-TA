@@ -1,7 +1,6 @@
 package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.admin.StudentsPage;
-import com.softserveinc.ita.steps.StudentsStep;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
@@ -14,12 +13,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class StudentsTest extends TestRunner {
     private StudentsPage studentsPage;
-    private final StudentsStep step = new StudentsStep();
 
     @BeforeMethod(groups = {"positive", "negative"})
     public void openGroupsStudentsPage() {
-        step.openStudentsPage(GROUP_NAME);
-        studentsPage = step.getPage();
+        studentsStep.openStudentsPage(GROUP_NAME);
+        studentsPage = studentsStep.getPage();
     }
 
     @Test(groups = "positive")
@@ -36,7 +34,7 @@ public class StudentsTest extends TestRunner {
     @Description("Test to verify new student added")
     public void verifyNewStudentAdded() {
         var student = getNewValidStudent();
-        step.addNewStudent(student);
+        studentsStep.addNewStudent(student);
 
         var messageText = studentsPage.getMessageText();
 
@@ -50,6 +48,6 @@ public class StudentsTest extends TestRunner {
                 .as("After student is added student with grade book id should be present at the table")
                 .isEqualTo(student.getGradeBookId());
 
-        step.deleteStudent(student);
+        studentsStep.deleteStudent(student);
     }
 }
