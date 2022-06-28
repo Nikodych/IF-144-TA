@@ -1,26 +1,24 @@
 package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.admin.SpecialitiesPage;
-import com.softserveinc.ita.steps.SpecialitiesStep;
+import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.softserveinc.ita.models.SpecialityEntity.getNewValidSpeciality;
 import static com.softserveinc.ita.util.DataProvider.SPECIALITIES_PAGE_URL;
-import com.softserveinc.ita.util.TestRunner;
 import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SpecialitiesTest extends TestRunner {
 
     private SpecialitiesPage specialitiesPage;
-    private final SpecialitiesStep steps = new SpecialitiesStep();
 
     @BeforeMethod(groups = {"positive", "negative"})
     public void openSpecialitiesPage() {
-        steps.openPage();
-        specialitiesPage = steps.getPage();
+        specialitiesStep.openPage();
+        specialitiesPage = specialitiesStep.getPage();
     }
 
     @Test(groups = "positive")
@@ -41,7 +39,7 @@ public class SpecialitiesTest extends TestRunner {
 
         var speciality = getNewValidSpeciality();
 
-        steps.addNewSpeciality(speciality);
+        specialitiesStep.addNewSpeciality(speciality);
 
         var messageText = specialitiesPage.getMessageText();
 
@@ -56,7 +54,7 @@ public class SpecialitiesTest extends TestRunner {
                         "should be last in the table")
                 .isEqualTo(speciality.getCode());
 
-        steps.deleteSpeciality(speciality);
+        specialitiesStep.deleteSpeciality(speciality);
     }
 
     @Test(groups = "positive")
@@ -65,7 +63,7 @@ public class SpecialitiesTest extends TestRunner {
 
         var speciality = getNewValidSpeciality();
 
-        steps.addNewSpeciality(speciality);
+        specialitiesStep.addNewSpeciality(speciality);
 
         var lastSpecialityCode = specialitiesPage.getLastSpecialityCode();
 
@@ -74,7 +72,7 @@ public class SpecialitiesTest extends TestRunner {
                         "should be last in the table")
                 .isEqualTo(speciality.getCode());
 
-        steps.deleteSpeciality(speciality);
+        specialitiesStep.deleteSpeciality(speciality);
 
         var messageText = specialitiesPage.getMessageText();
 

@@ -41,8 +41,6 @@ public class AddingFormModal {
         return this;
     }
 
-    //TODO: choose options in group adding form: specialty id, faculty id
-
     public boolean isAddButtonEnabled() {
         return $x("//button[@type='submit']")
                 .shouldBe(visible)
@@ -67,5 +65,11 @@ public class AddingFormModal {
         $x("//button/span[contains(text(), 'Відмінити')] | //button/span[contains(text(), 'Скасувати')] | //button/span[contains(text(), 'Cancel')] ")
                 .should(appear, ofSeconds(5))
                 .click();
+    }
+
+    public AddingFormModal scrollDown(){
+        $x("//mat-dialog-container").scrollIntoView(false);
+
+        return this;
     }
 }
