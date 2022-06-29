@@ -41,4 +41,7 @@ public interface DataProvider {
     String API_IS_LOGGED_PATH = readConfig().getString("api.basePathes.isLogged");
     String API_LOGOUT_PATH = readConfig().getString("api.basePathes.logout");
     String API_ENTITY_GET_RECORDS_PATH = readConfig().getString("api.entityPathes.getRecords");
+    String API_ENTITY_POST_RECORDS_PATH = readConfig().getString("api.entityPathes.insertData");
+    String API_ENTITY_UPDATE_RECORDS_PATH = readConfig().getString("api.entityPathes.update");
+    String API_ENTITY_DELETE_RECORDS_PATH = readConfig().getString("api.entityPathes.delete");
 }

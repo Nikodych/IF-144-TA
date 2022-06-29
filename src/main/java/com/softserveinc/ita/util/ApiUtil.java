@@ -8,6 +8,7 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.Cookie;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -16,12 +17,12 @@ import lombok.experimental.UtilityClass;
 import java.util.List;
 import java.util.Map;
 
-import static com.softserveinc.ita.util.DataProvider.API_BASE_URI;
-import static com.softserveinc.ita.util.DataProvider.API_ENTITY_GET_RECORDS_PATH;
+import static com.softserveinc.ita.util.DataProvider.*;
 import static io.restassured.RestAssured.*;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static java.lang.String.format;
+import static java.util.Map.of;
 
 @UtilityClass
 public class ApiUtil {
@@ -46,22 +47,64 @@ public class ApiUtil {
         var path = format(API_ENTITY_GET_RECORDS_PATH, "Subject");
         var response = performGetRequest(sessionId, path);
 
-        return response
-                .then()
-                .extract()
-                .jsonPath()
-                .getList("", SubjectEntity.class);
+        return extractFromJson(response).getList("", SubjectEntity.class);
+    }
+
+    public static List<SubjectEntity> postSubject(SubjectEntity subject) {
+        var path = format(API_ENTITY_POST_RECORDS_PATH, "Subject");
+        var response = performPostRequestWithBody(setUpSubjectBody(subject), path);
+
+        return extractFromJson(response).getList("", SubjectEntity.class);
+    }
+
+    public static Response deleteSubject(Cookie sessionId, SubjectEntity subject) {
+        var path = format(API_ENTITY_DELETE_RECORDS_PATH, "Subject", subject.getId());
+
+        return performGetRequest(sessionId, path);
     }
 
     public static List<TimeTableEntity> getTimeTablesListByAPI(Cookie sessionId) {
         var path = format(API_ENTITY_GET_RECORDS_PATH, "TimeTable");
         var response = performGetRequest(sessionId, path);
 
+        return extractFromJson(response).getList("", TimeTableEntity.class);
+    }
+
+    public static List<TimeTableEntity> postTimeTable(TimeTableEntity timeTable) {
+        var path = format(API_ENTITY_POST_RECORDS_PATH, "TimeTable");
+        var response = performPostRequestWithBody(setUpTimeTableBody(timeTable), path);
+
+        return extractFromJson(response).getList("", TimeTableEntity.class);
+    }
+
+    public static List<TimeTableEntity> updateTimeTable(TimeTableEntity timeTable) {
+        var path = format(API_ENTITY_UPDATE_RECORDS_PATH, "TimeTable", timeTable.getId());
+        var response = performPostRequestWithBody(setUpTimeTableBody(timeTable), path);
+
+        return extractFromJson(response).getList("", TimeTableEntity.class);
+    }
+
+    public static Response deleteTimeTable(Cookie sessionId, TimeTableEntity timeTable) {
+        var path = format(API_ENTITY_DELETE_RECORDS_PATH, "TimeTable", timeTable.getId());
+
+        return performGetRequest(sessionId, path);
+    }
+
+    private Map<String, String> setUpSubjectBody(SubjectEntity subject) {
+        return of("subject_name", subject.getName(), "subject_description", subject.getDescription());
+    }
+
+    private Map<String, String> setUpTimeTableBody(TimeTableEntity timeTable) {
+        return of("group_id", timeTable.getGroupId(), "subject_id", timeTable.getSubjectId(),
+                "start_date", timeTable.getStartDate(), "start_time", timeTable.getStartTime(),
+                "end_date", timeTable.getEndDate(), "end_time", timeTable.getEndTime());
+    }
+
+    private JsonPath extractFromJson(Response response) {
         return response
                 .then()
                 .extract()
-                .jsonPath()
-                .getList(".", TimeTableEntity.class);
+                .jsonPath();
     }
 
     private void setUpApiSpecifications() {
