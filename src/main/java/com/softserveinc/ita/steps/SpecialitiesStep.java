@@ -3,6 +3,7 @@ package com.softserveinc.ita.steps;
 import com.softserveinc.ita.models.SpecialityEntity;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.SpecialitiesPage;
+import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import com.softserveinc.ita.pageobjects.modals.DeletingFormModal;
 import lombok.Getter;
 
@@ -40,6 +41,20 @@ public class SpecialitiesStep {
         table.deleteRowByValue(searchValue);
 
         new DeletingFormModal().confirmModal();
+
+        page.waitTillProgressBarDisappears();
+    }
+
+    public void editSpeciality(SpecialityEntity speciality) {
+        var searchValue = speciality.getCode(); //consider code as unique id
+
+        var table = page.getTable();
+        table.findTablePageWithSearchValue(searchValue);
+        table.editRowByValue(searchValue);
+
+        new AddingFormModal()
+                .setValueFor(SPECIALTY_NAME, speciality.getName()) //left code as it was
+                .confirmModal();
 
         page.waitTillProgressBarDisappears();
     }

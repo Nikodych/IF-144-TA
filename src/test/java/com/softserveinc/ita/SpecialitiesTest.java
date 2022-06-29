@@ -69,7 +69,7 @@ public class SpecialitiesTest extends TestRunner {
                 .as("Message after adding should contain added speciality name")
                 .contains(speciality.getName());
 
-        var lastSpecialityCode = specialitiesPage.getLastSpecialityCode();
+        var lastSpecialityCode = specialitiesPage.getLastSpecialityField("code");
 
         soft.assertThat(lastSpecialityCode)
                 .as("After adding new speciality speciality with added code " +
@@ -94,7 +94,7 @@ public class SpecialitiesTest extends TestRunner {
                 .as("Before deleting list of specialities should contain recently added speciality")
                 .contains(speciality);
 
-        var lastSpecialityCode = specialitiesPage.getLastSpecialityCode();
+        var lastSpecialityCode = specialitiesPage.getLastSpecialityField("code");
 
         assertThat(lastSpecialityCode)
                 .as("Before deleting recently added speciality should be last in the table")
@@ -114,7 +114,7 @@ public class SpecialitiesTest extends TestRunner {
                 .as("Message after deleting should contain deleted speciality name")
                 .contains(speciality.getName());
 
-        lastSpecialityCode = specialitiesPage.getLastSpecialityCode();
+        lastSpecialityCode = specialitiesPage.getLastSpecialityField("code");
 
         soft.assertThat(lastSpecialityCode)
                 .as("After deleting speciality last speciality in the table " +
@@ -122,5 +122,52 @@ public class SpecialitiesTest extends TestRunner {
                 .isNotEqualTo(speciality.getCode());
 
         soft.assertAll();
+    }
+
+    @Test(groups = "positive")
+    @Description("Test to verify speciality is edited")
+    public void verifyEditingSpeciality() {
+
+        var speciality = getNewValidSpeciality();
+
+        specialitiesStep.addNewSpeciality(speciality);
+
+        var specialitiesList = getSpecialitiesListByAPI(sessionId);
+        assertThat(specialitiesList)
+                .as("Before editing list of specialities should contain recently added speciality")
+                .contains(speciality);
+
+        var lastSpecialityName = specialitiesPage.getLastSpecialityField("name");
+
+        assertThat(lastSpecialityName)
+                .as("Before editing recently added speciality should be last in the table")
+                .isEqualTo(speciality.getName());
+
+        var previousName = speciality.getName();
+        speciality.setName(previousName + "edited");
+
+        specialitiesStep.editSpeciality(speciality);
+
+        var soft = getSoftAssert();
+        specialitiesList = getSpecialitiesListByAPI(sessionId);
+        soft.assertThat(specialitiesList)
+                .as("After editing list of specialities should contain changed speciality")
+                .contains(speciality);
+
+        var messageText = specialitiesPage.getMessageText();
+
+        soft.assertThat(messageText)
+                .as("Message after editing should contain speciality name before edit")
+                .contains(previousName);
+
+        lastSpecialityName = specialitiesPage.getLastSpecialityField("name");
+
+        soft.assertThat(lastSpecialityName)
+                .as("After editing speciality last speciality in the table should have name after edit")
+                .isEqualTo(speciality.getName());
+
+        soft.assertAll();
+
+        specialitiesStep.deleteSpeciality(speciality);
     }
 }
