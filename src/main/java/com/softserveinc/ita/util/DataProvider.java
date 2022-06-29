@@ -2,7 +2,11 @@ package com.softserveinc.ita.util;
 
 import com.typesafe.config.Config;
 
+import java.io.File;
+
 import static com.typesafe.config.ConfigFactory.load;
+import static com.typesafe.config.ConfigFactory.parseFile;
+import static java.lang.System.getenv;
 
 public interface DataProvider {
 
@@ -11,7 +15,18 @@ public interface DataProvider {
     }
 
     static Config readCredentials() {
-        return load("credentials.conf");
+        var path = getenv("CREDENTIALS");
+        Config config;
+
+        if (path == null) {
+            config = load("credentials.conf"); // local usage, file should be at resources directory
+        } else {
+            var configFile = new File(path);
+            var fileConfig = parseFile(configFile);
+            config = load(fileConfig);
+        }
+
+        return config;
     }
 
     String ADMIN_LOGIN = readCredentials().getString("users.admin.login");
