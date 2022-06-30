@@ -1,6 +1,7 @@
 package com.softserveinc.ita.util;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.softserveinc.ita.models.SubjectEntity;
 import com.softserveinc.ita.models.TestEntity;
 import com.softserveinc.ita.models.TimeTableEntity;
@@ -10,6 +11,7 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.Cookie;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -26,6 +28,7 @@ import static com.softserveinc.ita.util.DataProvider.API_ENTITY_GET_RECORDS_PATH
 import static com.softserveinc.ita.util.DataProvider.*;
 import static io.restassured.RestAssured.*;
 import static io.restassured.http.ContentType.JSON;
+import static io.restassured.module.jsv.JsonSchemaValidator.*;
 import static java.lang.String.format;
 import static java.util.Map.of;
 
@@ -95,6 +98,34 @@ public class ApiUtil {
         return performGetRequest(sessionId, path);
     }
 
+    public static List<TestEntity> getTestsListByAPI(Cookie sessionId) {
+        var path = format(API_ENTITY_GET_RECORDS_PATH, "test");
+        var response = getJsonArrayFromGetRequest(sessionId, path);
+        var list = new LinkedList<TestEntity>();
+
+        response.forEach(item -> list.add(new Gson().fromJson(item, TestEntity.class)));
+
+        return list;
+    }
+
+    public static void verifySchemaRecords(String entity, String filePath) {
+        given()
+                .filter(new AllureRestAssured())
+                .get(API_BASE_URI+(format(API_ENTITY_GET_RECORDS_PATH, entity)))
+                .then()
+                .statusCode(200)
+                .body(matchesJsonSchemaInClasspath(filePath));
+    }
+
+    private JsonArray getJsonArrayFromGetRequest(Cookie sessionId, String path) {
+        return parseString(performGetRequest(sessionId, path)
+                .then()
+                .extract()
+                .body()
+                .asString())
+                .getAsJsonArray();
+    }
+
     private Map<String, String> setUpSubjectBody(SubjectEntity subject) {
         return of("subject_name", subject.getName(), "subject_description", subject.getDescription());
     }
@@ -110,21 +141,6 @@ public class ApiUtil {
                 .then()
                 .extract()
                 .jsonPath();
-    }
-
-    public static List<TestEntity> getTestsListByAPI(Cookie sessionId) {
-        var path = format(API_ENTITY_GET_RECORDS_PATH, "test");
-        var response = parseString(performGetRequest(sessionId, path)
-                .then()
-                .extract()
-                .body()
-                .asString())
-                .getAsJsonArray();
-        var list = new LinkedList<TestEntity>();
-
-        response.forEach(item -> list.add(new Gson().fromJson(item, TestEntity.class)));
-
-        return list;
     }
 
     private void setUpApiSpecifications() {

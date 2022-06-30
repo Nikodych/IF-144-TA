@@ -1,6 +1,7 @@
 package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.admin.TestsPage;
+import com.softserveinc.ita.util.ApiUtil;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import io.restassured.http.Cookie;
@@ -11,6 +12,7 @@ import org.testng.annotations.Test;
 
 import static com.codeborne.selenide.Selenide.refresh;
 import static com.softserveinc.ita.repos.TestRepo.getValidTest;
+import static com.softserveinc.ita.util.ApiUtil.*;
 import static com.softserveinc.ita.util.ApiUtil.getTestsListByAPI;
 import static com.softserveinc.ita.util.ApiUtil.performGetRequest;
 import static com.softserveinc.ita.util.AuthApiUtil.authAsAdmin;
@@ -113,6 +115,12 @@ public class TestsTest extends TestRunner {
                 .doesNotContain(test);
 
         soft.assertAll();
+    }
+
+    @Test(groups = "positive")
+    @Description("Test to verify corectness of the json schema of tests entities")
+    public void verifyTestEntitySchemaRecords () {
+        verifySchemaRecords("test","schemas/TestGetRecordsSchema200.json");
     }
 
     @AfterClass
