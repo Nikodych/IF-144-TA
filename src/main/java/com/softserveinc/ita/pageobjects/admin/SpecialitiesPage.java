@@ -13,7 +13,7 @@ public class SpecialitiesPage extends MainMenu<SpecialitiesPage> {
 
     private final EntityTable table = new EntityTable();
 
-    @Step("Speciality page: Got last speciality {searchValue}")
+    @Step("Speciality page: Got last speciality {fieldName}")
     public String getLastSpecialityField(String fieldName) {
         table.goToTablePage("last");
 
