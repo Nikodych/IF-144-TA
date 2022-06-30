@@ -51,7 +51,7 @@ public class StudentsTest extends TestRunner {
         studentsStep.deleteStudent(student);
     }
 
-    @Test
+    @Test(groups = "positive")
     @Description("Test to verify student deleted")
     public void verifyStudentDeleted() {
         var student = getNewValidStudent();
