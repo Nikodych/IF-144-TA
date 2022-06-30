@@ -2,7 +2,11 @@ package com.softserveinc.ita.util;
 
 import com.typesafe.config.Config;
 
+import java.io.File;
+
 import static com.typesafe.config.ConfigFactory.load;
+import static com.typesafe.config.ConfigFactory.parseFile;
+import static java.lang.System.getenv;
 
 public interface DataProvider {
 
@@ -11,7 +15,18 @@ public interface DataProvider {
     }
 
     static Config readCredentials() {
-        return load("credentials.conf");
+        var path = getenv("CREDENTIALS");
+        Config config;
+
+        if (path == null) {
+            config = load("credentials.conf"); // local usage, file should be at resources directory
+        } else {
+            var configFile = new File(path);
+            var fileConfig = parseFile(configFile);
+            config = load(fileConfig);
+        }
+
+        return config;
     }
 
     String ADMIN_LOGIN = readCredentials().getString("users.admin.login");
@@ -42,4 +57,7 @@ public interface DataProvider {
     String API_IS_LOGGED_PATH = readConfig().getString("api.basePathes.isLogged");
     String API_LOGOUT_PATH = readConfig().getString("api.basePathes.logout");
     String API_ENTITY_GET_RECORDS_PATH = readConfig().getString("api.entityPathes.getRecords");
+    String API_ENTITY_POST_RECORDS_PATH = readConfig().getString("api.entityPathes.insertData");
+    String API_ENTITY_UPDATE_RECORDS_PATH = readConfig().getString("api.entityPathes.update");
+    String API_ENTITY_DELETE_RECORDS_PATH = readConfig().getString("api.entityPathes.delete");
 }
