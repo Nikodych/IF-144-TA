@@ -6,6 +6,7 @@ import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static com.codeborne.selenide.Selenide.refresh;
 import static com.softserveinc.ita.repos.StudentRepo.getNewValidStudent;
 import static com.softserveinc.ita.util.DataProvider.*;
 import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
@@ -39,8 +40,8 @@ public class StudentsTest extends TestRunner {
         var messageText = studentsPage.getMessageText();
 
         assertThat(messageText)
-                .as("If student is added successfully  messageText should be equal " + STUDENT_IS_ADDED_SUCCESSFUL_MESSAGE)
-                .isEqualTo(STUDENT_IS_ADDED_SUCCESSFUL_MESSAGE);
+                .as("If student is added successfully  messageText should be equal " + STUDENT_IS_ADDED_SUCCESSFULLY_MESSAGE)
+                .isEqualTo(STUDENT_IS_ADDED_SUCCESSFULLY_MESSAGE);
 
         var actualResult = studentsPage.getStudentsGradeBookId(student.getGradeBookId());
 
@@ -49,5 +50,31 @@ public class StudentsTest extends TestRunner {
                 .isEqualTo(student.getGradeBookId());
 
         studentsStep.deleteStudent(student);
+    }
+
+    @Test
+    @Description("Test to verify student deleted")
+    public void verifyStudentDeleted() {
+        var student = getNewValidStudent();
+        studentsStep.addNewStudent(student);
+        var addedStudentGradeBookId = studentsPage.getStudentsGradeBookId(student.getGradeBookId());
+
+        assertThat(addedStudentGradeBookId)
+                .as("After student is added student with grade book id should be present at the table")
+                .isEqualTo(student.getGradeBookId());
+
+        studentsStep.deleteStudent(student);
+
+        var messageText = studentsPage.getMessageText();
+
+        assertThat(messageText)
+                .as("When student deleted message text should be equal " + STUDENT_IS_DELETED_SUCCESSFULLY_MESSAGE)
+                .isEqualTo(STUDENT_IS_DELETED_SUCCESSFULLY_MESSAGE);
+
+        var table = studentsPage.getTable();
+        var actualResult = table.checkIfRowWithSearchValueIsPresent(student.getGradeBookId());
+
+        assertThat(actualResult)
+                .isFalse();
     }
 }

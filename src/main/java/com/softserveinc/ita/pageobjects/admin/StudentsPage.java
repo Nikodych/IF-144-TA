@@ -26,10 +26,10 @@ public class StudentsPage extends MainMenu<StudentsPage> {
 
         table.findTablePageWithSearchValue(searchValue);
 
-        return $x("//table")
-                .$$x(".//tr")
-                .findBy(text(searchValue))
-                .$x(".//td[contains(@class,'gradebookID')]")
-                .getText();
+            return  $x("//table")
+                    .$$x(".//tr")
+                    .findBy(text(searchValue))
+                    .$x(".//td[contains(@class,'gradebookID')]")
+                    .getText();
     }
 }

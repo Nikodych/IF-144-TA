@@ -2,8 +2,6 @@ package com.softserveinc.ita.pageobjects.admin;
 
 import io.qameta.allure.Step;
 
-import com.codeborne.selenide.Condition;
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
@@ -55,6 +53,23 @@ public class EntityTable {
 
             isSearchValueOnCurrentPage = isSearchValueInTableTexts(searchValue);
         }
+    }
+
+    public boolean checkIfRowWithSearchValueIsPresent(String searchValue) {
+        goToTablePage("first");
+
+        var buttonNavigationNext = $x(format(NAVIGATION_BUTTON_PATH_TEMPLATE, "next"));
+        var isSearchValueOnCurrentPage = false;
+
+        while (buttonNavigationNext.isEnabled() ) {
+            goToTablePage("next");
+            buttonNavigationNext
+                    .$x(".//div[contains(@class,'round')]/div[@class='mat-ripple-element']")
+                    .should(disappear);
+
+            isSearchValueOnCurrentPage = isSearchValueInTableTexts(searchValue);
+        }
+        return isSearchValueOnCurrentPage;
     }
 
     public void performActionWithRowByValue(String searchValue, String actionToPerform) {
