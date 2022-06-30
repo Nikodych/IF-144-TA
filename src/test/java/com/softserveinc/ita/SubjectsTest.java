@@ -4,7 +4,6 @@ import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
 import com.softserveinc.ita.pageobjects.admin.TimeTablePage;
 import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
-import com.softserveinc.ita.steps.SubjectStep;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import io.restassured.http.Cookie;
@@ -14,12 +13,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static com.codeborne.selenide.Selenide.refresh;
 import static com.softserveinc.ita.repos.SubjectRepo.*;
-import static com.softserveinc.ita.util.ApiUtil.getSubjectsListByAPI;
-import static com.softserveinc.ita.util.ApiUtil.getTimeTablesListByAPI;
-import static com.softserveinc.ita.util.ApiUtil.performGetRequest;
-import static com.softserveinc.ita.util.AuthApiUtil.authAsAdmin;
-import static com.softserveinc.ita.util.AuthApiUtil.getSessionsCookie;
+import static com.softserveinc.ita.repos.TimeTableRepo.getTimeTableForSubject;
+import static com.softserveinc.ita.repos.TimeTableRepo.getUpdatedTimeTableForSubject;
+import static com.softserveinc.ita.util.ApiUtil.*;
+import static com.softserveinc.ita.util.AuthApiUtil.*;
 import static com.softserveinc.ita.util.DataProvider.*;
 import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +26,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SubjectsTest extends TestRunner {
 
     private SubjectsPage subjectsPage;
-    private final SubjectStep step = new SubjectStep();
     private final AddingFormModal subjectAddingForm = new AddingFormModal();
     private final TimeTablePage timetablePage = new TimeTablePage();
     private Cookie sessionId;
@@ -64,7 +62,7 @@ public class SubjectsTest extends TestRunner {
     @Test(groups = "positive")
     @Description("Test to verify \" Add subject\" button should work with valid data")
     public void verifyAddSubjectButtonIsEnabledWithValidData() {
-        step.openAndFillSubjectFields(getValidSubject());
+        subjectStep.openAndFillSubjectFields(getValidSubject());
 
         assertThat(subjectAddingForm.isAddButtonEnabled())
                 .as("When both fields have valid data add button should be enabled")
@@ -74,7 +72,7 @@ public class SubjectsTest extends TestRunner {
     @Test(groups = "negative")
     @Description("Test to verify that new subject should not be able to be created with invalid title")
     public void verifyNewSubjectCanNotBeCreatedWithInvalidTitle() {
-        step.openAndFillSubjectFields(getSubjectWithInvalidName());
+        subjectStep.openAndFillSubjectFields(getSubjectWithInvalidName());
 
         assertThat(subjectAddingForm.isAddButtonEnabled())
                 .as("When title field has invalid data new subject can't be created")
@@ -84,7 +82,7 @@ public class SubjectsTest extends TestRunner {
     @Test(groups = "negative")
     @Description("Test to verify that new subject should not be able to be created with invalid description")
     public void verifyNewSubjectCanNotBeCreatedWithInvalidDescription() {
-        step.openAndFillSubjectFields(getSubjectWithInvalidDescription());
+        subjectStep.openAndFillSubjectFields(getSubjectWithInvalidDescription());
 
         assertThat(subjectAddingForm.isAddButtonEnabled())
                 .as("When description field has invalid data new subject can't be created")
@@ -96,8 +94,8 @@ public class SubjectsTest extends TestRunner {
     public void verifyAddingNewSubject() {
         var subjectName = getValidSubject().getName();
 
-        step.openAndFillSubjectFields(getValidSubject());
-        step.addAndWaitForSubjectToAppear();
+        subjectStep.openAndFillSubjectFields(getValidSubject());
+        subjectStep.addAndWaitForSubjectToAppear();
 
         subjectsPage
                 .getTable()
@@ -121,7 +119,7 @@ public class SubjectsTest extends TestRunner {
                 .as("New subject should be displayed after search is performed")
                 .isTrue();
 
-        step.deleteSubject(subjectName);
+        subjectStep.deleteSubject(subjectName);
     }
 
     @Test(groups = "positive")
@@ -129,8 +127,8 @@ public class SubjectsTest extends TestRunner {
     public void verifyDeletingSubject() {
         var subjectName = getValidSubject().getName();
 
-        step.openAndFillSubjectFields(getValidSubject());
-        step.addAndWaitForSubjectToAppear();
+        subjectStep.openAndFillSubjectFields(getValidSubject());
+        subjectStep.addAndWaitForSubjectToAppear();
 
         subjectsPage
                 .getTable()
@@ -142,7 +140,7 @@ public class SubjectsTest extends TestRunner {
                 .as("New subject should be displayed at the end of table")
                 .isTrue();
 
-        step.deleteSubject(subjectName);
+        subjectStep.deleteSubject(subjectName);
 
         var hasDeletedSubject = subjectsPage
                 .setSearchValue(subjectName)
@@ -158,8 +156,8 @@ public class SubjectsTest extends TestRunner {
     public void verifyEditingSubject() {
         var subjectName = getValidSubject().getName();
 
-        step.openAndFillSubjectFields(getValidSubject());
-        step.addAndWaitForSubjectToAppear();
+        subjectStep.openAndFillSubjectFields(getValidSubject());
+        subjectStep.addAndWaitForSubjectToAppear();
 
         subjectsPage
                 .getTable()
@@ -173,7 +171,7 @@ public class SubjectsTest extends TestRunner {
 
         var editSubstring = "Редагований";
 
-        step.editSubjectFields(subjectName, editSubstring);
+        subjectStep.editSubjectFields(subjectName, editSubstring);
 
         var isSubjectEdited = subjectsPage
                 .setSearchValue(editSubstring)
@@ -183,7 +181,7 @@ public class SubjectsTest extends TestRunner {
                 .as("Edited subject should be displayed in the table")
                 .isTrue();
 
-        step.deleteSubject(editSubstring);
+        subjectStep.deleteSubject(editSubstring);
 
         var hasDeletedSubject = subjectsPage
                 .setSearchValue(editSubstring)
@@ -199,8 +197,8 @@ public class SubjectsTest extends TestRunner {
     public void verifyCreatingTimetableOfSubject() {
         var subjectName = getValidSubject().getName();
 
-        step.openAndFillSubjectFields(getValidSubject());
-        step.addAndWaitForSubjectToAppear();
+        subjectStep.openAndFillSubjectFields(getValidSubject());
+        subjectStep.addAndWaitForSubjectToAppear();
 
         var addedSubject = getSubjectsListByAPI(sessionId)
                 .stream()
@@ -224,12 +222,12 @@ public class SubjectsTest extends TestRunner {
                 .isTrue();
 
         subjectsPage.openTimetablePage(subjectName);
-        step.openAndFillTimetableFields();
-        step.addAndWaitForNewTimetableForAppear();
+        subjectStep.openAndFillTimetableFields();
+        subjectStep.addAndWaitForNewTimetableForAppear();
 
         soft.assertThat(getTimeTablesListByAPI(sessionId))
                 .as("New timetable should be present in APi get request")
-                .filteredOn(timeTableEntity -> timeTableEntity.getSubjectId() == addedSubject.getId())
+                .filteredOn(timeTableEntity -> timeTableEntity.getSubjectId().equals(addedSubject.getId()))
                 .isNotEmpty();
 
         var group = "ТК-12-1";
@@ -239,11 +237,11 @@ public class SubjectsTest extends TestRunner {
                 .as("New timetable should be displayed in the table")
                 .isTrue();
 
-        step.deleteTimetable(group);
+        subjectStep.deleteTimetable(group);
 
         soft.assertThat(getTimeTablesListByAPI(sessionId))
                 .as("Deleted timetable should not be present in APi get request")
-                .filteredOn(timeTableEntity -> timeTableEntity.getSubjectId() == addedSubject.getId())
+                .filteredOn(timeTableEntity -> timeTableEntity.getSubjectId().equals(addedSubject.getId()))
                 .isEmpty();
 
         var hasDeletedTimetable = timetablePage.hasTimetable(group);
@@ -257,7 +255,7 @@ public class SubjectsTest extends TestRunner {
                 .waitTillProgressBarDisappears()
                 .setSearchValue(subjectName);
 
-        step.deleteSubject(subjectName);
+        subjectStep.deleteSubject(subjectName);
 
         soft.assertThat(getSubjectsListByAPI(sessionId))
                 .as("Deleted subject should not be present in API get request")
@@ -272,6 +270,116 @@ public class SubjectsTest extends TestRunner {
                 .as("Deleted subject should not be displayed in the table")
                 .isFalse();
 
+        soft.assertAll();
+    }
+
+    @Test(groups = "positive")
+    @Description("Test to verify that the edited timetable should be displayed in api requests")
+    public void verifyEditingTimetableOfSubject() {
+        var initialSubjects = getSubjectsListByAPI(sessionId);
+        var subjectName = getValidSubject().getName();
+        var addedSubject = postSubject(getValidSubject())
+                .stream()
+                .filter(subject -> subject.getName().equals(subjectName))
+                .findFirst()
+                .orElse(null);
+        var updatedSubjects = getSubjectsListByAPI(sessionId);
+        var soft = getSoftAssert();
+
+        soft.assertThat(updatedSubjects)
+                .as("After new subject added previous list of subjects cannot be the same as the current one")
+                .isNotEqualTo(initialSubjects);
+        soft.assertThat(addedSubject)
+                .as("Posted subject has to be not null")
+                .isNotNull();
+        soft.assertThat(addedSubject.getName())
+                .as("Posted subject has to be equal to the valid subject entity pattern")
+                .isEqualTo(getValidSubject().getName());
+
+        refresh();
+
+        subjectsPage
+                .getTable()
+                .goToTablePage("last");
+
+        var isAddedAtTheEnd = subjectsPage.hasSubject(subjectName);
+
+        soft.assertThat(isAddedAtTheEnd)
+                .as("New subject should be displayed at the end of the table")
+                .isTrue();
+
+        subjectsPage.openTimetablePage(subjectName);
+
+        var timeTable = getTimeTableForSubject(addedSubject);
+        var postedTimeTable = postTimeTable(timeTable)
+                .stream()
+                .filter(timeTableEntity -> timeTableEntity.getSubjectId().equals(addedSubject.getId()))
+                .findFirst()
+                .orElse(null);
+
+        soft.assertThat(postedTimeTable)
+                .as("Response of the timetable post request should not be null")
+                .isNotNull();
+        soft.assertThat(getTimeTablesListByAPI(sessionId))
+                .as("New timetable should be present in APi get request")
+                .contains(postedTimeTable);
+
+        refresh();
+
+        var group = "ТК-12-1";
+        var isTimetableAdded = timetablePage
+                .waitTillProgressBarDisappears()
+                .hasTimetable(group);
+
+        soft.assertThat(isTimetableAdded)
+                .as("New timetable should be displayed in the table")
+                .isTrue();
+
+        var updatedTimeTable = getUpdatedTimeTableForSubject(postedTimeTable, addedSubject);
+
+        var updatedTimeTableResponse = updateTimeTable(updatedTimeTable);
+
+        soft.assertThat(getTimeTablesListByAPI(sessionId))
+                .as("Timetable has to be modified after update")
+                .doesNotContain(timeTable);
+        soft.assertThat(updatedTimeTableResponse)
+                .as("Update response has to be equal to the sent timetable")
+                .filteredOn(unit -> unit.getGroupId().equals(updatedTimeTable.getGroupId()))
+                .isNotEmpty();
+
+        var deleteTimeTableResponse = deleteTimeTable(sessionId, updatedTimeTable);
+
+        soft.assertThat(getTimeTablesListByAPI(sessionId))
+                .as("Deleted timetable should not be present in APi get request")
+                .doesNotContain(updatedTimeTable);
+        soft.assertThat(deleteTimeTableResponse.statusCode())
+                .as("Status code has to be 200")
+                .isEqualTo(200);
+
+        timetablePage
+                .openSubjectsPage()
+                .waitTillProgressBarDisappears()
+                .setSearchValue(subjectName);
+
+        var deleteSubjectResponse = deleteSubject(sessionId, addedSubject);
+
+        soft.assertThat(getSubjectsListByAPI(sessionId))
+                .as("Deleted subject should not be present in API get request")
+                .filteredOn(subject -> subject.getName().equals(subjectName))
+                .isEmpty();
+        soft.assertThat(deleteSubjectResponse.statusCode())
+                .as("Status code has to be 200")
+                .isEqualTo(200);
+
+        refresh();
+
+        var hasDeletedSubject = subjectsPage
+                .setSearchValue(subjectName)
+                .hasSubject(subjectName);
+
+        soft.assertThat(hasDeletedSubject)
+                .as("Deleted subject should not be displayed in the table")
+                .isFalse();
         soft.assertAll();
     }
 }

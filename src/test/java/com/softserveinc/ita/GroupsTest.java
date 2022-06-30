@@ -4,7 +4,6 @@ import com.softserveinc.ita.models.FacultyEntity;
 import com.softserveinc.ita.models.GroupEntity;
 import com.softserveinc.ita.models.SpecialityEntity;
 import com.softserveinc.ita.pageobjects.admin.GroupsPage;
-import com.softserveinc.ita.steps.GroupsStep;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import io.restassured.http.Cookie;
@@ -27,7 +26,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GroupsTest extends TestRunner {
 
     private GroupsPage groupsPage;
-    private final GroupsStep steps = new GroupsStep();
 
     private Cookie sessionId;
     private SpecialityEntity speciality;
@@ -51,8 +49,8 @@ public class GroupsTest extends TestRunner {
 
     @BeforeMethod(groups = {"positive", "negative"})
     public void openGroupsPage() {
-        steps.openPage();
-        groupsPage = steps.getPage();
+        groupsStep.openPage();
+        groupsPage = groupsStep.getPage();
     }
 
     @Test(groups = "positive")
@@ -78,7 +76,7 @@ public class GroupsTest extends TestRunner {
                 .as("Before adding new group it shouldn't be present in the list of groups returned by API call")
                 .doesNotContain(group.getName());
 
-        steps.addNewGroup(group);
+        groupsStep.addNewGroup(group);
 
         refresh(); // for some reason there is no auto refresh for this page
 
@@ -99,7 +97,7 @@ public class GroupsTest extends TestRunner {
 
         soft.assertAll();
 
-        steps.deleteGroup(group);
+        groupsStep.deleteGroup(group);
     }
 
     @Test(groups = "positive")
@@ -107,7 +105,7 @@ public class GroupsTest extends TestRunner {
     public void verifyDeletingGroup() {
         var group = GroupEntity.getNewValidGroup(speciality, faculty);
 
-        steps.addNewGroup(group);
+        groupsStep.addNewGroup(group);
 
         var groups = getGroupsListByAPI();
 
@@ -115,7 +113,7 @@ public class GroupsTest extends TestRunner {
                 .as("After adding new group it should be present in the list of groups returned by API call")
                 .contains(group.getName());
 
-        steps.deleteGroup(group);
+        groupsStep.deleteGroup(group);
 
         refresh(); // for some reason there is no auto refresh for this page
 

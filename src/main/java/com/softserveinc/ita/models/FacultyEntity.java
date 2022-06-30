@@ -6,7 +6,7 @@ import lombok.Data;
 @Builder
 @Data
 public class FacultyEntity {
-    String name;
-    String description;
+    private String name;
+    private String description;
 }
 

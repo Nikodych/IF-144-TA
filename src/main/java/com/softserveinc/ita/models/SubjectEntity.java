@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class SubjectEntity {
     @JsonProperty("subject_id")
-    private int id;
+    private String id;
     @JsonProperty("subject_name")
     private String name;
     @JsonProperty("subject_description")
@@ -17,7 +17,7 @@ public class SubjectEntity {
     public SubjectEntity() {
     }
 
-    public SubjectEntity(int id, String name, String description) {
+    public SubjectEntity(String id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;

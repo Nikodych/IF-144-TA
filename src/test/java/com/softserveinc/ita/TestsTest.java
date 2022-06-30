@@ -1,7 +1,6 @@
 package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.admin.TestsPage;
-import com.softserveinc.ita.steps.TestsSteps;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import io.restassured.http.Cookie;
@@ -12,6 +11,9 @@ import org.testng.annotations.Test;
 
 import static com.softserveinc.ita.repos.TestRepo.getValidTest;
 import static com.softserveinc.ita.util.ApiUtil.getTestsListByAPI;
+import java.util.List;
+
+import static com.softserveinc.ita.repos.TestRepo.getValidTest;
 import static com.softserveinc.ita.util.ApiUtil.performGetRequest;
 import static com.softserveinc.ita.util.AuthApiUtil.authAsAdmin;
 import static com.softserveinc.ita.util.AuthApiUtil.getSessionsCookie;
@@ -22,7 +24,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TestsTest extends TestRunner {
 
     private TestsPage testsPage;
-    private TestsSteps steps = new TestsSteps();
     private Cookie sessionId;
 
     @BeforeClass(groups = {"positive", "negative"})
@@ -32,7 +33,7 @@ public class TestsTest extends TestRunner {
 
     @BeforeMethod(groups = {"positive", "negative"})
     public void openSubjectsTestsPage() {
-        testsPage = steps.openTestsPage(TEST_SUBJECT);
+        testsPage = testsSteps.openTestsPage(TEST_SUBJECT);
     }
 
     @Test(groups = "positive")
@@ -52,7 +53,7 @@ public class TestsTest extends TestRunner {
 
         var test = getValidTest();
 
-        var isExpectedTestNameFound = steps
+        var isExpectedTestNameFound = testsSteps
                 .addNewTest(test)
                 .isExpectedNameOfTestFound(test.getName());
 
