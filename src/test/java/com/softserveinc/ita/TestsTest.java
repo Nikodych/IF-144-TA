@@ -116,15 +116,4 @@ public class TestsTest extends TestRunner {
 
         soft.assertAll();
     }
-
-    @Test(groups = "positive")
-    @Description("Test to verify corectness of the json schema of tests entities")
-    public void verifyTestEntitySchemaRecords () {
-        verifySchemaRecords("test","schemas/TestGetRecordsSchema200.json");
-    }
-
-    @AfterClass
-    public void tearDown() {
-        performGetRequest(sessionId, API_LOGOUT_PATH);
-    }
 }
