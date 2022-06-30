@@ -6,7 +6,6 @@ import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.codeborne.selenide.Selenide.refresh;
 import static com.softserveinc.ita.repos.StudentRepo.getNewValidStudent;
 import static com.softserveinc.ita.util.DataProvider.*;
 import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
@@ -75,6 +74,7 @@ public class StudentsTest extends TestRunner {
         var actualResult = table.checkIfRowWithSearchValueIsPresent(student.getGradeBookId());
 
         assertThat(actualResult)
+                .as("After student is deleted it shouldn't be found in the table")
                 .isFalse();
     }
 }

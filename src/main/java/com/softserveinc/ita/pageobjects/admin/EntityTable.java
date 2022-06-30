@@ -55,20 +55,20 @@ public class EntityTable {
         }
     }
 
+    @Step("Table: Checked if table contains value")
     public boolean checkIfRowWithSearchValueIsPresent(String searchValue) {
-        goToTablePage("first");
+        boolean isSearchValueOnCurrentPage = false;
 
-        var buttonNavigationNext = $x(format(NAVIGATION_BUTTON_PATH_TEMPLATE, "next"));
-        var isSearchValueOnCurrentPage = false;
+        if (tableExists() && tableHasRows()) {
+            goToTablePage("first");
+            var buttonNavigationNext = $x(format(NAVIGATION_BUTTON_PATH_TEMPLATE, "next"));
 
-        while (buttonNavigationNext.isEnabled() ) {
-            goToTablePage("next");
-            buttonNavigationNext
-                    .$x(".//div[contains(@class,'round')]/div[@class='mat-ripple-element']")
-                    .should(disappear);
-
-            isSearchValueOnCurrentPage = isSearchValueInTableTexts(searchValue);
+            do {
+                isSearchValueOnCurrentPage = isSearchValueInTableTexts(searchValue);
+                goToTablePage("next");
+            } while (buttonNavigationNext.isEnabled() || !isSearchValueOnCurrentPage);
         }
+
         return isSearchValueOnCurrentPage;
     }
 
@@ -80,5 +80,13 @@ public class EntityTable {
                 .$x(format(".//*[contains(@class, '%s') or @aria-label='%s']", actionToPerform, actionToPerform))
                 .should(enabled)
                 .click();
+    }
+
+    private boolean tableExists() {
+        return $x("//table").exists();
+    }
+
+    private boolean tableHasRows() {
+        return $x("//table/tbody/tr").exists();
     }
 }
