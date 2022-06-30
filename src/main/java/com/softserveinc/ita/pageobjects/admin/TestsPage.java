@@ -37,10 +37,4 @@ public class TestsPage extends MainMenu<TestsPage> {
 
         return getNamesOfTests().contains(expectedNameOfTest);
     }
-
-    public TestsPage refreshPage() {
-        refresh();
-
-        return this;
-    }
 }

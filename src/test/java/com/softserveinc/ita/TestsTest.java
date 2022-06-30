@@ -9,11 +9,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static com.codeborne.selenide.Selenide.refresh;
 import static com.softserveinc.ita.repos.TestRepo.getValidTest;
 import static com.softserveinc.ita.util.ApiUtil.getTestsListByAPI;
-import java.util.List;
-
-import static com.softserveinc.ita.repos.TestRepo.getValidTest;
 import static com.softserveinc.ita.util.ApiUtil.performGetRequest;
 import static com.softserveinc.ita.util.AuthApiUtil.authAsAdmin;
 import static com.softserveinc.ita.util.AuthApiUtil.getSessionsCookie;
@@ -33,7 +31,8 @@ public class TestsTest extends TestRunner {
 
     @BeforeMethod(groups = {"positive", "negative"})
     public void openSubjectsTestsPage() {
-        testsPage = testsSteps.openTestsPage(TEST_SUBJECT);
+        testsSteps.openTestsPage(TEST_SUBJECT);
+        testsPage = testsSteps.getPage();
     }
 
     @Test(groups = "positive")
@@ -53,8 +52,9 @@ public class TestsTest extends TestRunner {
 
         var test = getValidTest();
 
-        var isExpectedTestNameFound = testsSteps
-                .addNewTest(test)
+        testsSteps.addNewTest(test);
+
+        var isExpectedTestNameFound = testsPage
                 .isExpectedNameOfTestFound(test.getName());
 
         var soft = getSoftAssert();
@@ -71,7 +71,7 @@ public class TestsTest extends TestRunner {
 
         soft.assertAll();
 
-        steps.deleteTest(test);
+        testsSteps.deleteTest(test);
     }
 
     @Test(groups = "positive")
@@ -80,9 +80,9 @@ public class TestsTest extends TestRunner {
 
         var test = getValidTest();
 
-        var isAdded = steps
-                .addNewTest(test)
-                .isExpectedNameOfTestFound(test.getName());
+        testsSteps.addNewTest(test);
+
+        var isAdded = testsPage.isExpectedNameOfTestFound(test.getName());
 
         var soft = getSoftAssert();
 
@@ -96,10 +96,11 @@ public class TestsTest extends TestRunner {
                 .as("After adding test should be present in the list of tests returned by API call")
                 .contains(test);
 
-        var isDeleted = !(steps
-                .deleteTest(test)
-                .refreshPage()
-                .isExpectedNameOfTestFound(test.getName()));
+        testsSteps.deleteTest(test);
+
+        refresh();
+
+        var isDeleted = !(testsPage.isExpectedNameOfTestFound(test.getName()));
 
         soft.assertThat(isDeleted)
                 .as("Test name should be deleted from the list of tests")

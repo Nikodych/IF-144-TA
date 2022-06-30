@@ -4,22 +4,24 @@ import com.softserveinc.ita.models.TestEntity;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.TestsPage;
 import com.softserveinc.ita.pageobjects.modals.DeletingFormModal;
+import lombok.Getter;
 
 import static com.softserveinc.ita.util.DataProvider.ADMIN_LOGIN;
 import static com.softserveinc.ita.util.DataProvider.ADMIN_PASSWORD;
 
 public class TestsSteps {
-    private TestsPage page;
+    @Getter
+    private TestsPage page = new TestsPage();
 
-    public TestsPage openTestsPage(String subject) {
-        return page = new LoginPage()
+    public void openTestsPage(String subject) {
+        new LoginPage()
                 .login(ADMIN_LOGIN, ADMIN_PASSWORD)
                 .openSubjectsPage()
                 .openSubjectTests(subject);
     }
 
-    public TestsPage addNewTest(TestEntity test){
-        return page
+    public void addNewTest(TestEntity test) {
+        page
                 .openAddingTestForm()
                 .setTestName(test.getName())
                 .setTestSubject(test.getSubject())
@@ -31,7 +33,7 @@ public class TestsSteps {
                 .waitTillProgressBarDisappears();
     }
 
-    public TestsPage deleteTest(TestEntity test) {
+    public void deleteTest(TestEntity test) {
         var searchValue = test.getName();
         var table = page.getTable();
 
@@ -40,7 +42,5 @@ public class TestsSteps {
 
         new DeletingFormModal().confirmModal();
         page.waitTillProgressBarDisappears();
-
-        return page;
     }
 }
