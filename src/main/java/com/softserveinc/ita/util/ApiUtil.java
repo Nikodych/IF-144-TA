@@ -1,5 +1,6 @@
 package com.softserveinc.ita.util;
 
+import com.softserveinc.ita.models.SpecialityEntity;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.softserveinc.ita.models.SubjectEntity;
@@ -96,6 +97,13 @@ public class ApiUtil {
         var path = format(API_ENTITY_DELETE_RECORDS_PATH, "TimeTable", timeTable.getId());
 
         return performGetRequest(sessionId, path);
+    }
+
+    public static List<SpecialityEntity> getSpecialitiesListByAPI(Cookie sessionId) {
+        var path = format(API_ENTITY_GET_RECORDS_PATH, "Speciality");
+        var response = performGetRequest(sessionId, path);
+
+        return extractFromJson(response).getList("", SpecialityEntity.class);
     }
 
     public static List<TestEntity> getTestsListByAPI(Cookie sessionId) {
