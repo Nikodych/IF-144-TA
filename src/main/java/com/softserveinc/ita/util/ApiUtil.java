@@ -1,5 +1,6 @@
 package com.softserveinc.ita.util;
 
+import com.softserveinc.ita.models.GroupEntity;
 import com.softserveinc.ita.models.SpecialityEntity;
 import com.softserveinc.ita.models.SubjectEntity;
 import com.softserveinc.ita.models.TimeTableEntity;
@@ -45,10 +46,7 @@ public class ApiUtil {
     }
 
     public static List<SubjectEntity> getSubjectsListByAPI(Cookie sessionId) {
-        var path = format(API_ENTITY_GET_RECORDS_PATH, "Subject");
-        var response = performGetRequest(sessionId, path);
-
-        return extractFromJson(response).getList("", SubjectEntity.class);
+        return getEntitiesListByAPI(sessionId, SubjectEntity.class);
     }
 
     public static List<SubjectEntity> postSubject(SubjectEntity subject) {
@@ -92,10 +90,21 @@ public class ApiUtil {
     }
 
     public static List<SpecialityEntity> getSpecialitiesListByAPI(Cookie sessionId) {
-        var path = format(API_ENTITY_GET_RECORDS_PATH, "Speciality");
+        return getEntitiesListByAPI(sessionId, SpecialityEntity.class);
+    }
+
+    public static List<GroupEntity> getGroupsListByAPI(Cookie sessionId) {
+        return getEntitiesListByAPI(sessionId, GroupEntity.class);
+    }
+
+    private static <T> List<T> getEntitiesListByAPI(Cookie sessionId, Class<T> genericType) {
+        var classname = genericType
+                .getSimpleName()
+                .replace("Entity", "");
+        var path = format(API_ENTITY_GET_RECORDS_PATH, classname);
         var response = performGetRequest(sessionId, path);
 
-        return extractFromJson(response).getList("", SpecialityEntity.class);
+        return extractFromJson(response).getList("", genericType);
     }
 
     private Map<String, String> setUpSubjectBody(SubjectEntity subject) {

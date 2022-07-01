@@ -12,21 +12,19 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
 import static com.codeborne.selenide.Selenide.refresh;
+import static com.softserveinc.ita.util.ApiUtil.getGroupsListByAPI;
 import static com.softserveinc.ita.util.ApiUtil.performGetRequest;
 import static com.softserveinc.ita.util.AuthApiUtil.authAsAdmin;
 import static com.softserveinc.ita.util.AuthApiUtil.getSessionsCookie;
-import static com.softserveinc.ita.util.DataProvider.*;
+import static com.softserveinc.ita.util.DataProvider.API_LOGOUT_PATH;
+import static com.softserveinc.ita.util.DataProvider.GROUPS_PAGE_URL;
 import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GroupsTest extends TestRunner {
 
     private GroupsPage groupsPage;
-
     private Cookie sessionId;
     private SpecialityEntity speciality;
     private FacultyEntity faculty;
@@ -38,11 +36,13 @@ public class GroupsTest extends TestRunner {
 
         speciality = SpecialityEntity
                 .builder()
+                .id("1")
                 .name("Автоматизація та компютерно-інтегровані технології")
                 .build();
 
         faculty = FacultyEntity
                 .builder()
+                .id("1")
                 .name("Інститут інформаційних технологій")
                 .build();
     }
@@ -70,11 +70,11 @@ public class GroupsTest extends TestRunner {
     public void verifyAddingNewGroup() {
         var group = GroupEntity.getNewValidGroup(speciality, faculty);
 
-        var groups = getGroupsListByAPI();
+        var groups = getGroupsListByAPI(sessionId);
 
         assertThat(groups)
                 .as("Before adding new group it shouldn't be present in the list of groups returned by API call")
-                .doesNotContain(group.getName());
+                .doesNotContain(group);
 
         groupsStep.addNewGroup(group);
 
@@ -89,11 +89,11 @@ public class GroupsTest extends TestRunner {
                 .isEqualTo(group.getName());
 
 
-        groups = getGroupsListByAPI();
+        groups = getGroupsListByAPI(sessionId);
 
         soft.assertThat(groups)
                 .as("After adding new group it should be present in the list of groups returned by API call")
-                .contains(group.getName());
+                .contains(group);
 
         soft.assertAll();
 
@@ -107,11 +107,11 @@ public class GroupsTest extends TestRunner {
 
         groupsStep.addNewGroup(group);
 
-        var groups = getGroupsListByAPI();
+        var groups = getGroupsListByAPI(sessionId);
 
         assertThat(groups)
                 .as("After adding new group it should be present in the list of groups returned by API call")
-                .contains(group.getName());
+                .contains(group);
 
         groupsStep.deleteGroup(group);
 
@@ -125,11 +125,11 @@ public class GroupsTest extends TestRunner {
                         "should not have deleted name")
                 .isNotEqualTo(group.getName());
 
-        groups = getGroupsListByAPI();
+        groups = getGroupsListByAPI(sessionId);
 
         soft.assertThat(groups)
                 .as("After deleting group it shouldn't be present in the list of groups returned by API call")
-                .doesNotContain(group.getName());
+                .doesNotContain(group);
 
         soft.assertAll();
     }
@@ -137,15 +137,5 @@ public class GroupsTest extends TestRunner {
     @AfterClass
     public void tearDown() {
         performGetRequest(sessionId, API_LOGOUT_PATH);
-    }
-
-    private List<Object> getGroupsListByAPI() {
-        var path = format(API_ENTITY_GET_RECORDS_PATH, "group");
-        var response = performGetRequest(sessionId, path);
-
-        return response
-                .getBody()
-                .jsonPath()
-                .getList("group_name");
     }
 }
