@@ -1,6 +1,10 @@
 package com.softserveinc.ita.util;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.softserveinc.ita.models.SpecialityEntity;
 import com.softserveinc.ita.models.SubjectEntity;
+import com.softserveinc.ita.models.TestEntity;
 import com.softserveinc.ita.models.TimeTableEntity;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -14,13 +18,15 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import lombok.experimental.UtilityClass;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static com.google.gson.JsonParser.parseString;
 import static com.softserveinc.ita.util.DataProvider.*;
 import static io.restassured.RestAssured.*;
-import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static java.lang.String.format;
 import static java.util.Map.of;
 
@@ -88,6 +94,41 @@ public class ApiUtil {
         var path = format(API_ENTITY_DELETE_RECORDS_PATH, "TimeTable", timeTable.getId());
 
         return performGetRequest(sessionId, path);
+    }
+
+    public static List<SpecialityEntity> getSpecialitiesListByAPI(Cookie sessionId) {
+        var path = format(API_ENTITY_GET_RECORDS_PATH, "Speciality");
+        var response = performGetRequest(sessionId, path);
+
+        return extractFromJson(response).getList("", SpecialityEntity.class);
+    }
+
+    public static List<TestEntity> getTestsListByAPI(Cookie sessionId) {
+        var path = format(API_ENTITY_GET_RECORDS_PATH, "test");
+        var response = getJsonArrayFromGetRequest(sessionId, path);
+        var list = new LinkedList<TestEntity>();
+
+        response.forEach(item -> list.add(new Gson().fromJson(item, TestEntity.class)));
+
+        return list;
+    }
+
+    public static void verifySchemaRecords(String entity, String filePath) {
+        given()
+                .filter(new AllureRestAssured())
+                .get(API_BASE_URI+(format(API_ENTITY_GET_RECORDS_PATH, entity)))
+                .then()
+                .statusCode(200)
+                .body(matchesJsonSchemaInClasspath(filePath));
+    }
+
+    private JsonArray getJsonArrayFromGetRequest(Cookie sessionId, String path) {
+        return parseString(performGetRequest(sessionId, path)
+                .then()
+                .extract()
+                .body()
+                .asString())
+                .getAsJsonArray();
     }
 
     private Map<String, String> setUpSubjectBody(SubjectEntity subject) {

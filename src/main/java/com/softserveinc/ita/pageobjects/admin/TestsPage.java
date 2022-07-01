@@ -2,16 +2,18 @@ package com.softserveinc.ita.pageobjects.admin;
 
 import com.softserveinc.ita.pageobjects.modals.AddingTestModal;
 import io.qameta.allure.Step;
+import lombok.Getter;
 
 import java.util.List;
 
 import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Selenide.$$x;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.*;
 import static java.lang.String.format;
 import static java.time.Duration.ofSeconds;
 
+@Getter
 public class TestsPage extends MainMenu<TestsPage> {
+    private final EntityTable table = new EntityTable();
 
     @Step("Subject's Tests page: Opened adding test form")
     public AddingTestModal openAddingTestForm() {
@@ -31,6 +33,8 @@ public class TestsPage extends MainMenu<TestsPage> {
     }
 
     public boolean isExpectedNameOfTestFound(String expectedNameOfTest) {
+        table.findTablePageWithSearchValue(expectedNameOfTest);
+
         return getNamesOfTests().contains(expectedNameOfTest);
     }
 }

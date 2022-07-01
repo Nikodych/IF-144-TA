@@ -8,13 +8,15 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
-import static com.codeborne.selenide.Configuration.browser;
-import static com.codeborne.selenide.Configuration.browserSize;
+import java.time.Duration;
+
+import static com.codeborne.selenide.Configuration.*;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.logevents.SelenideLogger.addListener;
 import static com.softserveinc.ita.util.DataProvider.LOGIN_PAGE_URL;
 import static com.softserveinc.ita.util.SelenoidDriverProvider.setUpBrowser;
 import static com.softserveinc.ita.util.SystemPropertyHelper.isRemote;
+import static java.time.Duration.*;
 
 public abstract class TestRunner {
     public final StudentsStep studentsStep = new StudentsStep();
@@ -33,6 +35,8 @@ public abstract class TestRunner {
         } else {
             browser = "chrome";
             browserSize = "1920x1080";
+            pageLoadTimeout = ofSeconds(300).toMillis();
+            timeout = ofSeconds(180).toMillis();
         }
 
         addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
