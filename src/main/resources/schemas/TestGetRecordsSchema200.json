@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "items": [
+    {
+      "type": "object",
+      "properties": {
+        "test_id": {
+          "type": "string"
+        },
+        "test_name": {
+          "type": "string"
+        },
+        "subject_id": {
+          "type": "string"
+        },
+        "tasks": {
+          "type": "string"
+        },
+        "time_for_test": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "string"
+        },
+        "attempts": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "test_id",
+        "test_name",
+        "subject_id",
+        "tasks",
+        "time_for_test",
+        "enabled",
+        "attempts"
+      ]
+    }
+  ]
+}
