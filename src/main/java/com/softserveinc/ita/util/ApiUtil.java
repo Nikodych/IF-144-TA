@@ -1,8 +1,8 @@
 package com.softserveinc.ita.util;
 
-import com.softserveinc.ita.models.SpecialityEntity;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.softserveinc.ita.models.SpecialityEntity;
 import com.softserveinc.ita.models.SubjectEntity;
 import com.softserveinc.ita.models.TestEntity;
 import com.softserveinc.ita.models.TimeTableEntity;
@@ -12,7 +12,6 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.Cookie;
-import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -24,12 +23,10 @@ import java.util.List;
 import java.util.Map;
 
 import static com.google.gson.JsonParser.parseString;
-import static com.softserveinc.ita.util.DataProvider.API_BASE_URI;
-import static com.softserveinc.ita.util.DataProvider.API_ENTITY_GET_RECORDS_PATH;
 import static com.softserveinc.ita.util.DataProvider.*;
 import static io.restassured.RestAssured.*;
 import static io.restassured.http.ContentType.JSON;
-import static io.restassured.module.jsv.JsonSchemaValidator.*;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static java.lang.String.format;
 import static java.util.Map.of;
 
