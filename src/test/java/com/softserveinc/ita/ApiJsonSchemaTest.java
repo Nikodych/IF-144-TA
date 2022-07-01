@@ -17,14 +17,14 @@ public class ApiJsonSchemaTest {
     private Cookie sessionId;
 
     @BeforeClass(groups = {"positive", "negative"})
-    public void setUpTestsTests() {
+    public void setUp() {
         sessionId = getSessionsCookie(authAsAdmin());
     }
 
     @Test(groups = "positive")
     @Description("Test to verify corectness of the json schema of tests entities")
-    public void verifyTestEntitySchemaRecords () {
-        verifySchemaRecords("test","schemas/TestGetRecordsSchema200.json");
+    public void verifyTestEntitySchemaRecords() {
+        verifySchemaRecords("test", "schemas/TestGetRecordsSchema200.json");
     }
 
     @AfterClass
