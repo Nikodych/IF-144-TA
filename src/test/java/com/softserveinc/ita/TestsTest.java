@@ -1,23 +1,18 @@
 package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.admin.TestsPage;
-import com.softserveinc.ita.util.ApiUtil;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import io.restassured.http.Cookie;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.codeborne.selenide.Selenide.refresh;
 import static com.softserveinc.ita.repos.TestRepo.getValidTest;
-import static com.softserveinc.ita.util.ApiUtil.*;
 import static com.softserveinc.ita.util.ApiUtil.getTestsListByAPI;
-import static com.softserveinc.ita.util.ApiUtil.performGetRequest;
 import static com.softserveinc.ita.util.AuthApiUtil.authAsAdmin;
 import static com.softserveinc.ita.util.AuthApiUtil.getSessionsCookie;
-import static com.softserveinc.ita.util.DataProvider.API_LOGOUT_PATH;
 import static com.softserveinc.ita.util.DataProvider.TEST_SUBJECT;
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -56,9 +56,9 @@ public class StudentsTest extends TestRunner {
     public void verifyStudentDeleted() {
         var student = getNewValidStudent();
         studentsStep.addNewStudent(student);
-        var addedStudentGradeBookId = studentsPage.getStudentsGradeBookId(student.getGradeBookId());
+        var studentsGradeBookId = studentsPage.getStudentsGradeBookId(student.getGradeBookId());
 
-        assertThat(addedStudentGradeBookId)
+        assertThat(studentsGradeBookId)
                 .as("After student is added student with grade book id should be present at the table")
                 .isEqualTo(student.getGradeBookId());
 
@@ -71,7 +71,8 @@ public class StudentsTest extends TestRunner {
                 .isEqualTo(STUDENT_IS_DELETED_SUCCESSFULLY_MESSAGE);
 
         var table = studentsPage.getTable();
-        var actualResult = table.checkIfRowWithSearchValueIsPresent(student.getGradeBookId());
+        table.findTablePageWithSearchValue(studentsGradeBookId);
+        var actualResult = table.isSearchValueInTableTexts(studentsGradeBookId);
 
         assertThat(actualResult)
                 .as("After student is deleted it shouldn't be found in the table")
