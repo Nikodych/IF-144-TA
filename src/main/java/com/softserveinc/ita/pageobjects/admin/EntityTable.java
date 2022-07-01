@@ -57,7 +57,7 @@ public class EntityTable {
 
     @Step("Table: Checked if table contains value")
     public boolean checkIfRowWithSearchValueIsPresent(String searchValue) {
-        boolean isSearchValueOnCurrentPage = false;
+        var isSearchValueOnCurrentPage = false;
 
         if (tableExists() && tableHasRows()) {
             goToTablePage("first");
