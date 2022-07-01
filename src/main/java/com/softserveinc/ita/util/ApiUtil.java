@@ -116,7 +116,7 @@ public class ApiUtil {
     public static void verifySchemaRecords(String entity, String filePath) {
         given()
                 .filter(new AllureRestAssured())
-                .get(API_BASE_URI+(format(API_ENTITY_GET_RECORDS_PATH, entity)))
+                .get(API_BASE_URI + (format(API_ENTITY_GET_RECORDS_PATH, entity)))
                 .then()
                 .statusCode(200)
                 .body(matchesJsonSchemaInClasspath(filePath));

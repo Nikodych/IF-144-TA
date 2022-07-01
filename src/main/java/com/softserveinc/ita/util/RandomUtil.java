@@ -1,9 +1,9 @@
 package com.softserveinc.ita.util;
 
 import lombok.experimental.UtilityClass;
-import org.apache.commons.lang3.RandomStringUtils;
 
-import static org.apache.commons.lang3.RandomStringUtils.*;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
 
 @UtilityClass
 public class RandomUtil {
@@ -13,6 +13,6 @@ public class RandomUtil {
     }
 
     public static String getRandomStringWithNumbers(int length) {
-        return randomNumeric(length);
+        return ((randomNumeric(length)).replaceAll("^0+(?!$)", ""));
     }
 }
