@@ -1,5 +1,8 @@
 package com.softserveinc.ita;
 
+import com.softserveinc.ita.apisteps.FacultyApiStep;
+import com.softserveinc.ita.apisteps.GroupsApiStep;
+import com.softserveinc.ita.apisteps.SpecialitiesApiStep;
 import com.softserveinc.ita.models.FacultyEntity;
 import com.softserveinc.ita.models.GroupEntity;
 import com.softserveinc.ita.models.SpecialityEntity;
@@ -12,9 +15,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.codeborne.selenide.Selenide.refresh;
-import static com.softserveinc.ita.util.ApiUtil.getGroupsListByAPI;
-import static com.softserveinc.ita.util.ApiUtil.performGetRequest;
+import static com.softserveinc.ita.util.ApiUtil.*;
 import static com.softserveinc.ita.util.AuthApiUtil.authAsAdmin;
 import static com.softserveinc.ita.util.AuthApiUtil.getSessionsCookie;
 import static com.softserveinc.ita.util.DataProvider.API_LOGOUT_PATH;
@@ -28,23 +33,19 @@ public class GroupsTest extends TestRunner {
     private Cookie sessionId;
     private SpecialityEntity speciality;
     private FacultyEntity faculty;
+    private GroupsApiStep groupsApiStep;
+    private final List<GroupEntity> addedGroups = new ArrayList<>();
 
     @BeforeClass(groups = {"positive", "negative"})
     public void setUpGroupsTests() {
-
         sessionId = getSessionsCookie(authAsAdmin());
+        groupsApiStep = new GroupsApiStep(sessionId);
 
-        speciality = SpecialityEntity
-                .builder()
-                .id("1")
-                .name("Автоматизація та компютерно-інтегровані технології")
-                .build();
+        var specialitiesApiStep = new SpecialitiesApiStep(sessionId);
+        speciality = specialitiesApiStep.createNewSpeciality();
 
-        faculty = FacultyEntity
-                .builder()
-                .id("1")
-                .name("Інститут інформаційних технологій")
-                .build();
+        var facultiesApiStep = new FacultyApiStep(sessionId);
+        faculty = facultiesApiStep.createNewFaculty();
     }
 
     @BeforeMethod(groups = {"positive", "negative"})
@@ -69,73 +70,75 @@ public class GroupsTest extends TestRunner {
     @Description("Test to verify new group is added")
     public void verifyAddingNewGroup() {
         var group = GroupEntity.getNewValidGroup(speciality, faculty);
-
-        var groups = getGroupsListByAPI(sessionId);
-
-        assertThat(groups)
-                .as("Before adding new group it shouldn't be present in the list of groups returned by API call")
-                .doesNotContain(group);
+        groupsApiStep.verifyGroupNotExist(group);
 
         groupsStep.addNewGroup(group);
 
-        refresh(); // for some reason there is no auto refresh for this page
+        group = groupsApiStep.findGroup(group);
+        addedGroups.add(group);
+
+        refresh(); // for some reason there is no auto refresh after adding for this page
 
         var lastGroupName = groupsPage.getLastGroupName();
 
-        var soft = getSoftAssert();
-        soft.assertThat(lastGroupName)
+        assertThat(lastGroupName)
                 .as("After adding new group group with added name " +
                         "should be last in the table")
                 .isEqualTo(group.getName());
-
-
-        groups = getGroupsListByAPI(sessionId);
-
-        soft.assertThat(groups)
-                .as("After adding new group it should be present in the list of groups returned by API call")
-                .contains(group);
-
-        soft.assertAll();
-
-        groupsStep.deleteGroup(group);
     }
 
     @Test(groups = "positive")
-    @Description("Test to verify new group is added")
+    @Description("Test to verify group is deleted")
     public void verifyDeletingGroup() {
-        var group = GroupEntity.getNewValidGroup(speciality, faculty);
-
-        groupsStep.addNewGroup(group);
-
-        var groups = getGroupsListByAPI(sessionId);
-
-        assertThat(groups)
-                .as("After adding new group it should be present in the list of groups returned by API call")
-                .contains(group);
+        var group = groupsApiStep.createNewGroup(speciality, faculty);
+        addedGroups.add(group);
+        refresh();
+        groupsPage.waitForProgressBarToDisappear();
 
         groupsStep.deleteGroup(group);
 
-        refresh(); // for some reason there is no auto refresh for this page
+        groupsApiStep.verifyGroupNotExist(group);
 
         var lastGroupName = groupsPage.getLastGroupName();
 
-        var soft = getSoftAssert();
-        soft.assertThat(lastGroupName)
+        assertThat(lastGroupName)
                 .as("After deleting group last group in the table " +
                         "should not have deleted name")
                 .isNotEqualTo(group.getName());
+    }
 
-        groups = getGroupsListByAPI(sessionId);
+    @Test(groups = "positive")
+    @Description("Test to verify group is edited")
+    public void verifyEditingGroup() {
+        var group = groupsApiStep.createNewGroup(speciality, faculty);
+        addedGroups.add(group);
+        refresh();
+        groupsPage.waitForProgressBarToDisappear();
 
-        soft.assertThat(groups)
-                .as("After deleting group it shouldn't be present in the list of groups returned by API call")
-                .doesNotContain(group);
+        var previousName = group.getName();
+        group.setName(previousName.replace(previousName.substring(0,5),"edit"));
 
-        soft.assertAll();
+        groupsStep.editGroup(previousName, group);
+
+        group = groupsApiStep.findGroup(group);
+        addedGroups.add(group);
+
+        var lastGroupName = groupsPage.getLastGroupName();
+
+        assertThat(lastGroupName)
+                .as("After editing group last group in the table should have name after edit")
+                .isEqualTo(group.getName());
     }
 
     @AfterClass
     public void tearDown() {
+        for (GroupEntity group: addedGroups) {
+            if (getGroupByID(group.getId(), sessionId) != null) {
+                deleteGroup(sessionId, group);
+            }
+        }
+        deleteSpeciality(sessionId, speciality);
+        deleteFaculty(sessionId, faculty);
         performGetRequest(sessionId, API_LOGOUT_PATH);
     }
 }

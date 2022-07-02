@@ -1,16 +1,16 @@
 package com.softserveinc.ita.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.extern.jackson.Jacksonized;
 
+@Jacksonized
 @Builder
 @Data
-@JsonDeserialize(builder = FacultyEntity.FacultyEntityBuilder.class)
 public class FacultyEntity {
-    @JsonProperty("faculty_id")
+    @JsonProperty(value = "faculty_id", access = JsonProperty.Access.WRITE_ONLY)
     @EqualsAndHashCode.Exclude
     private String id;
     @JsonProperty("faculty_name")

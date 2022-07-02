@@ -3,6 +3,7 @@ package com.softserveinc.ita.steps;
 import com.softserveinc.ita.models.GroupEntity;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.GroupsPage;
+import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import com.softserveinc.ita.pageobjects.modals.DeletingFormModal;
 import lombok.Getter;
 
@@ -47,6 +48,28 @@ public class GroupsStep {
         table.deleteRowByValue(searchValue);
 
         new DeletingFormModal().confirmModal();
+        page.waitTillProgressBarDisappears();
+    }
+
+    public void editGroup(String searchValue, GroupEntity group) {
+        var table = page.getTable();
+        table.findTablePageWithSearchValue(searchValue);
+        table.editRowByValue(searchValue);
+
+        var specialityName = group
+                .getSpeciality()
+                .getName();
+
+        var facultyName = group
+                .getFaculty()
+                .getName();
+
+        new AddingFormModal()
+                .setValueFor(GROUP_NAME, group.getName())
+                .setValueFor(GROUP_SPECIALTY_ID, specialityName)
+                .setValueFor(GROUP_FACULTY_ID, facultyName)
+                .confirmModal();
+
         page.waitTillProgressBarDisappears();
     }
 }

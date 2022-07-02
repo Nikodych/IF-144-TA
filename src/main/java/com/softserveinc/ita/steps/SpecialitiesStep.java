@@ -52,10 +52,11 @@ public class SpecialitiesStep {
         table.findTablePageWithSearchValue(searchValue);
         table.editRowByValue(searchValue);
 
-        new AddingFormModal()
-                .setValueFor(SPECIALTY_NAME, speciality.getName()) //left code as it was
+        var addingForm = new AddingFormModal();
+        addingForm.setValueFor(SPECIALTY_NAME, speciality.getName()) //left code as it was
                 .confirmModal();
+        addingForm.waitToDisappear();
 
-        page.waitTillProgressBarDisappears();
+        page.waitForProgressBarToDisappear();
     }
 }

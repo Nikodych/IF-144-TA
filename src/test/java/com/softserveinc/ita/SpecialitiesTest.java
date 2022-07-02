@@ -1,17 +1,25 @@
 package com.softserveinc.ita;
 
+import com.softserveinc.ita.apisteps.SpecialitiesApiStep;
+import com.softserveinc.ita.models.SpecialityEntity;
 import com.softserveinc.ita.pageobjects.admin.SpecialitiesPage;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import io.restassured.http.Cookie;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.codeborne.selenide.Selenide.refresh;
 import static com.softserveinc.ita.models.SpecialityEntity.getNewValidSpeciality;
-import static com.softserveinc.ita.util.ApiUtil.getSpecialitiesListByAPI;
+import static com.softserveinc.ita.util.ApiUtil.*;
 import static com.softserveinc.ita.util.AuthApiUtil.authAsAdmin;
 import static com.softserveinc.ita.util.AuthApiUtil.getSessionsCookie;
+import static com.softserveinc.ita.util.DataProvider.API_LOGOUT_PATH;
 import static com.softserveinc.ita.util.DataProvider.SPECIALITIES_PAGE_URL;
 import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,10 +28,13 @@ public class SpecialitiesTest extends TestRunner {
 
     private SpecialitiesPage specialitiesPage;
     private Cookie sessionId;
+    private SpecialitiesApiStep specialitiesApiStep;
+    private final List<SpecialityEntity> addedSpecialities = new ArrayList<>();
 
     @BeforeClass(groups = {"positive", "negative"})
     public void setUpSpecialitiesTest() {
         sessionId = getSessionsCookie(authAsAdmin());
+        specialitiesApiStep = new SpecialitiesApiStep(sessionId);
     }
 
     @BeforeMethod(groups = {"positive", "negative"})
@@ -49,22 +60,16 @@ public class SpecialitiesTest extends TestRunner {
     public void verifyAddingNewSpeciality() {
 
         var speciality = getNewValidSpeciality();
-
-        var specialitiesList = getSpecialitiesListByAPI(sessionId);
-        assertThat(specialitiesList)
-                .as("Before adding list of specialities shouldn't contain new speciality")
-                .doesNotContain(speciality);
+        specialitiesApiStep.verifySpecialityNotExist(speciality);
 
         specialitiesStep.addNewSpeciality(speciality);
 
-        var soft = getSoftAssert();
-        specialitiesList = getSpecialitiesListByAPI(sessionId);
-        soft.assertThat(specialitiesList)
-                .as("After adding list of specialities should contain new speciality")
-                .contains(speciality);
-
         var messageText = specialitiesPage.getMessageText();
 
+        speciality = specialitiesApiStep.findSpeciality(speciality);
+        addedSpecialities.add(speciality);
+
+        var soft = getSoftAssert();
         soft.assertThat(messageText)
                 .as("Message after adding should contain added speciality name")
                 .contains(speciality.getName());
@@ -77,44 +82,29 @@ public class SpecialitiesTest extends TestRunner {
                 .isEqualTo(speciality.getCode());
 
         soft.assertAll();
-
-        specialitiesStep.deleteSpeciality(speciality);
     }
 
     @Test(groups = "positive")
     @Description("Test to verify speciality is deleted")
     public void verifyDeletingSpeciality() {
 
-        var speciality = getNewValidSpeciality();
-
-        specialitiesStep.addNewSpeciality(speciality);
-
-        var specialitiesList = getSpecialitiesListByAPI(sessionId);
-        assertThat(specialitiesList)
-                .as("Before deleting list of specialities should contain recently added speciality")
-                .contains(speciality);
-
-        var lastSpecialityCode = specialitiesPage.getLastSpecialityField("code");
-
-        assertThat(lastSpecialityCode)
-                .as("Before deleting recently added speciality should be last in the table")
-                .isEqualTo(speciality.getCode());
+        var speciality = specialitiesApiStep.createNewSpeciality();
+        addedSpecialities.add(speciality);
+        refresh();
+        specialitiesPage.waitForProgressBarToDisappear();
 
         specialitiesStep.deleteSpeciality(speciality);
 
-        var soft = getSoftAssert();
-        specialitiesList = getSpecialitiesListByAPI(sessionId);
-        soft.assertThat(specialitiesList)
-                .as("After deleting list of specialities shouldn't contain deleted speciality")
-                .doesNotContain(speciality);
+        specialitiesApiStep.verifySpecialityNotExist(speciality);
 
         var messageText = specialitiesPage.getMessageText();
 
+        var soft = getSoftAssert();
         soft.assertThat(messageText)
                 .as("Message after deleting should contain deleted speciality name")
                 .contains(speciality.getName());
 
-        lastSpecialityCode = specialitiesPage.getLastSpecialityField("code");
+        var lastSpecialityCode = specialitiesPage.getLastSpecialityField("code");
 
         soft.assertThat(lastSpecialityCode)
                 .as("After deleting speciality last speciality in the table " +
@@ -128,46 +118,42 @@ public class SpecialitiesTest extends TestRunner {
     @Description("Test to verify speciality is edited")
     public void verifyEditingSpeciality() {
 
-        var speciality = getNewValidSpeciality();
-
-        specialitiesStep.addNewSpeciality(speciality);
-
-        var specialitiesList = getSpecialitiesListByAPI(sessionId);
-        assertThat(specialitiesList)
-                .as("Before editing list of specialities should contain recently added speciality")
-                .contains(speciality);
-
-        var lastSpecialityName = specialitiesPage.getLastSpecialityField("name");
-
-        assertThat(lastSpecialityName)
-                .as("Before editing recently added speciality should be last in the table")
-                .isEqualTo(speciality.getName());
+        var speciality = specialitiesApiStep.createNewSpeciality();
+        addedSpecialities.add(speciality);
+        refresh();
+        specialitiesPage.waitForProgressBarToDisappear();
 
         var previousName = speciality.getName();
         speciality.setName(previousName + "edited");
 
         specialitiesStep.editSpeciality(speciality);
 
-        var soft = getSoftAssert();
-        specialitiesList = getSpecialitiesListByAPI(sessionId);
-        soft.assertThat(specialitiesList)
-                .as("After editing list of specialities should contain changed speciality")
-                .contains(speciality);
+        speciality = specialitiesApiStep.findSpeciality(speciality);
+        addedSpecialities.add(speciality);
 
         var messageText = specialitiesPage.getMessageText();
 
+        var soft = getSoftAssert();
         soft.assertThat(messageText)
                 .as("Message after editing should contain speciality name before edit")
                 .contains(previousName);
 
-        lastSpecialityName = specialitiesPage.getLastSpecialityField("name");
+        var lastSpecialityName = specialitiesPage.getLastSpecialityField("name");
 
         soft.assertThat(lastSpecialityName)
                 .as("After editing speciality last speciality in the table should have name after edit")
                 .isEqualTo(speciality.getName());
 
         soft.assertAll();
+    }
 
-        specialitiesStep.deleteSpeciality(speciality);
+    @AfterClass
+    public void tearDown() {
+        for (SpecialityEntity speciality : addedSpecialities) {
+            if (getSpecialityByID(speciality.getId(), sessionId) != null) {
+                deleteSpeciality(sessionId, speciality);
+            }
+        }
+        performGetRequest(sessionId, API_LOGOUT_PATH);
     }
 }

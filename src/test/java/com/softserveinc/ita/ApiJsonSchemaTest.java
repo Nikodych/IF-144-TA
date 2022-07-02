@@ -1,5 +1,6 @@
 package com.softserveinc.ita;
 
+import com.softserveinc.ita.models.TestEntity;
 import io.qameta.allure.Description;
 import io.restassured.http.Cookie;
 import org.testng.annotations.AfterClass;
@@ -22,9 +23,9 @@ public class ApiJsonSchemaTest {
     }
 
     @Test(groups = "positive")
-    @Description("Test to verify corectness of the json schema of tests entities")
+    @Description("Test to verify correctness of the json schema of tests entities")
     public void verifyTestEntitySchemaRecords() {
-        verifySchemaRecords("test", "schemas/TestGetRecordsSchema200.json");
+        verifySchemaRecords(TestEntity.class, "schemas/TestGetRecordsSchema200.json");
     }
 
     @AfterClass

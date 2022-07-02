@@ -57,6 +57,7 @@ public class AddingFormModal {
     public void confirmModal() {
         $x("//form//button[@type='submit' or ./span[contains(text(),'Додати')] or ./span[contains(text(),' Підтвердити ')] or ./span[contains(text(),'Confirm')]]")
                 .should(appear, ofSeconds(5))
+                .hover() //without hovering button sometimes keeps unpressed
                 .click();
     }
 
@@ -65,6 +66,12 @@ public class AddingFormModal {
         $x("//button/span[contains(text(), 'Відмінити')] | //button/span[contains(text(), 'Скасувати')] | //button/span[contains(text(), 'Cancel')] ")
                 .should(appear, ofSeconds(5))
                 .click();
+    }
+
+    @Step("Adding form modal: wait for form closing")
+    public void waitToDisappear() {
+        $x("//mat-dialog-container")
+                .should(disappear);
     }
 
     public AddingFormModal scrollDown(){
