@@ -39,8 +39,8 @@ public class StudentsTest extends TestRunner {
         var messageText = studentsPage.getMessageText();
 
         assertThat(messageText)
-                .as("If student is added successfully  messageText should be equal " + STUDENT_IS_ADDED_SUCCESSFUL_MESSAGE)
-                .isEqualTo(STUDENT_IS_ADDED_SUCCESSFUL_MESSAGE);
+                .as("If student is added successfully  messageText should be equal " + STUDENT_IS_ADDED_SUCCESSFULLY_MESSAGE)
+                .isEqualTo(STUDENT_IS_ADDED_SUCCESSFULLY_MESSAGE);
 
         var actualResult = studentsPage.getStudentsGradeBookId(student.getGradeBookId());
 
@@ -49,5 +49,33 @@ public class StudentsTest extends TestRunner {
                 .isEqualTo(student.getGradeBookId());
 
         studentsStep.deleteStudent(student);
+    }
+
+    @Test(groups = "positive")
+    @Description("Test to verify student deleted")
+    public void verifyStudentDeleted() {
+        var student = getNewValidStudent();
+        studentsStep.addNewStudent(student);
+        var studentsGradeBookId = studentsPage.getStudentsGradeBookId(student.getGradeBookId());
+
+        assertThat(studentsGradeBookId)
+                .as("After student is added student with grade book id should be present at the table")
+                .isEqualTo(student.getGradeBookId());
+
+        studentsStep.deleteStudent(student);
+
+        var messageText = studentsPage.getMessageText();
+
+        assertThat(messageText)
+                .as("When student deleted message text should be equal " + STUDENT_IS_DELETED_SUCCESSFULLY_MESSAGE)
+                .isEqualTo(STUDENT_IS_DELETED_SUCCESSFULLY_MESSAGE);
+
+        var table = studentsPage.getTable();
+        table.findTablePageWithSearchValue(studentsGradeBookId);
+        var actualResult = table.isSearchValueInTableTexts(studentsGradeBookId);
+
+        assertThat(actualResult)
+                .as("After student is deleted it shouldn't be found in the table")
+                .isFalse();
     }
 }
