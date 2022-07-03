@@ -56,16 +56,19 @@ public class ApiUtil {
 
     public static List<SubjectEntity> postSubject(SubjectEntity subject) {
         var bodyContent = setUpSubjectBody(subject);
+
         return createEntity(bodyContent, SubjectEntity.class);
     }
 
     public static List<SpecialityEntity> createSpeciality(SpecialityEntity speciality) {
         var bodyContent = setUpSpecialityBody(speciality);
+
         return createEntity(bodyContent, SpecialityEntity.class);
     }
 
     public static List<FacultyEntity> createFaculty(FacultyEntity faculty) {
         var bodyContent = setUpFacultyBody(faculty);
+
         return createEntity(bodyContent, FacultyEntity.class);
     }
 
@@ -99,6 +102,7 @@ public class ApiUtil {
 
     public static List<TimeTableEntity> postTimeTable(TimeTableEntity timeTable) {
         var bodyContent = setUpTimeTableBody(timeTable);
+
         return createEntity(bodyContent, TimeTableEntity.class);
     }
 

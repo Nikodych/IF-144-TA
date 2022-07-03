@@ -13,6 +13,7 @@ public class RandomUtil {
 
     public static String getRandomStringWithCyrillicLetters(int length) {
         var allowedCharacters = "АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯабвгґдеєжзиіїйклмнопрстуфхцчшщьюя";
+
         return random(length, allowedCharacters);
     }
 

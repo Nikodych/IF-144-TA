@@ -127,7 +127,7 @@ public class GroupsTest extends TestRunner {
 
         assertThat(lastGroupName)
                 .as("After editing group last group in the table should have name after edit")
-                .isEqualTo(group.getName());
+                 .isEqualTo(group.getName());
     }
 
     @AfterClass

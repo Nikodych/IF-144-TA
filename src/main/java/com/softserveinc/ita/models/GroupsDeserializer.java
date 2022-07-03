@@ -10,6 +10,9 @@ import java.io.IOException;
 public class GroupsDeserializer extends StdDeserializer<GroupEntity> {
 
     public GroupsDeserializer() {
+        //Jackson.Databind expects deserializer class to have default constructor
+        //Super class StdDeserializer doesn't have default one,
+        //so we call one of it's by calling constructor with parameter
         this(null);
     }
 
@@ -18,8 +21,14 @@ public class GroupsDeserializer extends StdDeserializer<GroupEntity> {
     }
 
     @Override
-    public GroupEntity deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-        JsonNode node = jp.getCodec().readTree(jp);
+    public GroupEntity deserialize(JsonParser parser, DeserializationContext context) {
+        JsonNode node = null;
+        try {
+            node = parser.getCodec().readTree(parser);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         var group_id = node.get("group_id").asText();
         var group_name = node.get("group_name").asText();
         var speciality_id = node.get("speciality_id").asText();

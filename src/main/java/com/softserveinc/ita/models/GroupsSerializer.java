@@ -9,6 +9,9 @@ import java.io.IOException;
 public class GroupsSerializer extends StdSerializer<GroupEntity> {
 
     public GroupsSerializer() {
+        //Jackson.Databind expects serializer class to have default constructor
+        //Super class StdSerializer doesn't have default one,
+        //so we call one of it's by calling constructor with parameter
         this(null);
     }
 
@@ -17,11 +20,15 @@ public class GroupsSerializer extends StdSerializer<GroupEntity> {
     }
 
     @Override
-    public void serialize(GroupEntity group, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        jsonGenerator.writeStartObject();
-        jsonGenerator.writeStringField("group_name", group.getName());
-        jsonGenerator.writeStringField("speciality_id", group.getSpeciality().getId());
-        jsonGenerator.writeStringField("faculty_id", group.getFaculty().getId());
-        jsonGenerator.writeEndObject();
+    public void serialize(GroupEntity group, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) {
+        try {
+            jsonGenerator.writeStartObject();
+            jsonGenerator.writeStringField("group_name", group.getName());
+            jsonGenerator.writeStringField("speciality_id", group.getSpeciality().getId());
+            jsonGenerator.writeStringField("faculty_id", group.getFaculty().getId());
+            jsonGenerator.writeEndObject();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

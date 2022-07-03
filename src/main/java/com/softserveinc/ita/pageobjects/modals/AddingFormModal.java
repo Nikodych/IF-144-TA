@@ -70,8 +70,7 @@ public class AddingFormModal {
 
     @Step("Adding form modal: wait for form closing")
     public void waitToDisappear() {
-        $x("//mat-dialog-container")
-                .should(disappear);
+        $x("//mat-dialog-container").should(disappear);
     }
 
     public AddingFormModal scrollDown(){

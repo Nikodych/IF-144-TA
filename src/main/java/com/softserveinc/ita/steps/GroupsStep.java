@@ -64,12 +64,14 @@ public class GroupsStep {
                 .getFaculty()
                 .getName();
 
-        new AddingFormModal()
+        var addingForm = new AddingFormModal();
+        addingForm
                 .setValueFor(GROUP_NAME, group.getName())
                 .setValueFor(GROUP_SPECIALTY_ID, specialityName)
                 .setValueFor(GROUP_FACULTY_ID, facultyName)
                 .confirmModal();
+        addingForm.waitToDisappear();
 
-        page.waitTillProgressBarDisappears();
+        page.waitForProgressBarToDisappear();
     }
 }

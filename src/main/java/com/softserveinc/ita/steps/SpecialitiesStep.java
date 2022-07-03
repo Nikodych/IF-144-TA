@@ -53,7 +53,8 @@ public class SpecialitiesStep {
         table.editRowByValue(searchValue);
 
         var addingForm = new AddingFormModal();
-        addingForm.setValueFor(SPECIALTY_NAME, speciality.getName()) //left code as it was
+        addingForm
+                .setValueFor(SPECIALTY_NAME, speciality.getName()) //left code as it was
                 .confirmModal();
         addingForm.waitToDisappear();
 
