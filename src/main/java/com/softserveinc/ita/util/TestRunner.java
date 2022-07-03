@@ -36,8 +36,8 @@ public abstract class TestRunner {
         } else {
             browser = "chrome";
             browserSize = "1920x1080";
-            pageLoadTimeout = ofSeconds(300).toMillis();
-            timeout = ofSeconds(180).toMillis();
+            pageLoadTimeout = ofSeconds(10).toMillis();
+            timeout = ofSeconds(10).toMillis();
         }
 
         addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
