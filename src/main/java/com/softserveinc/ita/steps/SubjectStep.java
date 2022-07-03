@@ -4,11 +4,11 @@ import com.softserveinc.ita.models.DateTimeRange;
 import com.softserveinc.ita.models.SubjectEntity;
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
 import com.softserveinc.ita.pageobjects.admin.TimeTablePage;
-import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
+import com.softserveinc.ita.pageobjects.modals.AddingAndEditingFormModal;
 import org.joda.time.LocalDateTime;
 
-import static com.softserveinc.ita.models.AddingFormFields.SUBJECT_DESCRIPTION;
-import static com.softserveinc.ita.models.AddingFormFields.SUBJECT_NAME;
+import static com.softserveinc.ita.models.FormFields.SUBJECT_DESCRIPTION;
+import static com.softserveinc.ita.models.FormFields.SUBJECT_NAME;
 
 public class SubjectStep {
     SubjectsPage subjectsPage = new SubjectsPage();
@@ -22,7 +22,7 @@ public class SubjectStep {
     }
 
     public void addAndWaitForSubjectToAppear() {
-        new AddingFormModal().confirmModal();
+        new AddingAndEditingFormModal().confirmModal();
 
         subjectsPage.waitTillProgressBarDisappears();
     }
@@ -66,7 +66,7 @@ public class SubjectStep {
     }
 
     public void addAndWaitForNewTimetableForAppear() {
-        new AddingFormModal().confirmModal();
+        new AddingAndEditingFormModal().confirmModal();
 
         timetablePage.waitTillProgressBarDisappears();
     }

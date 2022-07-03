@@ -1,6 +1,6 @@
 package com.softserveinc.ita.pageobjects.admin;
 
-import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
+import com.softserveinc.ita.pageobjects.modals.AddingAndEditingFormModal;
 import io.qameta.allure.Step;
 import lombok.Getter;
 
@@ -48,11 +48,11 @@ public class SubjectsPage extends MainMenu<SubjectsPage> {
     }
 
     @Step("Subjects page: Edited subject")
-    public AddingFormModal editSubject(String subject) {
+    public AddingAndEditingFormModal editSubject(String subject) {
         table.editRowByValue(subject);
         waitUntilModalVisible();
 
-        return new AddingFormModal();
+        return new AddingAndEditingFormModal();
     }
 
     @Step("Subjects page: Opened Tests page of {subject}")

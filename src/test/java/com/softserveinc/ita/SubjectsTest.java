@@ -3,7 +3,7 @@ package com.softserveinc.ita;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.SubjectsPage;
 import com.softserveinc.ita.pageobjects.admin.TimeTablePage;
-import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
+import com.softserveinc.ita.pageobjects.modals.AddingAndEditingFormModal;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import io.restassured.http.Cookie;
@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SubjectsTest extends TestRunner {
 
     private SubjectsPage subjectsPage;
-    private final AddingFormModal subjectAddingForm = new AddingFormModal();
+    private final AddingAndEditingFormModal subjectAddingForm = new AddingAndEditingFormModal();
     private final TimeTablePage timetablePage = new TimeTablePage();
     private Cookie sessionId;
 

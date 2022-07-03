@@ -1,7 +1,7 @@
 package com.softserveinc.ita.pageobjects.admin;
 
 import com.softserveinc.ita.models.MainMenuButtons;
-import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
+import com.softserveinc.ita.pageobjects.modals.AddingAndEditingFormModal;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.appear;
@@ -91,12 +91,12 @@ public abstract class MainMenu<T extends MainMenu<T>> {
     }
 
     @Step("Opened adding form")
-    public AddingFormModal openAddingNewForm(){
+    public AddingAndEditingFormModal openAddingNewForm(){
         $x("//*[starts-with(name(), 'app')]//*[@aria-label='add']/ancestor::button")
-                .should(appear,ofSeconds(5))
+                .should(appear,ofSeconds(10))
                 .click();
 
-        return new AddingFormModal();
+        return new AddingAndEditingFormModal();
     }
 
     public T waitTillProgressBarDisappears() {

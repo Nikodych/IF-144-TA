@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import static com.codeborne.selenide.Selenide.$x;
 
 @RequiredArgsConstructor
-public enum AddingFormFields {
+public enum FormFields {
     FACULTY_NAME($x("//input[@formcontrolname='faculty_name']")),
     FACULTY_DESCRIPTION($x("//textarea[@formcontrolname='faculty_description']")),
     SUBJECT_NAME($x("//input[@formcontrolname='subject_name']")),

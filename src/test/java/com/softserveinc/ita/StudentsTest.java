@@ -6,6 +6,7 @@ import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static com.softserveinc.ita.models.FormFields.STUDENT_NAME;
 import static com.softserveinc.ita.repos.StudentRepo.getNewValidStudent;
 import static com.softserveinc.ita.util.DataProvider.*;
 import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
@@ -77,5 +78,37 @@ public class StudentsTest extends TestRunner {
         assertThat(actualResult)
                 .as("After student is deleted it shouldn't be found in the table")
                 .isFalse();
+    }
+
+    @Test(groups = "positive")
+    @Description("Test to verify editing students data")
+    public void verifyStudentsDataEdited() {
+        var student = getNewValidStudent();
+        studentsStep.addNewStudent(student);
+
+        var studentsGradeBookId = student.getGradeBookId();
+
+        var table = studentsPage.getTable();
+        table.findTablePageWithSearchValue(studentsGradeBookId);
+
+        var isStudentPresentInTheTable = table.isSearchValueInTableTexts(studentsGradeBookId);
+
+        var soft = getSoftAssert();
+
+        soft.assertThat(isStudentPresentInTheTable)
+                .as("After student is added student with grade book id should be present at the table")
+                .isTrue();
+
+        studentsStep.editStudent(student, STUDENT_NAME);
+        var oldName = student.getName();
+
+        var doesStudentsDataFormContainsOldValue = studentsPage.hasStudentsDataChanged(student, oldName);
+
+        soft.assertThat(doesStudentsDataFormContainsOldValue)
+                .as("After student is edited student's data form shouldn't contain old value")
+                .isFalse();
+
+        studentsStep.deleteStudent(student);
+        soft.assertAll();
     }
 }

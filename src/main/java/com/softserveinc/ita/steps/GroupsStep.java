@@ -6,7 +6,7 @@ import com.softserveinc.ita.pageobjects.admin.GroupsPage;
 import com.softserveinc.ita.pageobjects.modals.DeletingFormModal;
 import lombok.Getter;
 
-import static com.softserveinc.ita.models.AddingFormFields.*;
+import static com.softserveinc.ita.models.FormFields.*;
 import static com.softserveinc.ita.util.DataProvider.ADMIN_LOGIN;
 import static com.softserveinc.ita.util.DataProvider.ADMIN_PASSWORD;
 

@@ -1,6 +1,6 @@
 package com.softserveinc.ita.pageobjects.modals;
 
-import com.softserveinc.ita.models.AddingFormFields;
+import com.softserveinc.ita.models.FormFields;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.*;
@@ -9,10 +9,10 @@ import static com.codeborne.selenide.Selenide.$x;
 import static java.time.Duration.ofSeconds;
 import static java.util.Objects.requireNonNull;
 
-public class AddingFormModal {
+public class AddingAndEditingFormModal {
 
-    @Step("Adding form modal: Set {value} for {field}")
-    public AddingFormModal setValueFor(AddingFormFields field, String value) {
+    @Step("Form modal: Set {value} for {field}")
+    public AddingAndEditingFormModal setValueFor(FormFields field, String value) {
         var fieldElement = field
                 .getName()
                 .should(appear, ofSeconds(5));
@@ -53,23 +53,20 @@ public class AddingFormModal {
                 .isDisplayed();
     }
 
-    @Step("Adding form modal: Confirmed in modal window")
+    @Step("Form modal: Confirmed in modal window")
     public void confirmModal() {
         $x("//form//button[@type='submit' or ./span[contains(text(),'Додати')] or ./span[contains(text(),' Підтвердити ')] or ./span[contains(text(),'Confirm')]]")
                 .should(appear, ofSeconds(5))
                 .click();
     }
 
-    @Step("Adding form modal: Canceled in modal window")
+    @Step("Form modal: Canceled in modal window")
     public void cancelModal() {
-        $x("//button/span[contains(text(), 'Відмінити')] | //button/span[contains(text(), 'Скасувати')] | //button/span[contains(text(), 'Cancel')] ")
+        $x("//button/span[contains(text(), 'Відмінити')] " +
+                "| //button/span[contains(text(), 'Скасувати')] " +
+                "| //button/span[contains(text(), 'Cancel')] " +
+                "| //mat-icon[contains(@class, 'closeForm')]")
                 .should(appear, ofSeconds(5))
                 .click();
-    }
-
-    public AddingFormModal scrollDown(){
-        $x("//mat-dialog-container").scrollIntoView(false);
-
-        return this;
     }
 }

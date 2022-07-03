@@ -2,7 +2,7 @@ package com.softserveinc.ita;
 
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.FacultiesPage;
-import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
+import com.softserveinc.ita.pageobjects.modals.AddingAndEditingFormModal;
 import com.softserveinc.ita.util.TestRunner;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class FacultiesTest extends TestRunner {
 
     private FacultiesPage facultiesPage;
-    private final AddingFormModal addingFacultyForm = new AddingFormModal();
+    private final AddingAndEditingFormModal addingFacultyForm = new AddingAndEditingFormModal();
 
     @BeforeMethod(groups = {"positive", "negative"})
     public void openFacultiesPage() {
