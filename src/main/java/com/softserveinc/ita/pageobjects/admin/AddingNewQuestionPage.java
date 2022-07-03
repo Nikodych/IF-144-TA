@@ -3,6 +3,8 @@ package com.softserveinc.ita.pageobjects.admin;
 import com.softserveinc.ita.models.AnswerEntity;
 import io.qameta.allure.Step;
 
+import java.io.File;
+
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
@@ -30,6 +32,13 @@ public class AddingNewQuestionPage extends MainMenu<AddingNewQuestionPage> {
     @Step("Adding New Question page: Set level of question")
     public AddingNewQuestionPage setLevelOfQuestion(int indexOfLevel) {
         setValueFromDropdownList("level", indexOfLevel);
+
+        return this;
+    }
+
+    @Step("Adding New Question page: Uploaded image attachment for question")
+    public AddingNewQuestionPage uploadImageAttachment(File file) {
+        $("input[type='file']").uploadFile(file);
 
         return this;
     }

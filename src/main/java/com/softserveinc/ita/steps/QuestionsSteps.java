@@ -27,6 +27,7 @@ public class QuestionsSteps {
                 .fillTextOfQuestion(question.getTextOfQuestion())
                 .setTypeOfQuestion(question.getTypeOfQuestion())
                 .setLevelOfQuestion(question.getLevelOfQuestion())
+                .uploadImageAttachment(question.getFile())
                 .addAnswerForQuestion(question.getAnswer())
                 .createQuestion()
                 .waitTillProgressBarDisappears();
