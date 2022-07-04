@@ -63,13 +63,9 @@ public class DashboardTest extends TestRunner {
         soft.assertAll();
     }
 
-    private <T> void verifyDashboardButton(Class<T> type, String expectedUrl, SoftAssertions soft) {
-        var nameOfMethod = ("goTo" + type.getSimpleName());
-        Method method = getMethod(nameOfMethod);
-        runVerificationOfDashboardButton(method, expectedUrl, soft);
-    }
+    private <T> void verifyDashboardButton(Class<T> classType, String expectedUrl, SoftAssertions soft) {
+        var method = getMethod(DashboardPage.class,"goTo" + classType.getSimpleName());
 
-    private void runVerificationOfDashboardButton(Method method, String expectedUrl, SoftAssertions soft) {
         dashboardPage.openDashboardPage();
         runMethod(dashboardPage, method);
 
@@ -80,9 +76,9 @@ public class DashboardTest extends TestRunner {
                 .isEqualTo(expectedUrl);
     }
 
-    private Method getMethod(String name) {
+    private <T> Method getMethod(Class<T> classType, String nameOfMethod) {
         try {
-            return DashboardPage.class.getMethod(name);
+            return classType.getMethod(nameOfMethod);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
