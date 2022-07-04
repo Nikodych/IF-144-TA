@@ -49,6 +49,7 @@ public interface DataProvider {
     String END_DATE = readConfig().getString("dates.endDate");
     String ERROR_MESSAGE_WRONG_DATE_ORDER = readConfig().getString("messages.error.wrongDateOrder");
     String TEST_SUBJECT = readConfig().getString("testData.testSubject");
+    String TEST_TEST = readConfig().getString("testData.testTest");
     String GROUP_NAME = readConfig().getString("studentsData.groupName");
     String STUDENT_IS_DELETED_SUCCESSFULLY_MESSAGE = readConfig().getString("studentsData.successfulDeletingMessage");
     String STUDENT_IS_ADDED_SUCCESSFULLY_MESSAGE = readConfig().getString("studentsData.successfulAddingMessage");

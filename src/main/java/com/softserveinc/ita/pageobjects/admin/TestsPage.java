@@ -37,4 +37,12 @@ public class TestsPage extends MainMenu<TestsPage> {
 
         return getNamesOfTests().contains(expectedNameOfTest);
     }
+
+    @Step("Subject's Tests page: Opened questions page of certain {test}")
+    public QuestionsPage openQuestionsPage(String test) {
+        table.findTablePageWithSearchValue(test);
+        table.performActionWithRowByValue(test, "question-link");
+
+        return new QuestionsPage();
+    }
 }
