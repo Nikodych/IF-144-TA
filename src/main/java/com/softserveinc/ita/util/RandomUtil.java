@@ -4,8 +4,7 @@ import lombok.experimental.UtilityClass;
 
 import java.util.Random;
 
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
-import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
+import static org.apache.commons.lang3.RandomStringUtils.*;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @UtilityClass
