@@ -53,11 +53,12 @@ public interface DataProvider {
     String STUDENT_IS_DELETED_SUCCESSFULLY_MESSAGE = readConfig().getString("studentsData.successfulDeletingMessage");
     String STUDENT_IS_ADDED_SUCCESSFULLY_MESSAGE = readConfig().getString("studentsData.successfulAddingMessage");
     String API_BASE_URI = readConfig().getString("api.baseUri");
-    String API_LOGIN_USER_PATH = readConfig().getString("api.basePathes.login");
-    String API_IS_LOGGED_PATH = readConfig().getString("api.basePathes.isLogged");
-    String API_LOGOUT_PATH = readConfig().getString("api.basePathes.logout");
-    String API_ENTITY_GET_RECORDS_PATH = readConfig().getString("api.entityPathes.getRecords");
-    String API_ENTITY_POST_RECORDS_PATH = readConfig().getString("api.entityPathes.insertData");
-    String API_ENTITY_UPDATE_RECORDS_PATH = readConfig().getString("api.entityPathes.update");
-    String API_ENTITY_DELETE_RECORDS_PATH = readConfig().getString("api.entityPathes.delete");
+    String API_LOGIN_USER_PATH = readConfig().getString("api.basePaths.login");
+    String API_IS_LOGGED_PATH = readConfig().getString("api.basePaths.isLogged");
+    String API_LOGOUT_PATH = readConfig().getString("api.basePaths.logout");
+    String API_ENTITY_GET_RECORDS_PATH = readConfig().getString("api.entityPaths.getRecords");
+    String API_ENTITY_GET_RECORD_PATH = readConfig().getString("api.entityPaths.getRecord");
+    String API_ENTITY_POST_RECORDS_PATH = readConfig().getString("api.entityPaths.insertData");
+    String API_ENTITY_UPDATE_RECORDS_PATH = readConfig().getString("api.entityPaths.update");
+    String API_ENTITY_DELETE_RECORDS_PATH = readConfig().getString("api.entityPaths.delete");
 }
