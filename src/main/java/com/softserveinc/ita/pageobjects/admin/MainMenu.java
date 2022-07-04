@@ -1,6 +1,8 @@
 package com.softserveinc.ita.pageobjects.admin;
 
 import com.softserveinc.ita.models.EntitiesButtons;
+import com.codeborne.selenide.SelenideElement;
+import com.softserveinc.ita.models.MainMenuButtons;
 import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import io.qameta.allure.Step;
 
@@ -112,5 +114,10 @@ public abstract class MainMenu<T extends MainMenu<T>> {
 
     public void waitForProgressBarToAppear() {
         $x(PROGRESS_BAR_PATH).should(appear, ofSeconds(3));
+    }
+
+    public void setValue(SelenideElement element, String text) {
+        element.clear();
+        element.sendKeys(text);
     }
 }

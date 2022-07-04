@@ -25,6 +25,7 @@ public abstract class TestRunner {
     public final SpecialitiesStep specialitiesStep = new SpecialitiesStep();
     public final SubjectStep subjectStep = new SubjectStep();
     public final TestsSteps testsSteps = new TestsSteps();
+    public final QuestionsSteps questionsSteps = new QuestionsSteps();
 
     @Parameters({"browserName", "browserVersion"})
     @BeforeClass(groups = {"positive", "negative"})
