@@ -52,7 +52,7 @@ public class DashboardTest extends TestRunner {
 
         verifyDashboardButton(SubjectsPage.class,SUBJECTS_PAGE_URL, soft);
 
-        verifyDashboardButton(StudentsPage.class, GROUPS_PAGE_URL, soft); //button on the students card on the dashboard page redirect us to groups page
+        verifyDashboardButton(StudentsPage.class, GROUPS_PAGE_URL, soft); //button on the students card on the dashboard page redirects us to groups page
 
         verifyDashboardButton(AdminsPage.class, ADMINS_PAGE_URL, soft);
 
@@ -80,7 +80,7 @@ public class DashboardTest extends TestRunner {
         try {
             return classType.getMethod(nameOfMethod);
         } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
+            throw new AssertionError("This Class has no such method");
         }
     }
 
@@ -88,7 +88,7 @@ public class DashboardTest extends TestRunner {
         try {
             method.invoke(object);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+            throw new AssertionError("This method can not be invoked (called) from this object");
         }
     }
 }
