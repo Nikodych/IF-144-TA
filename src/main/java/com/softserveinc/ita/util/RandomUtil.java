@@ -15,6 +15,12 @@ public class RandomUtil {
         return randomAlphabetic(length);
     }
 
+    public static String getRandomStringWithCyrillicLetters(int length) {
+        var allowedCharacters = "АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯабвгґдеєжзиіїйклмнопрстуфхцчшщьюя";
+
+        return random(length, allowedCharacters);
+    }
+
     public static String getRandomStringWithNumbers(int length) {
         return ((randomNumeric(length)).replaceAll("^0+(?!$)", EMPTY));
     }
