@@ -2,7 +2,6 @@ package com.softserveinc.ita.pageobjects.admin;
 
 import com.softserveinc.ita.models.EntitiesButtons;
 import com.codeborne.selenide.SelenideElement;
-import com.softserveinc.ita.models.MainMenuButtons;
 import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
 import io.qameta.allure.Step;
 
