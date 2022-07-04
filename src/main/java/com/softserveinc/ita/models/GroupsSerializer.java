@@ -28,7 +28,7 @@ public class GroupsSerializer extends StdSerializer<GroupEntity> {
             jsonGenerator.writeStringField("faculty_id", group.getFaculty().getId());
             jsonGenerator.writeEndObject();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new AssertionError("Unable to serialize group");
         }
     }
 }

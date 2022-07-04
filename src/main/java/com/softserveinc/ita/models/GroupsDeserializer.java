@@ -26,7 +26,7 @@ public class GroupsDeserializer extends StdDeserializer<GroupEntity> {
         try {
             node = parser.getCodec().readTree(parser);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new AssertionError("Unable to read json with group data");
         }
 
         var group_id = node.get("group_id").asText();
