@@ -1,18 +1,18 @@
 package com.softserveinc.ita.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.extern.jackson.Jacksonized;
 
 import static com.softserveinc.ita.util.RandomUtil.getRandomStringWithNumbers;
 
+@Jacksonized
 @Builder
 @Data
-@JsonDeserialize(builder = SpecialityEntity.SpecialityEntityBuilder.class)
 public class SpecialityEntity {
-    @JsonProperty("speciality_id")
+    @JsonProperty(value = "speciality_id", access = JsonProperty.Access.WRITE_ONLY)
     @EqualsAndHashCode.Exclude
     private String id;
     @JsonProperty("speciality_code")

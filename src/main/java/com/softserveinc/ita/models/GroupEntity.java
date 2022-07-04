@@ -1,15 +1,27 @@
 package com.softserveinc.ita.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import static com.softserveinc.ita.util.RandomUtil.getRandomStringWithNumbers;
 
 @Builder
 @Data
+@JsonDeserialize(using = GroupsDeserializer.class)
+@JsonSerialize(using = GroupsSerializer.class)
 public class GroupEntity {
+    @JsonProperty("group_id")
+    @EqualsAndHashCode.Exclude
+    private String id;
+    @JsonProperty("group_name")
     private String name;
+    @JsonProperty("speciality_id")
     private SpecialityEntity speciality;
+    @JsonProperty("faculty_id")
     private FacultyEntity faculty;
 
     public static GroupEntity getNewValidGroup(SpecialityEntity speciality, FacultyEntity faculty) {
