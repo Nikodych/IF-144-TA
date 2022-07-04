@@ -51,7 +51,8 @@ public interface DataProvider {
     String TEST_SUBJECT = readConfig().getString("testData.testSubject");
     String TEST_TEST = readConfig().getString("testData.testTest");
     String GROUP_NAME = readConfig().getString("studentsData.groupName");
-    String STUDENT_IS_ADDED_SUCCESSFUL_MESSAGE = readConfig().getString("studentsData.successfulAddingMessage");
+    String STUDENT_IS_DELETED_SUCCESSFULLY_MESSAGE = readConfig().getString("studentsData.successfulDeletingMessage");
+    String STUDENT_IS_ADDED_SUCCESSFULLY_MESSAGE = readConfig().getString("studentsData.successfulAddingMessage");
     String API_BASE_URI = readConfig().getString("api.baseUri");
     String API_LOGIN_USER_PATH = readConfig().getString("api.basePathes.login");
     String API_IS_LOGGED_PATH = readConfig().getString("api.basePathes.isLogged");
