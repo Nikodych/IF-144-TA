@@ -16,8 +16,7 @@ public class AddingNewQuestionPage extends MainMenu<AddingNewQuestionPage> {
     @Step("Adding New Question page: Filled in text of question")
     public AddingNewQuestionPage fillTextOfQuestion(String textOfQuestion) {
         var textField = $("textarea[formcontrolname='question_text']");
-        textField.clear();
-        textField.sendKeys(textOfQuestion);
+        setValue(textField, textOfQuestion);
 
         return this;
     }
@@ -47,8 +46,7 @@ public class AddingNewQuestionPage extends MainMenu<AddingNewQuestionPage> {
     public AddingNewQuestionPage addAnswerForQuestion(AnswerEntity answer) {
         $x("//button/span[contains(text(),'Додати відповідь')]").click();
         var answerInputField = $("input[formcontrolname='answer_text']");
-        answerInputField.clear();
-        answerInputField.sendKeys(answer.getTextOfAnswer());
+        setValue(answerInputField, answer.getTextOfAnswer());
         if (answer.isAnswerRight())
             $("mat-checkbox[formcontrolname='true_answer']").click();
 

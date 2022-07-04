@@ -13,7 +13,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static java.lang.String.format;
 import static java.time.Duration.ofSeconds;
 
-public class QuestionsPage extends MainMenu<TestsPage> {
+public class QuestionsPage extends MainMenu<QuestionsPage> {
     @Getter
     private final EntityTable table = new EntityTable();
 
@@ -31,7 +31,7 @@ public class QuestionsPage extends MainMenu<TestsPage> {
     }
 
     @Step("Test's Question page: Deleting question")
-    public AddingNewQuestionPage deleteQuestion (QuestionEntity question) {
+    public QuestionsPage deleteQuestion (QuestionEntity question) {
         var searchValue = question.getTextOfQuestion();
 
         $$x("//tbody//tr//td")
@@ -44,7 +44,7 @@ public class QuestionsPage extends MainMenu<TestsPage> {
         new DeletingFormModal().confirmModal();
         waitTillProgressBarDisappears();
 
-        return new AddingNewQuestionPage();
+        return this;
     }
 
     public List<String> getTextsOfQuestions() {

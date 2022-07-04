@@ -39,8 +39,10 @@ public class TestsPage extends MainMenu<TestsPage> {
     }
 
     @Step("Subject's Tests page: Opened questions page of certain {test}")
-    public void openQuestionsPage(String test) {
+    public QuestionsPage openQuestionsPage(String test) {
         table.findTablePageWithSearchValue(test);
         table.performActionWithRowByValue(test, "question-link");
+
+        return new QuestionsPage();
     }
 }

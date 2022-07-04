@@ -62,7 +62,7 @@ public class QuestionsTest extends TestRunner {
 
         var soft = getSoftAssert();
 
-        assertThat(isAdded)
+        soft.assertThat(isAdded)
                 .as("Question should be added and displayed with expected text of it")
                 .isTrue();
 
