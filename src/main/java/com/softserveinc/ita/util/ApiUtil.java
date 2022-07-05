@@ -1,11 +1,10 @@
 package com.softserveinc.ita.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.softserveinc.ita.models.SpecialityEntity;
-import com.softserveinc.ita.models.SubjectEntity;
-import com.softserveinc.ita.models.TestEntity;
-import com.softserveinc.ita.models.TimeTableEntity;
+import com.softserveinc.ita.models.*;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -18,6 +17,7 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import lombok.experimental.UtilityClass;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -29,11 +29,12 @@ import static io.restassured.http.ContentType.JSON;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static java.lang.String.format;
 import static java.util.Map.of;
+import static java.util.Objects.nonNull;
 
 @UtilityClass
 public class ApiUtil {
 
-    public static Response performPostRequestWithBody(Map<String, String> bodyContent, String basePath) {
+    public static Response performPostRequestWithBody(Object bodyContent, String basePath) {
         setUpApiSpecifications();
 
         return given()
@@ -50,76 +51,192 @@ public class ApiUtil {
     }
 
     public static List<SubjectEntity> getSubjectsListByAPI(Cookie sessionId) {
-        var path = format(API_ENTITY_GET_RECORDS_PATH, "Subject");
-        var response = performGetRequest(sessionId, path);
-
-        return extractFromJson(response).getList("", SubjectEntity.class);
+        return getEntitiesListByAPI(sessionId, SubjectEntity.class);
     }
 
     public static List<SubjectEntity> postSubject(SubjectEntity subject) {
-        var path = format(API_ENTITY_POST_RECORDS_PATH, "Subject");
-        var response = performPostRequestWithBody(setUpSubjectBody(subject), path);
+        var bodyContent = setUpSubjectBody(subject);
 
-        return extractFromJson(response).getList("", SubjectEntity.class);
+        return createEntity(bodyContent, SubjectEntity.class);
+    }
+
+    public static List<SpecialityEntity> createSpeciality(SpecialityEntity speciality) {
+        var bodyContent = setUpSpecialityBody(speciality);
+
+        return createEntity(bodyContent, SpecialityEntity.class);
+    }
+
+    public static List<FacultyEntity> createFaculty(FacultyEntity faculty) {
+        var bodyContent = setUpFacultyBody(faculty);
+
+        return createEntity(bodyContent, FacultyEntity.class);
+    }
+
+    public static List<GroupEntity> createGroup(GroupEntity group, Cookie sessionId) {
+        var bodyContent = setUpGroupBody(group);
+        var groups = createEntity(bodyContent, GroupEntity.class);
+        fillConnectedEntitiesDataForGroupsList(sessionId, groups);
+
+        return groups;
     }
 
     public static Response deleteSubject(Cookie sessionId, SubjectEntity subject) {
-        var path = format(API_ENTITY_DELETE_RECORDS_PATH, "Subject", subject.getId());
+        return deleteEntity(subject.getId(), sessionId, subject.getClass());
+    }
 
-        return performGetRequest(sessionId, path);
+    public static Response deleteSpeciality(Cookie sessionId, SpecialityEntity speciality) {
+        return deleteEntity(speciality.getId(), sessionId, speciality.getClass());
+    }
+
+    public static Response deleteFaculty(Cookie sessionId, FacultyEntity faculty) {
+        return deleteEntity(faculty.getId(), sessionId, faculty.getClass());
+    }
+
+    public static Response deleteGroup(Cookie sessionId, GroupEntity group) {
+        return deleteEntity(group.getId(), sessionId, group.getClass());
     }
 
     public static List<TimeTableEntity> getTimeTablesListByAPI(Cookie sessionId) {
-        var path = format(API_ENTITY_GET_RECORDS_PATH, "TimeTable");
-        var response = performGetRequest(sessionId, path);
-
-        return extractFromJson(response).getList("", TimeTableEntity.class);
+        return getEntitiesListByAPI(sessionId, TimeTableEntity.class);
     }
 
     public static List<TimeTableEntity> postTimeTable(TimeTableEntity timeTable) {
-        var path = format(API_ENTITY_POST_RECORDS_PATH, "TimeTable");
-        var response = performPostRequestWithBody(setUpTimeTableBody(timeTable), path);
+        var bodyContent = setUpTimeTableBody(timeTable);
 
-        return extractFromJson(response).getList("", TimeTableEntity.class);
+        return createEntity(bodyContent, TimeTableEntity.class);
     }
 
     public static List<TimeTableEntity> updateTimeTable(TimeTableEntity timeTable) {
-        var path = format(API_ENTITY_UPDATE_RECORDS_PATH, "TimeTable", timeTable.getId());
+        var path = getPathStringByEntityClass(API_ENTITY_UPDATE_RECORDS_PATH, TimeTableEntity.class);
+        path = format(path, timeTable.getId());
         var response = performPostRequestWithBody(setUpTimeTableBody(timeTable), path);
 
         return extractFromJson(response).getList("", TimeTableEntity.class);
     }
 
     public static Response deleteTimeTable(Cookie sessionId, TimeTableEntity timeTable) {
-        var path = format(API_ENTITY_DELETE_RECORDS_PATH, "TimeTable", timeTable.getId());
+        return deleteEntity(timeTable.getId(), sessionId, timeTable.getClass());
+    }
+
+    public static List<SpecialityEntity> getSpecialitiesListByAPI(Cookie sessionId) {
+        return getEntitiesListByAPI(sessionId, SpecialityEntity.class);
+    }
+
+    public static List<GroupEntity> getGroupsListByAPI(Cookie sessionId) {
+        var groups = getEntitiesListByAPI(sessionId, GroupEntity.class);
+        fillConnectedEntitiesDataForGroupsList(sessionId, groups);
+
+        return groups;
+    }
+
+    public static List<TestEntity> getTestsListByAPI(Cookie sessionId) {
+        return getEntitiesListByAPIGson(sessionId, TestEntity.class);
+    }
+
+    public static <T> void verifySchemaRecords(Class<T> genericType, String filePath) {
+        given()
+                .filter(new AllureRestAssured())
+                .get(API_BASE_URI + getPathStringByEntityClass(API_ENTITY_GET_RECORDS_PATH, genericType))
+                .then()
+                .statusCode(200)
+                .body(matchesJsonSchemaInClasspath(filePath));
+    }
+
+    public static SpecialityEntity getSpecialityByID(String id, Cookie sessionId) {
+        return getEntityByAPI(id, sessionId, SpecialityEntity.class);
+    }
+
+    public static GroupEntity getGroupByID(String id, Cookie sessionId) {
+        return getEntityByAPI(id, sessionId, GroupEntity.class);
+    }
+
+    private static void fillConnectedEntitiesDataForGroupsList(Cookie sessionId, List<GroupEntity> groups) {
+        Map<String, SpecialityEntity> specialitiesCache = new HashMap<>();
+        Map<String, FacultyEntity> facultiesCache = new HashMap<>();
+        String specialityId;
+        String facultyId;
+
+        for (var group : groups) {
+            if (nonNull(group.getSpeciality())) {
+                specialityId = group
+                        .getSpeciality()
+                        .getId();
+
+                if (nonNull(specialityId)) {
+                    var speciality = specialitiesCache.computeIfAbsent(specialityId,
+                            k -> getEntityByAPI(k, sessionId, SpecialityEntity.class));
+                    group.setSpeciality(speciality);
+                }
+            }
+
+            if (nonNull(group.getFaculty())) {
+                facultyId = group
+                        .getFaculty()
+                        .getId();
+
+                if (nonNull(facultyId)) {
+                    var faculty = facultiesCache.computeIfAbsent(facultyId,
+                            k -> getEntityByAPI(k, sessionId, FacultyEntity.class));
+                    group.setFaculty(faculty);
+                }
+            }
+        }
+    }
+
+    private static <T> List<T> createEntity(Object bodyContent, Class<T> genericType) {
+        var path = getPathStringByEntityClass(API_ENTITY_POST_RECORDS_PATH, genericType);
+        var response = performPostRequestWithBody(bodyContent, path);
+
+        return extractFromJson(response).getList("", genericType);
+    }
+
+    private static <T> Response deleteEntity(String id, Cookie sessionId, Class<T> genericType) {
+        var path = getPathStringByEntityClass(API_ENTITY_DELETE_RECORDS_PATH, genericType);
+        path = format(path, id);
 
         return performGetRequest(sessionId, path);
     }
 
-    public static List<SpecialityEntity> getSpecialitiesListByAPI(Cookie sessionId) {
-        var path = format(API_ENTITY_GET_RECORDS_PATH, "Speciality");
+    private static <T> List<T> getEntitiesListByAPI(Cookie sessionId, Class<T> genericType) {
+        var path = getPathStringByEntityClass(API_ENTITY_GET_RECORDS_PATH, genericType);
         var response = performGetRequest(sessionId, path);
 
-        return extractFromJson(response).getList("", SpecialityEntity.class);
+        return extractFromJson(response).getList("", genericType);
     }
 
-    public static List<TestEntity> getTestsListByAPI(Cookie sessionId) {
-        var path = format(API_ENTITY_GET_RECORDS_PATH, "test");
-        var response = getJsonArrayFromGetRequest(sessionId, path);
-        var list = new LinkedList<TestEntity>();
+    private static <T> T getEntityByAPI(String id, Cookie sessionId, Class<T> genericType) {
+        var path = getPathStringByEntityClass(API_ENTITY_GET_RECORD_PATH, genericType);
+        path = format(path, id);
+        var response = performGetRequest(sessionId, path);
+        var responseValue = response
+                .getBody()
+                .jsonPath()
+                .get("response");
 
-        response.forEach(item -> list.add(new Gson().fromJson(item, TestEntity.class)));
+        if (nonNull(responseValue) && responseValue.equals("no records")) {
+            return null;
+        } else {
+            var list = extractFromJson(response).getList("", genericType);
+            return list.get(0);
+        }
+    }
+
+    private static <T> String getPathStringByEntityClass(String pathTemplate, Class<T> genericType) {
+        var classname = genericType
+                .getSimpleName()
+                .replace("Entity", "");
+
+        return pathTemplate.replace("{Entity}", classname);
+    }
+
+    private static <T> LinkedList<T> getEntitiesListByAPIGson(Cookie sessionId, Class<T> genericType) {
+        var path = getPathStringByEntityClass(API_ENTITY_GET_RECORDS_PATH, genericType);
+        var response = getJsonArrayFromGetRequest(sessionId, path);
+        var list = new LinkedList<T>();
+
+        response.forEach(item -> list.add(new Gson().fromJson(item, genericType)));
 
         return list;
-    }
-
-    public static void verifySchemaRecords(String entity, String filePath) {
-        given()
-                .filter(new AllureRestAssured())
-                .get(API_BASE_URI+(format(API_ENTITY_GET_RECORDS_PATH, entity)))
-                .then()
-                .statusCode(200)
-                .body(matchesJsonSchemaInClasspath(filePath));
     }
 
     private JsonArray getJsonArrayFromGetRequest(Cookie sessionId, String path) {
@@ -133,6 +250,30 @@ public class ApiUtil {
 
     private Map<String, String> setUpSubjectBody(SubjectEntity subject) {
         return of("subject_name", subject.getName(), "subject_description", subject.getDescription());
+    }
+
+    private String setUpSpecialityBody(SpecialityEntity speciality) {
+        try {
+            return new ObjectMapper().writeValueAsString(speciality);
+        } catch (JsonProcessingException e) {
+            return "";
+        }
+    }
+
+    private String setUpFacultyBody(FacultyEntity faculty) {
+        try {
+            return new ObjectMapper().writeValueAsString(faculty);
+        } catch (JsonProcessingException e) {
+            return "";
+        }
+    }
+
+    private String setUpGroupBody(GroupEntity group) {
+        try {
+            return new ObjectMapper().writeValueAsString(group);
+        } catch (JsonProcessingException e) {
+            return "";
+        }
     }
 
     private Map<String, String> setUpTimeTableBody(TimeTableEntity timeTable) {

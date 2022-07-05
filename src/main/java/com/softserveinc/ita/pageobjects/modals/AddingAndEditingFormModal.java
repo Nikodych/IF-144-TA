@@ -11,7 +11,7 @@ import static java.util.Objects.requireNonNull;
 
 public class AddingAndEditingFormModal {
 
-    @Step("Form modal: Set {value} for {field}")
+    @Step("Adding and editing form: Set {value} for {field}")
     public AddingAndEditingFormModal setValueFor(FormFields field, String value) {
         var fieldElement = field
                 .getName()
@@ -53,14 +53,15 @@ public class AddingAndEditingFormModal {
                 .isDisplayed();
     }
 
-    @Step("Form modal: Confirmed in modal window")
+    @Step("Adding and editing form modal: Confirmed in modal window")
     public void confirmModal() {
         $x("//form//button[@type='submit' or ./span[contains(text(),'Додати')] or ./span[contains(text(),' Підтвердити ')] or ./span[contains(text(),'Confirm')]]")
                 .should(appear, ofSeconds(5))
+                .hover() //without hovering button sometimes keeps unpressed
                 .click();
     }
 
-    @Step("Form modal: Canceled in modal window")
+    @Step("Adding and editing form: Canceled in modal window")
     public void cancelModal() {
         $x("//button/span[contains(text(), 'Відмінити')] " +
                 "| //button/span[contains(text(), 'Скасувати')] " +
@@ -68,5 +69,10 @@ public class AddingAndEditingFormModal {
                 "| //mat-icon[contains(@class, 'closeForm')]")
                 .should(appear, ofSeconds(5))
                 .click();
+    }
+
+    @Step("Adding and editing form: wait for form closing")
+    public void waitToDisappear() {
+        $x("//mat-dialog-container").should(disappear);
     }
 }

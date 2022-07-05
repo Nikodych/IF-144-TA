@@ -1,6 +1,7 @@
 package com.softserveinc.ita.repos;
 
 import com.softserveinc.ita.models.FacultyEntity;
+import com.softserveinc.ita.util.RandomUtil;
 
 public class FacultyRepo {
 
@@ -25,6 +26,16 @@ public class FacultyRepo {
                 .builder()
                 .name("факультет")
                 .description("опиs факультету")
+                .build();
+    }
+
+    public static FacultyEntity getValidRandomFaculty() {
+        var randString = RandomUtil.getRandomStringWithCyrillicLetters(20);
+
+        return FacultyEntity
+                .builder()
+                .name(randString)
+                .description(randString)
                 .build();
     }
 }

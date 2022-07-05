@@ -1,13 +1,14 @@
 package com.softserveinc.ita.pageobjects.admin;
 
-import com.softserveinc.ita.models.MainMenuButtons;
+import com.softserveinc.ita.models.EntitiesButtons;
+import com.codeborne.selenide.SelenideElement;
 import com.softserveinc.ita.pageobjects.modals.AddingAndEditingFormModal;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Selenide.$x;
-import static com.softserveinc.ita.models.MainMenuButtons.*;
+import static com.softserveinc.ita.models.EntitiesButtons.*;
 import static java.lang.String.format;
 import static java.time.Duration.ofSeconds;
 
@@ -84,16 +85,16 @@ public abstract class MainMenu<T extends MainMenu<T>> {
                 .getText();
     }
 
-    private void openPage(MainMenuButtons pageName) {
+    private void openPage(EntitiesButtons pageName) {
         $x(format("//a[@href='/admin/%s']", pageName.getPageName()))
-                .should(appear, ofSeconds(5))
+                .should(appear, ofSeconds(10))
                 .click();
     }
 
     @Step("Opened adding form")
     public AddingAndEditingFormModal openAddingNewForm(){
         $x("//*[starts-with(name(), 'app')]//*[@aria-label='add']/ancestor::button")
-                .should(appear,ofSeconds(10))
+                .should(appear,ofSeconds(5))
                 .click();
 
         return new AddingAndEditingFormModal();
@@ -112,5 +113,10 @@ public abstract class MainMenu<T extends MainMenu<T>> {
 
     public void waitForProgressBarToAppear() {
         $x(PROGRESS_BAR_PATH).should(appear, ofSeconds(3));
+    }
+
+    public void setValue(SelenideElement element, String text) {
+        element.clear();
+        element.sendKeys(text);
     }
 }
