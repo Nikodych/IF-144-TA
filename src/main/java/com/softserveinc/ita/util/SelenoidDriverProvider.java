@@ -4,6 +4,7 @@ import com.codeborne.selenide.WebDriverProvider;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import javax.annotation.Nonnull;
@@ -30,9 +31,11 @@ public class SelenoidDriverProvider implements WebDriverProvider {
         ));
 
         try {
-            return new RemoteWebDriver(
+            RemoteWebDriver driver = new RemoteWebDriver(
                     URI.create("http://localhost:4444/wd/hub").toURL(),
                     desiredCapabilities);
+            driver.setFileDetector(new LocalFileDetector());
+            return driver;
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }

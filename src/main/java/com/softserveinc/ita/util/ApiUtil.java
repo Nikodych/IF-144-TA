@@ -298,7 +298,6 @@ public class ApiUtil {
         return new RequestSpecBuilder()
                 .setBaseUri(API_BASE_URI)
                 .setContentType(JSON)
-                .setContentType(JSON)
                 .addFilter(new RequestLoggingFilter())
                 .addFilter(new ResponseLoggingFilter())
                 .addFilter(new AllureRestAssured())
