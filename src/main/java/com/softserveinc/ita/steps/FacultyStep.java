@@ -3,8 +3,8 @@ package com.softserveinc.ita.steps;
 import com.softserveinc.ita.models.FacultyEntity;
 import com.softserveinc.ita.pageobjects.admin.FacultiesPage;
 
-import static com.softserveinc.ita.models.AddingFormFields.FACULTY_DESCRIPTION;
-import static com.softserveinc.ita.models.AddingFormFields.FACULTY_NAME;
+import static com.softserveinc.ita.models.FormFields.FACULTY_DESCRIPTION;
+import static com.softserveinc.ita.models.FormFields.FACULTY_NAME;
 
 public class FacultyStep {
 

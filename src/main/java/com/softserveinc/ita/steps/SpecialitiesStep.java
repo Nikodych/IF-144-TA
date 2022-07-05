@@ -3,12 +3,12 @@ package com.softserveinc.ita.steps;
 import com.softserveinc.ita.models.SpecialityEntity;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.SpecialitiesPage;
-import com.softserveinc.ita.pageobjects.modals.AddingFormModal;
+import com.softserveinc.ita.pageobjects.modals.AddingAndEditingFormModal;
 import com.softserveinc.ita.pageobjects.modals.DeletingFormModal;
 import lombok.Getter;
 
-import static com.softserveinc.ita.models.AddingFormFields.SPECIALTY_CODE;
-import static com.softserveinc.ita.models.AddingFormFields.SPECIALTY_NAME;
+import static com.softserveinc.ita.models.FormFields.SPECIALTY_CODE;
+import static com.softserveinc.ita.models.FormFields.SPECIALTY_NAME;
 import static com.softserveinc.ita.util.DataProvider.ADMIN_LOGIN;
 import static com.softserveinc.ita.util.DataProvider.ADMIN_PASSWORD;
 
@@ -52,7 +52,7 @@ public class SpecialitiesStep {
         table.findTablePageWithSearchValue(searchValue);
         table.editRowByValue(searchValue);
 
-        var addingForm = new AddingFormModal();
+        var addingForm = new AddingAndEditingFormModal();
         addingForm
                 .setValueFor(SPECIALTY_NAME, speciality.getName()) //left code as it was
                 .confirmModal();
