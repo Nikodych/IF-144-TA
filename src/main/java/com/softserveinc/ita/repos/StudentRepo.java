@@ -7,7 +7,8 @@ import static com.softserveinc.ita.util.RandomUtil.getRandomStringWithNumbers;
 
 public class StudentRepo {
     public static StudentEntity getNewValidStudent() {
-        String password = getRandomStringWithLetters(6) + getRandomStringWithNumbers(3);
+       var password = getRandomStringWithLetters(6) + getRandomStringWithNumbers(3);
+
         return StudentEntity
                 .builder()
                 .surname(getRandomStringWithLetters(5))
