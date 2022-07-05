@@ -29,6 +29,11 @@ public class EntityTable {
         performActionWithRowByValue(searchValue, "edit");
     }
 
+    @Step("Table: Showed entity's data")
+    public void showEntityData(String searchValue){
+        performActionWithRowByValue(searchValue, "view");
+    }
+
     @Step("Table: Searched for value in table texts")
     public boolean isSearchValueInTableTexts(String searchValue) {
         var isSearchValueInTheTable = false;

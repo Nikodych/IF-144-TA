@@ -1,15 +1,18 @@
 package com.softserveinc.ita.steps;
 
+import com.softserveinc.ita.models.FormFields;
 import com.softserveinc.ita.models.StudentEntity;
 import com.softserveinc.ita.pageobjects.LoginPage;
 import com.softserveinc.ita.pageobjects.admin.StudentsPage;
+import com.softserveinc.ita.pageobjects.modals.AddingAndEditingFormModal;
 import com.softserveinc.ita.pageobjects.modals.DeletingFormModal;
 import io.qameta.allure.Step;
 import lombok.Getter;
 
-import static com.softserveinc.ita.models.AddingFormFields.*;
+import static com.softserveinc.ita.models.FormFields.*;
 import static com.softserveinc.ita.util.DataProvider.ADMIN_LOGIN;
 import static com.softserveinc.ita.util.DataProvider.ADMIN_PASSWORD;
+import static com.softserveinc.ita.util.RandomUtil.getRandomStringWithLetters;
 
 @Getter
 public class StudentsStep {
@@ -48,5 +51,18 @@ public class StudentsStep {
         new DeletingFormModal().confirmModal();
 
         page.waitTillProgressBarDisappears();
+    }
+
+    @Step("Students step: edited student's data")
+    public void editStudent(StudentEntity student, FormFields formFieldToChange) {
+        var gradeBookId = student.getGradeBookId();
+
+        var table = page.getTable();
+        table.findTablePageWithSearchValue(gradeBookId);
+        table.editRowByValue(gradeBookId);
+
+        new AddingAndEditingFormModal()
+                .setValueFor(formFieldToChange, getRandomStringWithLetters(5))
+                .confirmModal();
     }
 }

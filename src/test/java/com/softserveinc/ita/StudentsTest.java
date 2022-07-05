@@ -6,6 +6,7 @@ import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static com.softserveinc.ita.models.FormFields.STUDENT_NAME;
 import static com.softserveinc.ita.repos.StudentRepo.getNewValidStudent;
 import static com.softserveinc.ita.util.DataProvider.*;
 import static com.softserveinc.ita.util.WindowTabHelper.getCurrentUrl;
@@ -42,11 +43,11 @@ public class StudentsTest extends TestRunner {
                 .as("If student is added successfully  messageText should be equal " + STUDENT_IS_ADDED_SUCCESSFULLY_MESSAGE)
                 .isEqualTo(STUDENT_IS_ADDED_SUCCESSFULLY_MESSAGE);
 
-        var actualResult = studentsPage.getStudentsGradeBookId(student.getGradeBookId());
+        var actualResult = studentsPage.doesStudentExists(student.getGradeBookId());
 
         assertThat(actualResult)
                 .as("After student is added student with grade book id should be present at the table")
-                .isEqualTo(student.getGradeBookId());
+                .isTrue();
 
         studentsStep.deleteStudent(student);
     }
@@ -56,26 +57,65 @@ public class StudentsTest extends TestRunner {
     public void verifyStudentDeleted() {
         var student = getNewValidStudent();
         studentsStep.addNewStudent(student);
-        var studentsGradeBookId = studentsPage.getStudentsGradeBookId(student.getGradeBookId());
 
-        assertThat(studentsGradeBookId)
+        var messageTextAdded = studentsPage.getMessageText();
+
+        assertThat(messageTextAdded)
+                .as("If student is added successfully  messageText should be equal " + STUDENT_IS_ADDED_SUCCESSFULLY_MESSAGE)
+                .isEqualTo(STUDENT_IS_ADDED_SUCCESSFULLY_MESSAGE);
+
+        var actualResult = studentsPage.doesStudentExists(student.getGradeBookId());
+
+        assertThat(actualResult)
                 .as("After student is added student with grade book id should be present at the table")
-                .isEqualTo(student.getGradeBookId());
+                .isTrue();
 
         studentsStep.deleteStudent(student);
 
-        var messageText = studentsPage.getMessageText();
+        var messageTextDeleted = studentsPage.getMessageText();
 
-        assertThat(messageText)
+        assertThat(messageTextDeleted)
                 .as("When student deleted message text should be equal " + STUDENT_IS_DELETED_SUCCESSFULLY_MESSAGE)
                 .isEqualTo(STUDENT_IS_DELETED_SUCCESSFULLY_MESSAGE);
 
-        var table = studentsPage.getTable();
-        table.findTablePageWithSearchValue(studentsGradeBookId);
-        var actualResult = table.isSearchValueInTableTexts(studentsGradeBookId);
 
-        assertThat(actualResult)
+        var actualResultAfterDeleting = studentsPage.doesStudentExists(student.getGradeBookId());
+
+        assertThat(actualResultAfterDeleting)
                 .as("After student is deleted it shouldn't be found in the table")
                 .isFalse();
+    }
+
+    @Test(groups = "positive")
+    @Description("Test to verify editing students data")
+    public void verifyStudentsDataEdited() {
+        var student = getNewValidStudent();
+        studentsStep.addNewStudent(student);
+
+        var messageText = studentsPage.getMessageText();
+
+        var soft = getSoftAssert();
+
+        soft.assertThat(messageText)
+                .as("If student is added successfully  messageText should be equal " + STUDENT_IS_ADDED_SUCCESSFULLY_MESSAGE)
+                .isEqualTo(STUDENT_IS_ADDED_SUCCESSFULLY_MESSAGE);
+
+        var isStudentPresentInTheTable = studentsPage.doesStudentExists(student.getGradeBookId());
+
+        soft.assertThat(isStudentPresentInTheTable)
+                .as("After student is added student with grade book id should be present at the table")
+                .isTrue();
+
+        studentsStep.editStudent(student, STUDENT_NAME);
+        var oldName = student.getName();
+
+        var doesStudentsDataFormContainsOldValue = studentsPage.hasStudentsDataChanged(student, oldName);
+
+        soft.assertThat(doesStudentsDataFormContainsOldValue)
+                .as("After student is edited student's data form shouldn't contain old value")
+                .isFalse();
+
+        studentsStep.deleteStudent(student);
+        soft.assertAll();
     }
 }
